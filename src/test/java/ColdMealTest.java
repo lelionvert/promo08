@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ColdMealTest {
 
     @Test
-    public void should_return_a_cold_meal_between_21_and_midnight() {
+    public void should_return_cold_meals_between_21_and_midnight() {
         List<CheckIn> coldMealCheckin = Arrays.asList(
                 new CheckIn(DayOfWeek.THURSDAY, "22h00"),
                 new CheckIn(DayOfWeek.THURSDAY, "23h59"),
@@ -32,11 +32,11 @@ public class ColdMealTest {
 
     @Test
     public void should_return_no_cold_meal_after_00() {
-        List<CheckIn> hotMealCheckin = Arrays.asList(
+        List<CheckIn> lateMealCheckin = Arrays.asList(
                 new CheckIn(DayOfWeek.FRIDAY, "01h00"),
                 new CheckIn(DayOfWeek.FRIDAY, "00h00"),
                 new CheckIn(DayOfWeek.SATURDAY, "23h00")
         );
-        assertThat(ColdMealChecker.count(hotMealCheckin)).isEqualTo(0);
+        assertThat(ColdMealChecker.count(lateMealCheckin)).isEqualTo(0);
     }
 }
