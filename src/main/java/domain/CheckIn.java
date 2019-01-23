@@ -6,11 +6,14 @@ import java.util.Objects;
 public class CheckIn {
     private final DayOfWeek day;
     private final CheckInHour hour;
+    private static final String REGEX = " ";
 
-    public CheckIn(DayOfWeek day, CheckInHour hour) {
-        this.day = day;
-        this.hour = hour;
+    public CheckIn(String checkInInput) {
+        String[] splittedCheckInInput = checkInInput.split(REGEX);
+        this.day = DayOfWeek.valueOf(splittedCheckInInput[0].toUpperCase());
+        this.hour = new CheckInHour(splittedCheckInInput[1]);
     }
+
 
     public boolean isPlanned(int earlyArriving, int lateArriving, DayOfWeek dayOfArriving) {
         return day.equals(dayOfArriving) && hour.isAfter(earlyArriving) && hour.isBeforeOrLastHour(lateArriving);
