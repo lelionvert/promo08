@@ -1,12 +1,19 @@
 package com.lacombe.socrates.fr.domain;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
 
 public class Checkin {
-    private final LocalDateTime arrivalDate;
 
 
-    public Checkin(LocalDateTime arrivalDate) {
-        this.arrivalDate = arrivalDate;
+    private final DayOfWeek day;
+
+    public Checkin(DayOfWeek day) {
+        this.day = day;
+    }
+
+
+    public boolean isInTimeSlot(DayOfWeek day) {
+
+        return this.day.equals(day);
     }
 }
