@@ -9,4 +9,9 @@ public class CheckIn {
         this.hour = hour;
     }
 
+    public boolean isColdMeal() {
+        if (hour.equals("22:00"))
+            return true;
+        return false;
+    }
 }
