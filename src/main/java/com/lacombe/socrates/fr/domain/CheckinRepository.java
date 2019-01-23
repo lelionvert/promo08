@@ -1,18 +1,19 @@
 package com.lacombe.socrates.fr.domain;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
 public class CheckinRepository {
 
-    private List<Checkin> checkins;
+    private List<CheckIn> checkIns;
 
-    public CheckinRepository(Checkin... checkins) {
-        this.checkins = Arrays.asList(checkins);
+    public CheckinRepository(CheckIn... checkIns) {
+        this.checkIns = Arrays.asList(checkIns);
     }
 
     public int getColdMeals() {
-        return (int) checkins.stream().filter(checkin -> checkin.isInTimeSlot(DayOfWeek.THURSDAY)).count();
+        return (int) checkIns.stream().filter(checkIn -> checkIn.isInTimeSlot(DayOfWeek.THURSDAY, LocalTime.of(21, 00))).count();
     }
 }
