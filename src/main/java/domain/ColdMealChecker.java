@@ -1,9 +1,14 @@
 package domain;
 
+import java.util.List;
+
 public class ColdMealChecker {
-    public static Integer counter(CheckIn checkIn) {
-        if (checkIn.isColdMeal())
-            return 1;
-        return 0;
+    public static Integer counter(List<CheckIn> checkIns) {
+        int counter = 0;
+        for (CheckIn checkIn : checkIns) {
+            if (checkIn.isColdMeal())
+                counter++;
+        }
+        return counter;
     }
 }
