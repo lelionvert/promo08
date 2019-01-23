@@ -10,8 +10,8 @@ public class CheckIn {
     }
 
     public boolean isColdMeal() {
-        if (hour.equals("22:00"))
-            return true;
-        return false;
+        String[] splittedHour = hour.split("h");
+        int realHour = Integer.parseInt(splittedHour[0]);
+        return day.equals("Thursday") && 21 <= realHour && realHour <= 23;
     }
 }
