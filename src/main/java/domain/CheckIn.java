@@ -13,7 +13,7 @@ public class CheckIn {
     }
 
     public boolean isPlanned(int earlyArriving, int lateArriving, DayOfWeek dayOfArriving) {
-        return day.equals(dayOfArriving) && hour.isAfter(earlyArriving) && hour.isBefore(lateArriving);
+        return day.equals(dayOfArriving) && hour.isAfter(earlyArriving) && hour.isBeforeOrLastHour(lateArriving);
     }
 
     @Override
