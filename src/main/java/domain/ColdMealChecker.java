@@ -7,11 +7,9 @@ public class ColdMealChecker {
 
 
     public static int count(List<CheckIn> checkIns) {
-        int counter = 0;
-        for (CheckIn checkIn : checkIns) {
-            if (checkIn.isPlanned(20, 23, DayOfWeek.THURSDAY))
-                counter++;
-        }
-        return counter;
+        return Long.valueOf(checkIns.stream()
+                .filter(checkIn -> checkIn.isPlanned(20, 23, DayOfWeek.THURSDAY))
+                .count())
+                .intValue();
     }
 }
