@@ -57,5 +57,19 @@ public class ColdMealTest {
         assertThat(numberOfMeals).isEqualTo(0);
     }
 
+    @Test
+    public void given_a_checking_before_the_end_of_thursday_evening_should_give_1_cold_meal() {
+        CheckIn checkInOnThursdayEvening = new CheckIn(THURSDAY, LocalTime.of(23, 59));
+        CheckinRepository checkinRepository = new CheckinRepository(checkInOnThursdayEvening);
+        int numberOfMeals = checkinRepository.getColdMeals();
+        assertThat(numberOfMeals).isEqualTo(1);
+    }
 
+    @Test
+    public void given_a_checking_after_the_end_of_thursday_evening_should_give_0_cold_meal() {
+        CheckIn checkInOnThursdayEvening = new CheckIn(FRIDAY, LocalTime.of(00, 00));
+        CheckinRepository checkinRepository = new CheckinRepository(checkInOnThursdayEvening);
+        int numberOfMeals = checkinRepository.getColdMeals();
+        assertThat(numberOfMeals).isEqualTo(0);
+    }
 }
