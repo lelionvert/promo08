@@ -3,6 +3,7 @@ import domain.ColdMealChecker;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,9 +42,9 @@ public class ColdMealTest {
 
     @Test
     public void should_return_no_cold_meal_if_empty() {
-        List<CheckIn> lateMealCheckins = Arrays.asList(
-                new CheckIn("THURSDAY 22h00")
+        List<CheckIn> lateMealCheckins = Collections.singletonList(
+                new CheckIn("")
         );
-        assertThat(ColdMealChecker.count(lateMealCheckins)).isEqualTo(1);
+        assertThat(ColdMealChecker.count(lateMealCheckins)).isEqualTo(0);
     }
 }
