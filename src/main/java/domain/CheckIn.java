@@ -1,17 +1,27 @@
 package domain;
 
+import java.time.DayOfWeek;
+
 public class CheckIn {
-    private final String day;
+    private final DayOfWeek day;
     private final String hour;
 
-    public CheckIn(String day, String hour) {
+    public CheckIn(DayOfWeek day, String hour) {
         this.day = day;
         this.hour = hour;
     }
 
-    public boolean isColdMeal() {
+    public boolean isPlanned(int earlyarriving, int lateArriving, DayOfWeek dayOfArriving) {
         String[] splittedHour = hour.split("h");
         int realHour = Integer.parseInt(splittedHour[0]);
-        return day.equals("Thursday") && 21 <= realHour && realHour <= 23;
+        return day.equals(dayOfArriving) && earlyarriving <= realHour && realHour <= lateArriving;
+    }
+
+    @Override
+    public String toString() {
+        return "CheckIn{" +
+                "day='" + day + '\'' +
+                ", hour='" + hour + '\'' +
+                '}';
     }
 }
