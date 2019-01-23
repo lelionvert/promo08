@@ -5,18 +5,15 @@ import java.util.Objects;
 
 public class CheckIn {
     private final DayOfWeek day;
-    private final String hour;
-    private static final String REGEX_FOR_HOUR = "h";
+    private final CheckInHour hour;
 
-    public CheckIn(DayOfWeek day, String hour) {
+    public CheckIn(DayOfWeek day, CheckInHour hour) {
         this.day = day;
         this.hour = hour;
     }
 
     public boolean isPlanned(int earlyArriving, int lateArriving, DayOfWeek dayOfArriving) {
-        String[] splittedHour = hour.split(REGEX_FOR_HOUR);
-        int realHour = Integer.parseInt(splittedHour[0]);
-        return day.equals(dayOfArriving) && earlyArriving <= realHour && realHour <= lateArriving;
+        return day.equals(dayOfArriving) && hour.isAfter(earlyArriving) && hour.isBefore(lateArriving);
     }
 
     @Override
