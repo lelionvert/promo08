@@ -12,7 +12,8 @@ public enum Accomodation {
         this.price = price;
     }
 
-    public Price getPrice() {
-        return price;
+
+    public Price minus(Price other) {
+        return this.price.minus(other);
     }
 }

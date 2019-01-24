@@ -13,6 +13,10 @@ public class Price {
         return new Price(price);
     }
 
+    public Price minus(Price other) {
+        return Price.of(value - other.value);
+    }
+
     @Override
     public String toString() {
         return "Price{" +
