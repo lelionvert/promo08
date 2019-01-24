@@ -48,7 +48,7 @@ public class ColdMealTest {
         List<CheckIn> lateMealCheckins = Arrays.asList(
                 CheckInParser.parse("thursday 21h00"),
                 CheckInParser.parse("Thursday 23h59"),
-                CheckInParser.parse("Thursday 19H00"),
+                CheckInParser.parse("Thursday 19h00"),
                 CheckInParser.parse("FRIDAY 00h00"),
                 CheckInParser.parse("Thursday 22h")
         );

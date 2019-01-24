@@ -6,7 +6,7 @@ public class CheckInHour {
     private final int hour;
 
     public CheckInHour(String hour) {
-        String[] splitHour = hour.toLowerCase().split(REGEX_FOR_HOUR);
+        String[] splitHour = hour.split(REGEX_FOR_HOUR);
         this.hour = Integer.parseInt(splitHour[0]);
     }
 
