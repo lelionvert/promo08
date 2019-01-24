@@ -43,6 +43,18 @@ public class ColdMealTest {
     }
 
     @Test
+    public void should_return_no_cold_meal_after_00_with_parsing() {
+        List<CheckIn> lateMealCheckins = Arrays.asList(
+                CheckInParser.parse("Thursday 21h00"),
+                CheckInParser.parse("Thursday 23h59"),
+                CheckInParser.parse("Thursday 19h00"),
+                CheckInParser.parse("Friday 00h00"),
+                CheckInParser.parse("Thursday 22h")
+        );
+        assertThat(ColdMealChecker.count(lateMealCheckins)).isEqualTo(3);
+    }
+
+    @Test
     public void should_return_no_cold_meal_if_empty() {
         List<CheckIn> lateMealCheckins = Arrays.asList(
                 CheckInParser.parse("")
