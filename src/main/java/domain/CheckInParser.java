@@ -11,9 +11,9 @@ public class CheckInParser {
         CheckInHour checkInHour;
 
         if (!checkInStringToParse.isEmpty()) {
-            String[] splittedCheckInInput = checkInStringToParse.split(REGEX);
-            checkInDay = DayOfWeek.valueOf(splittedCheckInInput[0].toUpperCase());
-            checkInHour = new CheckInHour(splittedCheckInInput[1]);
+            String[] splitCheckInInput = checkInStringToParse.split(REGEX);
+            checkInDay = DayOfWeek.valueOf(splitCheckInInput[0].toUpperCase());
+            checkInHour = new CheckInHour(splitCheckInInput[1]);
         } else {
             checkInDay = null;
             checkInHour = null;

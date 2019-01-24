@@ -6,11 +6,11 @@ public class CheckInHour {
     private final int hour;
 
     public CheckInHour(String hour) {
-        String[] splittedHour = hour.split(REGEX_FOR_HOUR);
-        this.hour = Integer.parseInt(splittedHour[0]);
+        String[] splitHour = hour.toLowerCase().split(REGEX_FOR_HOUR);
+        this.hour = Integer.parseInt(splitHour[0]);
     }
 
-    public boolean isAfter(int givenHour) {
+    boolean isAfter(int givenHour) {
         return hour >= givenHour;
     }
 
