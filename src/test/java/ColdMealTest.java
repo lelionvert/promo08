@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,12 +44,12 @@ public class ColdMealTest {
     }
 
     @Test
-    public void should_return_no_cold_meal_after_00_with_parsing() {
+    public void should_return_number_of_cold_meal_with_parsing() {
         List<CheckIn> lateMealCheckins = Arrays.asList(
-                CheckInParser.parse("Thursday 21h00"),
+                CheckInParser.parse("thursday 21h00"),
                 CheckInParser.parse("Thursday 23h59"),
                 CheckInParser.parse("Thursday 19h00"),
-                CheckInParser.parse("Friday 00h00"),
+                CheckInParser.parse("FRIDAY 00h00"),
                 CheckInParser.parse("Thursday 22h")
         );
         assertThat(ColdMealChecker.count(lateMealCheckins)).isEqualTo(3);
@@ -56,9 +57,11 @@ public class ColdMealTest {
 
     @Test
     public void should_return_no_cold_meal_if_empty() {
-        List<CheckIn> lateMealCheckins = Arrays.asList(
+        List<CheckIn> lateMealCheckins = Collections.singletonList(
                 CheckInParser.parse("")
         );
         assertThat(ColdMealChecker.count(lateMealCheckins)).isEqualTo(0);
     }
+
+
 }

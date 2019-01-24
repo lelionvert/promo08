@@ -13,7 +13,7 @@ public class CheckIn {
         this.hour = hour;
     }
 
-    public boolean isPlanned(int earlyArriving, DayOfWeek dayOfArriving) {
+    boolean isOnRightTimeSlot(int earlyArriving, DayOfWeek dayOfArriving) {
         return Optional.ofNullable(day).filter(day -> day.equals(dayOfArriving)).isPresent() &&
 
                 Optional.ofNullable(hour).filter(hour -> hour.isAfter(earlyArriving)).isPresent();
