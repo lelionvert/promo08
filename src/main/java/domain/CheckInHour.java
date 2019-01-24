@@ -14,7 +14,4 @@ public class CheckInHour {
         return hour >= givenHour;
     }
 
-    public boolean isBeforeOrLastHour(int givenHour) {
-        return hour <= givenHour;
-    }
 }

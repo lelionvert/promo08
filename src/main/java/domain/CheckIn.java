@@ -5,27 +5,18 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class CheckIn {
-    private final DayOfWeek mayBeDay;
-    private final CheckInHour mayBeHour;
-    private static final String REGEX = " ";
+    private final DayOfWeek day;
+    private final CheckInHour hour;
 
-    public CheckIn(String checkInInput) {
-        if (!checkInInput.isEmpty()) {
-            String[] splittedCheckInInput = checkInInput.split(REGEX);
-            this.mayBeDay = DayOfWeek.valueOf(splittedCheckInInput[0].toUpperCase());
-            this.mayBeHour = new CheckInHour(splittedCheckInInput[1]);
-        } else {
-            this.mayBeDay = null;
-            this.mayBeHour = null;
-        }
+    public CheckIn(DayOfWeek day, CheckInHour hour) {
+        this.day = day;
+        this.hour = hour;
     }
 
+    public boolean isPlanned(int earlyArriving, DayOfWeek dayOfArriving) {
+        return Optional.ofNullable(day).filter(day -> day.equals(dayOfArriving)).isPresent() &&
 
-    public boolean isPlanned(int earlyArriving, int lateArriving, DayOfWeek dayOfArriving) {
-        return Optional.ofNullable(mayBeDay).filter(day -> day.equals(dayOfArriving)).isPresent() &&
-
-                Optional.ofNullable(mayBeHour).filter(hour -> hour.isAfter(earlyArriving)).
-                        filter(hour -> hour.isBeforeOrLastHour(lateArriving)).isPresent();
+                Optional.ofNullable(hour).filter(hour -> hour.isAfter(earlyArriving)).isPresent();
     }
 
     @Override
@@ -33,20 +24,20 @@ public class CheckIn {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CheckIn checkIn = (CheckIn) o;
-        return mayBeDay == checkIn.mayBeDay &&
-                Objects.equals(mayBeHour, checkIn.mayBeHour);
+        return day == checkIn.day &&
+                Objects.equals(hour, checkIn.hour);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mayBeDay, mayBeHour);
+        return Objects.hash(day, hour);
     }
 
     @Override
     public String toString() {
         return "CheckIn{" +
-                "mayBeDay='" + mayBeDay + '\'' +
-                ", mayBeHour='" + mayBeHour + '\'' +
+                "day='" + day + '\'' +
+                ", hour='" + hour + '\'' +
                 '}';
     }
 }
