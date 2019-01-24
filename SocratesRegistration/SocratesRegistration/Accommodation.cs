@@ -1,15 +1,22 @@
 ﻿namespace SocratesRegistration
 {
-    internal class Accommodation
+    public class Accommodation
     {
-        private Choice choice;
-        
-        public Accommodation(Choice choice)
+        private readonly Choice _choice;
+        private readonly Stay _checkIn;
+
+        public Accommodation(Choice choice, Stay checkIn)
         {
-            this.choice = choice;
+            this._choice = choice;
+            this._checkIn = checkIn;
         }
 
-        public int Price => (int)choice;
+        public Price ComputePrice()
+        {
+            if (_checkIn.IsAfter(21))
+                return Price.ValueOf(200);
+            return Price.ValueOf((int) _choice);
+        }
 
         public enum Choice
         {
