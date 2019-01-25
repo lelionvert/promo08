@@ -4,9 +4,9 @@
     {
         private readonly Price _roomPrice;
         private readonly Price _mealPrice;
-        private readonly StayPeriod _stayPeriod;
+        private readonly IStayPeriod _stayPeriod;
 
-        public Registration(Price roomPrice, Price mealPrice, StayPeriod stayPeriod = null)
+        public Registration(Price roomPrice, Price mealPrice, IStayPeriod stayPeriod)
         {
             this._roomPrice = roomPrice;
             _mealPrice = mealPrice;
@@ -15,9 +15,7 @@
 
         public Price CalculatePrice()
         {
-            return _stayPeriod == null 
-                ? _roomPrice 
-                : _roomPrice.Minus(_mealPrice);
+            return _roomPrice.Minus(_mealPrice.MultiplyBy(_stayPeriod.CountMissedMeals()));
         }
     }
 }

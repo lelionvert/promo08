@@ -49,12 +49,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Price.cs" />
-    <Compile Include="Registration.cs" />
-    <Compile Include="RoomType.cs" />
-    <Compile Include="RegistrationTest.cs" />
+    <Compile Include="Sources\IStayPeriod.cs" />
+    <Compile Include="Tests\StayPeriodStub.cs" />
+    <Compile Include="Sources\Price.cs" />
+    <Compile Include="Sources\Registration.cs" />
+    <Compile Include="Tests\RegistrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StayPeriod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

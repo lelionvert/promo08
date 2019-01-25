@@ -28,6 +28,10 @@
             return obj is Price other && _value == other._value;
         }
 
-      
+
+        public Price MultiplyBy(int multiplier)
+        {
+            return ValueOf(_value * multiplier);
+        }
     }
 }
