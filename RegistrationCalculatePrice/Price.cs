@@ -15,9 +15,9 @@
             return new Price(value);
         }
 
-        protected bool Equals(Price other)
+        public Price Minus(Price other)
         {
-            return _value == other._value;
+            return ValueOf(_value - other._value);
         }
 
         public override bool Equals(object obj)
@@ -25,12 +25,9 @@
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Price) obj);
+            return obj is Price other && _value == other._value;
         }
 
-        public override int GetHashCode()
-        {
-            return _value;
-        }
+      
     }
 }

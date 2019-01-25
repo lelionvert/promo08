@@ -54,6 +54,7 @@
     <Compile Include="RoomType.cs" />
     <Compile Include="RegistrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StayPeriod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
