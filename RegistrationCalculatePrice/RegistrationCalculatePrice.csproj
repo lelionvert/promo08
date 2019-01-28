@@ -58,6 +58,7 @@
     <Compile Include="Tests\RegistrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\StayPeriodTest.cs" />
+    <Compile Include="Tests\CheckingDateTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

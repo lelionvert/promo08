@@ -15,7 +15,7 @@ namespace RegistrationCalculatePrice
             _countMissedMeal = countMissedMeal;
         }
 
-        public int CountMissedMeals()
+        public int CountMissedMeals(DayOfWeek dayOfWeek, int hour)
         {
             return _countMissedMeal;
         }

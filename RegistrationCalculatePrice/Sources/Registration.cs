@@ -1,4 +1,6 @@
-﻿namespace RegistrationCalculatePrice
+﻿using System;
+
+namespace RegistrationCalculatePrice
 {
     internal class Registration
     {
@@ -15,7 +17,7 @@
 
         public Price CalculatePrice()
         {
-            return _roomPrice.Minus(_mealPrice.MultiplyBy(_stayPeriod.CountMissedMeals()));
+            return _roomPrice.Minus(_mealPrice.MultiplyBy(_stayPeriod.CountMissedMeals(DayOfWeek.Thursday, 21)));
         }
     }
 }

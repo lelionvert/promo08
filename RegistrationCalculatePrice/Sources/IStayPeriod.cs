@@ -1,7 +1,9 @@
-﻿namespace RegistrationCalculatePrice
+﻿using System;
+
+namespace RegistrationCalculatePrice
 {
     internal interface IStayPeriod
     {
-        int CountMissedMeals();
+        int CountMissedMeals(DayOfWeek dayOfWeek, int hour);
     }
 }

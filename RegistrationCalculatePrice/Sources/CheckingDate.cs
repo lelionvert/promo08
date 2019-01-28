@@ -15,7 +15,14 @@ namespace RegistrationCalculatePrice.Sources
 
         public bool IsAfter(DayOfWeek otherDay, int otherHour)
         {
-            return _day.CompareTo(otherDay) > 0 || _hour >= otherHour;
+            var otherDayIsSunday = otherDay == DayOfWeek.Sunday;
+            var currentDayIsSunday = _day == DayOfWeek.Sunday;
+            if (currentDayIsSunday ^ otherDayIsSunday)
+                return currentDayIsSunday;
+            var dayComparison = _day.CompareTo(otherDay);
+            if (dayComparison == 0)
+                return _hour >= otherHour;
+            return dayComparison > 0;
         }
 
     }
