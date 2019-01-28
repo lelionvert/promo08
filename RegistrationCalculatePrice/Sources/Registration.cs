@@ -8,7 +8,7 @@
 
         public Registration(Price roomPrice, Price mealPrice, IStayPeriod stayPeriod)
         {
-            this._roomPrice = roomPrice;
+            _roomPrice = roomPrice;
             _mealPrice = mealPrice;
             _stayPeriod = stayPeriod;
         }
