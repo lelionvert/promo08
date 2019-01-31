@@ -38,18 +38,23 @@ public class Game {
 		return (howManyPlayers() >= 2);
 	}
 
-	public boolean addPlayer(String playerName) {
-		
-	    players.add(playerName);
-	    places[howManyPlayers()] = 0;
-	    purses[howManyPlayers()] = 0;
-	    inPenaltyBox[howManyPlayers()] = false;
+
+	@Deprecated
+	public boolean add(String playerName) {
+		addPlayer(playerName);
+		return true;
+	}
+
+	public void addPlayer(String playerName) {
+		players.add(playerName);
+		places[howManyPlayers()] = 0;
+		purses[howManyPlayers()] = 0;
+		inPenaltyBox[howManyPlayers()] = false;
 
 		printer.displayLine(playerName + " was added");
 		printer.displayLine("They are player number " + players.size());
-		return true;
 	}
-	
+
 	public int howManyPlayers() {
 		return players.size();
 	}
@@ -98,28 +103,24 @@ public class Game {
 	}
 
 	private void askQuestion() {
-		if (currentCategory() == "Pop")
+        if (QuestionCategory.POP.getValue().equals(currentCategory()))
 			printer.displayLine(popQuestions.removeFirst());
-		if (currentCategory() == "Science")
+        if (QuestionCategory.SCIENCE.getValue().equals(currentCategory()))
 			printer.displayLine(scienceQuestions.removeFirst());
-		if (currentCategory() == "Sports")
+        if (QuestionCategory.SPORTS.getValue().equals(currentCategory()))
 			printer.displayLine(sportsQuestions.removeFirst());
-		if (currentCategory() == "Rock")
+        if (QuestionCategory.ROCK.getValue().equals(currentCategory()))
 			printer.displayLine(rockQuestions.removeFirst());
 	}
 
 
 	private String currentCategory() {
-		if (places[currentPlayer] == 0) return "Pop";
-		if (places[currentPlayer] == 4) return "Pop";
-		if (places[currentPlayer] == 8) return "Pop";
-		if (places[currentPlayer] == 1) return "Science";
-		if (places[currentPlayer] == 5) return "Science";
-		if (places[currentPlayer] == 9) return "Science";
-		if (places[currentPlayer] == 2) return "Sports";
-		if (places[currentPlayer] == 6) return "Sports";
-		if (places[currentPlayer] == 10) return "Sports";
-		return "Rock";
+        QuestionCategory currentCategory = QuestionCategory.ROCK;
+		int place = places[currentPlayer];
+        if (place == 0 || place == 4 || place == 8) currentCategory = QuestionCategory.POP;
+        if (place == 1 || place == 5 || place == 9) currentCategory = QuestionCategory.SCIENCE;
+        if (place == 2 || place == 6 || place == 10) currentCategory = QuestionCategory.SPORTS;
+        return currentCategory.getValue();
 	}
 
 	public boolean wasCorrectlyAnswered() {

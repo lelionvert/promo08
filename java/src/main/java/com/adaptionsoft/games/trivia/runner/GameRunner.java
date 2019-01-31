@@ -10,12 +10,9 @@ import java.util.Random;
 
 public class GameRunner {
 
-	private static boolean notAWinner;
-
 	public static void main(String[] args) {
         Random rand = new Random();
         runGame(rand, new ConsolePrinter());
-
     }
 
     public static void runGame(Random rand, Printer printer) {
@@ -25,7 +22,7 @@ public class GameRunner {
 		aGame.addPlayer("Pat");
 		aGame.addPlayer("Sue");
 
-
+        boolean notAWinner;
         do {
 
 			aGame.roll(rand.nextInt(5) + 1);
@@ -35,7 +32,6 @@ public class GameRunner {
 			} else {
 				notAWinner = aGame.wasCorrectlyAnswered();
 			}
-
 
         } while (notAWinner);
 	}

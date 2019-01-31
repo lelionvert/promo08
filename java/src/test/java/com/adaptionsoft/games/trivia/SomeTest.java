@@ -251,22 +251,22 @@ public class SomeTest {
 	@Test
     public void gameIsPlayableWithTwoPlayers() {
         Game game = new Game(new ConsolePrinter());
-        game.addPlayer("toto");
-        game.addPlayer("titi");
+        game.add("toto");
+        game.add("titi");
         assertTrue(game.isPlayable());
     }
 
     @Test
     public void gameIsNotPlayableWithOnePlayer() {
         Game game = new Game(new ConsolePrinter());
-        game.addPlayer("Thomas");
+        game.add("Thomas");
         Assert.assertFalse(game.isPlayable());
     }
 
     @Test
     public void given_a_player_game_should_have_one_player() {
         Game game = new Game(new ConsolePrinter());
-        boolean addedPlayer = game.addPlayer("Tom");
+        boolean addedPlayer = game.add("Tom");
         assertEquals(1, game.howManyPlayers());
     }
 
