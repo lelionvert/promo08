@@ -1,13 +1,20 @@
 package com.adaptionsoft.games.trivia;
 
-import static org.junit.Assert.*;
-
+import com.adaptionsoft.games.uglytrivia.Game;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class SomeTest {
 
 	@Test
-	public void true_is_true() throws Exception {
-		assertTrue(false);
+	public void given_a_player_game_should_have_one_player() {
+		Game game = new Game();
+		boolean addedPlayer = game.addPlayer("Tom");
+		Assert.assertEquals(1, game.howManyPlayers());
+	}
+
+	@Test
+	public void name() {
+
 	}
 }
