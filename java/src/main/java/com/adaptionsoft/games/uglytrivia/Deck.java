@@ -1,23 +1,29 @@
 package com.adaptionsoft.games.uglytrivia;
 
+import java.util.EnumMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class Deck {
-    LinkedList<String> popQuestions = new LinkedList();
-    LinkedList<String> scienceQuestions = new LinkedList();
-    LinkedList<String> sportsQuestions = new LinkedList();
-    LinkedList<String> rockQuestions = new LinkedList();
+    private Map<QuestionCategory, LinkedList<String>> questions;
 
-    public Deck() {
-        initializeDeck();
+    Deck() {
+        questions = new EnumMap<QuestionCategory, LinkedList<String>>(QuestionCategory.class);
+        for (QuestionCategory category : QuestionCategory.values()) {
+            initializeQuestions(category);
+        }
+
     }
 
-    void initializeDeck() {
+    private void initializeQuestions(QuestionCategory questionCategory) {
+        questions.put(questionCategory, new LinkedList<String>());
         for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast(("Science Question " + i));
-            sportsQuestions.addLast(("Sports Question " + i));
-            rockQuestions.addLast("Rock Question " + i);
+            questions.get(questionCategory).addLast(questionCategory.getValue() + " Question " + i);
         }
+    }
+
+    String drawQuestion(QuestionCategory questionCategory) {
+
+        return questions.get(questionCategory).removeFirst();
     }
 }

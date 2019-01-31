@@ -87,22 +87,8 @@ public class Game {
 
 	private void askQuestion() {
         QuestionCategory questionCategory = getQuestionCategory();
-        String line = "";
-        if (QuestionCategory.POP == questionCategory) {
-            line = deck.popQuestions.removeFirst();
-        }
-        if (QuestionCategory.SCIENCE == questionCategory) {
-            line = deck.scienceQuestions.removeFirst();
-        }
-        if (QuestionCategory.SPORTS == questionCategory) {
-            line = deck.sportsQuestions.removeFirst();
-        }
-        if (QuestionCategory.ROCK == questionCategory) {
-            line = deck.rockQuestions.removeFirst();
-        }
-        printer.displayLine(line);
+        printer.displayLine(deck.drawQuestion(questionCategory));
     }
-
 
     private QuestionCategory getQuestionCategory() {
         QuestionCategory currentCategory = QuestionCategory.ROCK;
