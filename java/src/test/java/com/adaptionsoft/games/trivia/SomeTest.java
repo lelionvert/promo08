@@ -3,11 +3,13 @@ package com.adaptionsoft.games.trivia;
 import com.adaptionsoft.games.trivia.runner.GameRunner;
 import com.adaptionsoft.games.uglytrivia.ConsolePrinter;
 import com.adaptionsoft.games.uglytrivia.Game;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SomeTest {
 
@@ -247,11 +249,26 @@ public class SomeTest {
 					"Chet now has 6 Gold Coins.\n";
 
 	@Test
-	public void given_a_player_game_should_have_one_player() {
-		Game game = new Game(new ConsolePrinter());
-		boolean addedPlayer = game.addPlayer("Tom");
-		assertEquals(1, game.howManyPlayers());
-	}
+    public void gameIsPlayableWithTwoPlayers() {
+        Game game = new Game(new ConsolePrinter());
+        game.addPlayer("toto");
+        game.addPlayer("titi");
+        assertTrue(game.isPlayable());
+    }
+
+    @Test
+    public void gameIsNotPlayableWithOnePlayer() {
+        Game game = new Game(new ConsolePrinter());
+        game.addPlayer("Thomas");
+        Assert.assertFalse(game.isPlayable());
+    }
+
+    @Test
+    public void given_a_player_game_should_have_one_player() {
+        Game game = new Game(new ConsolePrinter());
+        boolean addedPlayer = game.addPlayer("Tom");
+        assertEquals(1, game.howManyPlayers());
+    }
 
 	@Test
 	public void gameRunner_with__fixed_roll_value_of_1() {
