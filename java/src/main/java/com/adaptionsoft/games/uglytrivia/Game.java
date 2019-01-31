@@ -73,7 +73,7 @@ public class Game {
 				printer.displayLine(players.get(currentPlayer)
 						+ "'s new location is "
 						+ places[currentPlayer]);
-				printer.displayLine("The category is " + currentCategory());
+                printer.displayLine("The category is " + getQuestionCategory().getValue());
 				askQuestion();
 			} else {
 				printer.displayLine(players.get(currentPlayer) + " is not getting out of the penalty box");
@@ -87,7 +87,7 @@ public class Game {
 			printer.displayLine(players.get(currentPlayer)
 					+ "'s new location is "
 					+ places[currentPlayer]);
-			printer.displayLine("The category is " + currentCategory());
+            printer.displayLine("The category is " + getQuestionCategory().getValue());
 			askQuestion();
 		}
 
@@ -103,27 +103,34 @@ public class Game {
 	}
 
 	private void askQuestion() {
-        if (QuestionCategory.POP.getValue().equals(currentCategory()))
-			printer.displayLine(popQuestions.removeFirst());
-        if (QuestionCategory.SCIENCE.getValue().equals(currentCategory()))
-			printer.displayLine(scienceQuestions.removeFirst());
-        if (QuestionCategory.SPORTS.getValue().equals(currentCategory()))
-			printer.displayLine(sportsQuestions.removeFirst());
-        if (QuestionCategory.ROCK.getValue().equals(currentCategory()))
-			printer.displayLine(rockQuestions.removeFirst());
-	}
+        QuestionCategory questionCategory = getQuestionCategory();
+        String line = "";
+        if (QuestionCategory.POP == questionCategory) {
+            line = popQuestions.removeFirst();
+        }
+        if (QuestionCategory.SCIENCE == questionCategory) {
+            line = scienceQuestions.removeFirst();
+        }
+        if (QuestionCategory.SPORTS == questionCategory) {
+            line = sportsQuestions.removeFirst();
+        }
+        if (QuestionCategory.ROCK == questionCategory) {
+            line = rockQuestions.removeFirst();
+        }
+        printer.displayLine(line);
+    }
 
 
-	private String currentCategory() {
+    private QuestionCategory getQuestionCategory() {
         QuestionCategory currentCategory = QuestionCategory.ROCK;
-		int place = places[currentPlayer];
+        int place = places[currentPlayer];
         if (place == 0 || place == 4 || place == 8) currentCategory = QuestionCategory.POP;
         if (place == 1 || place == 5 || place == 9) currentCategory = QuestionCategory.SCIENCE;
         if (place == 2 || place == 6 || place == 10) currentCategory = QuestionCategory.SPORTS;
-        return currentCategory.getValue();
-	}
+        return currentCategory;
+    }
 
-	public boolean wasCorrectlyAnswered() {
+    public boolean wasCorrectlyAnswered() {
 		if (inPenaltyBox[currentPlayer]){
 			if (isGettingOutOfPenaltyBox) {
 				printer.displayLine("Answer was correct!!!!");
