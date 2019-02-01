@@ -267,7 +267,7 @@ public class SomeTest {
     public void given_a_player_game_should_have_one_player() {
         Game game = new Game(new ConsolePrinter());
         boolean addedPlayer = game.add("Tom");
-        assertEquals(1, game.howManyPlayers());
+		assertEquals(1, game.players.howManyPlayers());
     }
 
 	@Test
