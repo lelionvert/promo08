@@ -3,13 +3,14 @@ package com.adaptionsoft.games.uglytrivia;
 import java.util.ArrayList;
 
 public class Players {
-    private ArrayList<String> players;
+    private ArrayList<Player> players;
+
 
     public Players() {
         players = new ArrayList();
     }
 
-    void addNewPlayer(String playerName) {
+    void addNewPlayer(Player playerName) {
         players.add(playerName);
     }
 
@@ -17,7 +18,7 @@ public class Players {
         return players.size();
     }
 
-    String getPlayer(int index) {
+    Player getPlayer(int index) {
         return players.get(index);
     }
 }

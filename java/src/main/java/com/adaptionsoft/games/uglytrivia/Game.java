@@ -1,20 +1,20 @@
 package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
-    final Deck deck = new Deck();
-    public final Players players = new Players();
-    final Board board = new Board();
+    private final Deck deck;
+    public final Players players;
+    private final Board board;
     private final Printer printer;
     int[] purses  = new int[6];
     boolean[] inPenaltyBox  = new boolean[6];
-
     int currentPlayer = 0;
     boolean isGettingOutOfPenaltyBox;
 
-
-
 	public Game(Printer printer) {
         this.printer = printer;
+        deck = new Deck();
+        players = new Players();
+        board = new Board();
     }
 
     public boolean isPlayable() {
@@ -28,7 +28,7 @@ public class Game {
 	}
 
 	public void addPlayer(String playerName) {
-        players.addNewPlayer(playerName);
+        players.addNewPlayer(Player.valueOf(playerName));
         board.initPlace(players.howManyPlayers());
         purses[players.howManyPlayers()] = 0;
         inPenaltyBox[players.howManyPlayers()] = false;
@@ -100,9 +100,6 @@ public class Game {
                 if (currentPlayer == players.howManyPlayers()) currentPlayer = 0;
 				return true;
 			}
-			
-			
-			
 		} else {
 
 			printer.displayLine("Answer was corrent!!!!");
