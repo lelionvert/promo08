@@ -4,7 +4,6 @@ public class Game {
     public static final int NUMBER_OF_COINS_TO_WIN = 6;
     private final Deck deck;
     public final Players players;
-    private final Board board;
     private final Printer printer;
     boolean isGettingOutOfPenaltyBox;
 
@@ -12,7 +11,12 @@ public class Game {
         this.printer = printer;
         deck = new Deck();
         players = new Players();
-        board = new Board();
+    }
+
+    static int computeNewPlaceNumber(int newPlaceNumber) {
+        return (newPlaceNumber > 11)
+                ? newPlaceNumber - 12
+                : newPlaceNumber;
     }
 
     public boolean isPlayable() {
@@ -27,7 +31,6 @@ public class Game {
 
 	public void addPlayer(String playerName) {
         players.addNewPlayer(Player.valueOf(playerName));
-        board.initPlace(players.howManyPlayers());
 
 		printer.displayLine(playerName + " was added");
         printer.displayLine("They are player number " + players.howManyPlayers());
@@ -42,12 +45,12 @@ public class Game {
 				isGettingOutOfPenaltyBox = true;
 
                 printer.displayLine(players.getCurrentPlayer() + " is getting out of the penalty box");
-                board.moveCurrentPlayer(roll, players.currentPlayerIndex);
+                moveCurrentPlayer(roll);
 
                 printer.displayLine(players.getCurrentPlayer()
 						+ "'s new location is "
-                        + board.getPlace(players.currentPlayerIndex));
-                printer.displayLine("The category is " + QuestionCategory.fromPlace(board.getPlace(players.currentPlayerIndex)).getValue());
+                        + players.getCurrentPlayerPlaceNumber());
+                printer.displayLine("The category is " + QuestionCategory.fromPlace(players.getCurrentPlayerPlaceNumber()).getValue());
 				askQuestion();
 			} else {
                 printer.displayLine(players.getCurrentPlayer() + " is not getting out of the penalty box");
@@ -56,23 +59,27 @@ public class Game {
 
 		} else {
 
-            board.moveCurrentPlayer(roll, players.currentPlayerIndex);
+            moveCurrentPlayer(roll);
 
             printer.displayLine(players.getCurrentPlayer()
 					+ "'s new location is "
-                    + board.getPlace(players.currentPlayerIndex));
-            printer.displayLine("The category is " + QuestionCategory.fromPlace(board.getPlace(players.currentPlayerIndex)).getValue());
+                    + players.getCurrentPlayerPlaceNumber());
+            printer.displayLine("The category is " + QuestionCategory.fromPlace(players.getCurrentPlayerPlaceNumber()).getValue());
 			askQuestion();
 		}
 
 	}
+
+    private void moveCurrentPlayer(int roll) {
+        players.moveCurrentPlayerTo(computeNewPlaceNumber(players.getCurrentPlayerPlaceNumber() + roll));
+    }
 
     private boolean isOdd(int roll) {
 		return roll % 2 != 0;
 	}
 
 	private void askQuestion() {
-        QuestionCategory questionCategory = QuestionCategory.fromPlace(board.getPlace(players.currentPlayerIndex));
+        QuestionCategory questionCategory = QuestionCategory.fromPlace(players.getCurrentPlayerPlaceNumber());
         printer.displayLine(deck.drawQuestion(questionCategory));
     }
 

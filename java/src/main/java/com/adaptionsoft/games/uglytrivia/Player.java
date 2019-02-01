@@ -5,11 +5,13 @@ public class Player {
     private final String name;
     private int coins;
     private boolean inPenaltyBox;
+    private Place place;
 
     private Player(String name) {
         this.name = name;
         coins = 0;
         inPenaltyBox = false;
+        place = Place.createPlace(0);
     }
 
     static Player valueOf(String name) {
@@ -40,5 +42,13 @@ public class Player {
 
     boolean hasCoins(int numberOfCoins) {
         return getCoins() == numberOfCoins;
+    }
+
+    public void changePlace(int placeNumber) {
+        place = Place.createPlace(placeNumber);
+    }
+
+    public int getPlaceNumber() {
+        return place.getNumber();
     }
 }

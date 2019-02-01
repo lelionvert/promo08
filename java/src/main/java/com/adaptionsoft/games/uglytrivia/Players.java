@@ -39,4 +39,11 @@ public class Players {
         return getCurrentPlayer().hasCoins(numberOfCoins);
     }
 
+    public void moveCurrentPlayerTo(int placeNumber) {
+        getCurrentPlayer().changePlace(placeNumber);
+    }
+
+    public int getCurrentPlayerPlaceNumber() {
+        return getCurrentPlayer().getPlaceNumber();
+    }
 }
