@@ -21,4 +21,12 @@ public class Players {
     Player getPlayer(int index) {
         return players.get(index);
     }
+
+    boolean isInPenaltyBox(int currentPlayerIndex) {
+        return getPlayer(currentPlayerIndex).isInPenaltyBox();
+    }
+
+    void putPlayerInPenaltyBox(int currentPlayerIndex) {
+        getPlayer(currentPlayerIndex).putInPenaltyBox();
+    }
 }

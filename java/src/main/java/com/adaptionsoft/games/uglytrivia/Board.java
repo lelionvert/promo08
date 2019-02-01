@@ -1,7 +1,8 @@
 package com.adaptionsoft.games.uglytrivia;
 
 public class Board {
-    private int[] places = new int[6];
+    public static final int MAX_PLAYERS = 6;
+    private int[] places = new int[MAX_PLAYERS];
 
     public Board() {
     }
