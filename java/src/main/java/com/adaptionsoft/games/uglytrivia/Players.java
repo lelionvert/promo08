@@ -33,6 +33,10 @@ public class Players {
     void nextPlayer() {
         currentPlayerIndex++;
         if (currentPlayerIndex == howManyPlayers()) currentPlayerIndex = 0;
-
     }
+
+    boolean currentPlayerHasCoins(int numberOfCoins) {
+        return getCurrentPlayer().hasCoins(numberOfCoins);
+    }
+
 }

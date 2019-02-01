@@ -1,6 +1,7 @@
 package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
+    public static final int NUMBER_OF_COINS_TO_WIN = 6;
     private final Deck deck;
     public final Players players;
     private final Board board;
@@ -85,16 +86,14 @@ public class Game {
                         + players.getCurrentPlayer().getCoins()
 						+ " Gold Coins.");
 
-				boolean winner = didPlayerWin();
+                boolean winner = !players.currentPlayerHasCoins(NUMBER_OF_COINS_TO_WIN);
                 players.nextPlayer();
-
                 return winner;
 			} else {
                 players.nextPlayer();
                 return true;
 			}
 		} else {
-
 			printer.displayLine("Answer was corrent!!!!");
             players.getCurrentPlayer().addCoin();
             printer.displayLine(players.getCurrentPlayer()
@@ -102,7 +101,7 @@ public class Game {
                     + players.getCurrentPlayer().getCoins()
 					+ " Gold Coins.");
 
-			boolean winner = didPlayerWin();
+            boolean winner = !players.currentPlayerHasCoins(NUMBER_OF_COINS_TO_WIN);
             players.nextPlayer();
 
             return winner;
@@ -119,7 +118,4 @@ public class Game {
 	}
 
 
-    private boolean didPlayerWin() {
-        return !(players.getCurrentPlayer().getCoins() == 6);
-	}
 }

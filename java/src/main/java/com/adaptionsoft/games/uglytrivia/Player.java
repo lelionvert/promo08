@@ -36,4 +36,9 @@ public class Player {
     public boolean isInPenaltyBox() {
         return inPenaltyBox;
     }
+
+
+    boolean hasCoins(int numberOfCoins) {
+        return getCoins() == numberOfCoins;
+    }
 }
