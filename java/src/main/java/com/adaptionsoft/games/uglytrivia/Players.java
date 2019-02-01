@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Players {
     private ArrayList<Player> players;
-    public int currentPlayerIndex = 0;
+    private int currentPlayerIndex = 0;
 
-    public Players() {
-        players = new ArrayList();
+    Players() {
+        players = new ArrayList<>();
     }
 
     void addNewPlayer(Player playerName) {
@@ -18,12 +18,12 @@ public class Players {
         return players.size();
     }
 
-    boolean isInPenaltyBox(int currentPlayerIndex) {
-        return players.get(currentPlayerIndex).isInPenaltyBox();
+    boolean isInPenaltyBox() {
+        return players.get(this.currentPlayerIndex).isInPenaltyBox();
     }
 
-    void putPlayerInPenaltyBox(int currentPlayerIndex) {
-        players.get(currentPlayerIndex).putInPenaltyBox();
+    void putPlayerInPenaltyBox() {
+        players.get(this.currentPlayerIndex).putInPenaltyBox();
     }
 
     Player getCurrentPlayer() {
@@ -39,11 +39,15 @@ public class Players {
         return getCurrentPlayer().hasCoins(numberOfCoins);
     }
 
-    public void moveCurrentPlayerTo(int placeNumber) {
+    void moveCurrentPlayerTo(int placeNumber) {
         getCurrentPlayer().changePlace(placeNumber);
     }
 
-    public int getCurrentPlayerPlaceNumber() {
+    int getCurrentPlayerPlaceNumber() {
         return getCurrentPlayer().getPlaceNumber();
+    }
+
+    void addCoinToCurrentPlayer() {
+        getCurrentPlayer().addCoin();
     }
 }

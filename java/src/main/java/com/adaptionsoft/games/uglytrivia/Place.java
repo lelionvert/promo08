@@ -7,7 +7,7 @@ public class Place {
         this.number = number;
     }
 
-    public static Place createPlace(int number) {
+    static Place createPlace(int number) {
         return new Place(number);
     }
 

@@ -13,7 +13,7 @@ public class Game {
         players = new Players();
     }
 
-    static int computeNewPlaceNumber(int newPlaceNumber) {
+    private static int computeNewPlaceNumber(int newPlaceNumber) {
         return (newPlaceNumber > 11)
                 ? newPlaceNumber - 12
                 : newPlaceNumber;
@@ -40,7 +40,7 @@ public class Game {
         printer.displayLine(players.getCurrentPlayer() + " is the current player");
 		printer.displayLine("They have rolled a " + roll);
 
-        if (players.isInPenaltyBox(players.currentPlayerIndex)) {
+        if (players.isInPenaltyBox()) {
 			if (isOdd(roll)) {
 				isGettingOutOfPenaltyBox = true;
 
@@ -58,7 +58,6 @@ public class Game {
 			}
 
 		} else {
-
             moveCurrentPlayer(roll);
 
             printer.displayLine(players.getCurrentPlayer()
@@ -67,7 +66,6 @@ public class Game {
             printer.displayLine("The category is " + QuestionCategory.fromPlace(players.getCurrentPlayerPlaceNumber()).getValue());
 			askQuestion();
 		}
-
 	}
 
     private void moveCurrentPlayer(int roll) {
@@ -84,41 +82,38 @@ public class Game {
     }
 
 	public boolean wasCorrectlyAnswered() {
-        if (players.isInPenaltyBox(players.currentPlayerIndex)) {
+        if (players.isInPenaltyBox()) {
 			if (isGettingOutOfPenaltyBox) {
 				printer.displayLine("Answer was correct!!!!");
-                players.getCurrentPlayer().addCoin();
+                players.addCoinToCurrentPlayer();
                 printer.displayLine(players.getCurrentPlayer()
 						+ " now has "
                         + players.getCurrentPlayer().getCoins()
 						+ " Gold Coins.");
 
-                boolean winner = !players.currentPlayerHasCoins(NUMBER_OF_COINS_TO_WIN);
+                boolean shouldContinuePlaying = !players.currentPlayerHasCoins(NUMBER_OF_COINS_TO_WIN);
                 players.nextPlayer();
-                return winner;
-			} else {
-                players.nextPlayer();
-                return true;
-			}
-		} else {
-			printer.displayLine("Answer was corrent!!!!");
-            players.getCurrentPlayer().addCoin();
-            printer.displayLine(players.getCurrentPlayer()
-					+ " now has "
-                    + players.getCurrentPlayer().getCoins()
-					+ " Gold Coins.");
-
-            boolean winner = !players.currentPlayerHasCoins(NUMBER_OF_COINS_TO_WIN);
+                return shouldContinuePlaying;
+            }
             players.nextPlayer();
+            return true;
+        }
+        printer.displayLine("Answer was corrent!!!!");
+        players.addCoinToCurrentPlayer();
+        printer.displayLine(players.getCurrentPlayer()
+                + " now has "
+                + players.getCurrentPlayer().getCoins()
+                + " Gold Coins.");
 
-            return winner;
-		}
-	}
+        boolean winner = !players.currentPlayerHasCoins(NUMBER_OF_COINS_TO_WIN);
+        players.nextPlayer();
+        return winner;
+    }
 
     public boolean wrongAnswer() {
 		printer.displayLine("Question was incorrectly answered");
         printer.displayLine(players.getCurrentPlayer() + " was sent to the penalty box");
-        players.putPlayerInPenaltyBox(players.currentPlayerIndex);
+        players.putPlayerInPenaltyBox();
 
         players.nextPlayer();
         return true;

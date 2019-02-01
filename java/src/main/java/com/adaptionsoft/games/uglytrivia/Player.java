@@ -23,19 +23,19 @@ public class Player {
         return name;
     }
 
-    public int getCoins() {
+    int getCoins() {
         return coins;
     }
 
-    public void addCoin() {
+    void addCoin() {
         this.coins++;
     }
 
-    public void putInPenaltyBox() {
+    void putInPenaltyBox() {
         this.inPenaltyBox = true;
     }
 
-    public boolean isInPenaltyBox() {
+    boolean isInPenaltyBox() {
         return inPenaltyBox;
     }
 
@@ -44,11 +44,11 @@ public class Player {
         return getCoins() == numberOfCoins;
     }
 
-    public void changePlace(int placeNumber) {
+    void changePlace(int placeNumber) {
         place = Place.createPlace(placeNumber);
     }
 
-    public int getPlaceNumber() {
+    int getPlaceNumber() {
         return place.getNumber();
     }
 }
