@@ -5,7 +5,6 @@ public class Game {
     public final Players players;
     private final Board board;
     private final Printer printer;
-    int currentPlayerIndex = 0;
     boolean isGettingOutOfPenaltyBox;
 
 	public Game(Printer printer) {
@@ -34,34 +33,34 @@ public class Game {
 	}
 
     public void roll(int roll) {
-        printer.displayLine(players.getPlayer(currentPlayerIndex) + " is the current player");
+        printer.displayLine(players.getCurrentPlayer() + " is the current player");
 		printer.displayLine("They have rolled a " + roll);
 
-        if (players.isInPenaltyBox(currentPlayerIndex)) {
+        if (players.isInPenaltyBox(players.currentPlayerIndex)) {
 			if (isOdd(roll)) {
 				isGettingOutOfPenaltyBox = true;
 
-                printer.displayLine(players.getPlayer(currentPlayerIndex) + " is getting out of the penalty box");
-                board.moveCurrentPlayer(roll, currentPlayerIndex);
+                printer.displayLine(players.getCurrentPlayer() + " is getting out of the penalty box");
+                board.moveCurrentPlayer(roll, players.currentPlayerIndex);
 
-                printer.displayLine(players.getPlayer(this.currentPlayerIndex)
+                printer.displayLine(players.getCurrentPlayer()
 						+ "'s new location is "
-                        + board.getPlace(this.currentPlayerIndex));
-                printer.displayLine("The category is " + QuestionCategory.fromPlace(board.getPlace(this.currentPlayerIndex)).getValue());
+                        + board.getPlace(players.currentPlayerIndex));
+                printer.displayLine("The category is " + QuestionCategory.fromPlace(board.getPlace(players.currentPlayerIndex)).getValue());
 				askQuestion();
 			} else {
-                printer.displayLine(players.getPlayer(currentPlayerIndex) + " is not getting out of the penalty box");
+                printer.displayLine(players.getCurrentPlayer() + " is not getting out of the penalty box");
 				isGettingOutOfPenaltyBox = false;
 			}
 
 		} else {
 
-            board.moveCurrentPlayer(roll, currentPlayerIndex);
+            board.moveCurrentPlayer(roll, players.currentPlayerIndex);
 
-            printer.displayLine(players.getPlayer(currentPlayerIndex)
+            printer.displayLine(players.getCurrentPlayer()
 					+ "'s new location is "
-                    + board.getPlace(currentPlayerIndex));
-            printer.displayLine("The category is " + QuestionCategory.fromPlace(board.getPlace(currentPlayerIndex)).getValue());
+                    + board.getPlace(players.currentPlayerIndex));
+            printer.displayLine("The category is " + QuestionCategory.fromPlace(board.getPlace(players.currentPlayerIndex)).getValue());
 			askQuestion();
 		}
 
@@ -72,59 +71,55 @@ public class Game {
 	}
 
 	private void askQuestion() {
-        QuestionCategory questionCategory = QuestionCategory.fromPlace(board.getPlace(currentPlayerIndex));
+        QuestionCategory questionCategory = QuestionCategory.fromPlace(board.getPlace(players.currentPlayerIndex));
         printer.displayLine(deck.drawQuestion(questionCategory));
     }
 
 	public boolean wasCorrectlyAnswered() {
-        if (players.isInPenaltyBox(this.currentPlayerIndex)) {
+        if (players.isInPenaltyBox(players.currentPlayerIndex)) {
 			if (isGettingOutOfPenaltyBox) {
 				printer.displayLine("Answer was correct!!!!");
-                players.getPlayer(this.currentPlayerIndex).addCoin();
-                printer.displayLine(players.getPlayer(this.currentPlayerIndex)
+                players.getCurrentPlayer().addCoin();
+                printer.displayLine(players.getCurrentPlayer()
 						+ " now has "
-                        + players.getPlayer(this.currentPlayerIndex).getCoins()
+                        + players.getCurrentPlayer().getCoins()
 						+ " Gold Coins.");
 
 				boolean winner = didPlayerWin();
-                this.currentPlayerIndex++;
-                if (this.currentPlayerIndex == players.howManyPlayers()) this.currentPlayerIndex = 0;
-				
-				return winner;
+                players.nextPlayer();
+
+                return winner;
 			} else {
-                this.currentPlayerIndex++;
-                if (this.currentPlayerIndex == players.howManyPlayers()) this.currentPlayerIndex = 0;
-				return true;
+                players.nextPlayer();
+                return true;
 			}
 		} else {
 
 			printer.displayLine("Answer was corrent!!!!");
-            players.getPlayer(this.currentPlayerIndex).addCoin();
-            printer.displayLine(players.getPlayer(this.currentPlayerIndex)
+            players.getCurrentPlayer().addCoin();
+            printer.displayLine(players.getCurrentPlayer()
 					+ " now has "
-                    + players.getPlayer(this.currentPlayerIndex).getCoins()
+                    + players.getCurrentPlayer().getCoins()
 					+ " Gold Coins.");
 
 			boolean winner = didPlayerWin();
-            this.currentPlayerIndex++;
-            if (this.currentPlayerIndex == players.howManyPlayers()) this.currentPlayerIndex = 0;
-			
-			return winner;
+            players.nextPlayer();
+
+            return winner;
 		}
 	}
 
     public boolean wrongAnswer() {
 		printer.displayLine("Question was incorrectly answered");
-        printer.displayLine(players.getPlayer(this.currentPlayerIndex) + " was sent to the penalty box");
-        players.putPlayerInPenaltyBox(this.currentPlayerIndex);
+        printer.displayLine(players.getCurrentPlayer() + " was sent to the penalty box");
+        players.putPlayerInPenaltyBox(players.currentPlayerIndex);
 
-        this.currentPlayerIndex++;
-        if (this.currentPlayerIndex == players.howManyPlayers()) this.currentPlayerIndex = 0;
-		return true;
+        players.nextPlayer();
+        return true;
 	}
 
 
     private boolean didPlayerWin() {
-        return !(players.getPlayer(currentPlayerIndex).getCoins() == 6);
+        return !(players.getCurrentPlayer().getCoins() == 6);
 	}
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Players {
     private ArrayList<Player> players;
-
+    public int currentPlayerIndex = 0;
 
     public Players() {
         players = new ArrayList();
@@ -18,15 +18,21 @@ public class Players {
         return players.size();
     }
 
-    Player getPlayer(int index) {
-        return players.get(index);
-    }
-
     boolean isInPenaltyBox(int currentPlayerIndex) {
-        return getPlayer(currentPlayerIndex).isInPenaltyBox();
+        return players.get(currentPlayerIndex).isInPenaltyBox();
     }
 
     void putPlayerInPenaltyBox(int currentPlayerIndex) {
-        getPlayer(currentPlayerIndex).putInPenaltyBox();
+        players.get(currentPlayerIndex).putInPenaltyBox();
+    }
+
+    Player getCurrentPlayer() {
+        return players.get(currentPlayerIndex);
+    }
+
+    void nextPlayer() {
+        currentPlayerIndex++;
+        if (currentPlayerIndex == howManyPlayers()) currentPlayerIndex = 0;
+
     }
 }
