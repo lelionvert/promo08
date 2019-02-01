@@ -14,6 +14,7 @@ public class Game {
     boolean isGettingOutOfPenaltyBox;
 
 
+
 	public Game(Printer printer) {
         this.printer = printer;
     }
@@ -56,7 +57,7 @@ public class Game {
 				printer.displayLine(players.get(currentPlayer)
 						+ "'s new location is "
 						+ places[currentPlayer]);
-                printer.displayLine("The category is " + getQuestionCategory().getValue());
+				printer.displayLine("The category is " + QuestionCategory.fromPlace(places[currentPlayer]).getValue());
 				askQuestion();
 			} else {
 				printer.displayLine(players.get(currentPlayer) + " is not getting out of the penalty box");
@@ -70,7 +71,7 @@ public class Game {
 			printer.displayLine(players.get(currentPlayer)
 					+ "'s new location is "
 					+ places[currentPlayer]);
-            printer.displayLine("The category is " + getQuestionCategory().getValue());
+			printer.displayLine("The category is " + QuestionCategory.fromPlace(places[currentPlayer]).getValue());
 			askQuestion();
 		}
 
@@ -86,20 +87,11 @@ public class Game {
 	}
 
 	private void askQuestion() {
-        QuestionCategory questionCategory = getQuestionCategory();
+		QuestionCategory questionCategory = QuestionCategory.fromPlace(places[currentPlayer]);
         printer.displayLine(deck.drawQuestion(questionCategory));
     }
 
-    private QuestionCategory getQuestionCategory() {
-        QuestionCategory currentCategory = QuestionCategory.ROCK;
-        int place = places[currentPlayer];
-        if (place == 0 || place == 4 || place == 8) currentCategory = QuestionCategory.POP;
-        if (place == 1 || place == 5 || place == 9) currentCategory = QuestionCategory.SCIENCE;
-        if (place == 2 || place == 6 || place == 10) currentCategory = QuestionCategory.SPORTS;
-        return currentCategory;
-    }
-
-    public boolean wasCorrectlyAnswered() {
+	public boolean wasCorrectlyAnswered() {
 		if (inPenaltyBox[currentPlayer]){
 			if (isGettingOutOfPenaltyBox) {
 				printer.displayLine("Answer was correct!!!!");

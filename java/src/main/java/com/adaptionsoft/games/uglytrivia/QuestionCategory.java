@@ -12,6 +12,14 @@ public enum QuestionCategory {
         this.value = value;
     }
 
+    static QuestionCategory fromPlace(int place) {
+        QuestionCategory currentCategory = ROCK;
+        if (place % 4 == 0) currentCategory = POP;
+        if (place % 4 == 1) currentCategory = SCIENCE;
+        if (place % 4 == 2) currentCategory = SPORTS;
+        return currentCategory;
+    }
+
     public String getValue() {
         return value;
     }
