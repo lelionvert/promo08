@@ -18,4 +18,5 @@ public class CheckIn {
     boolean isInTimeSlot(DayOfWeek day, LocalTime beginSlot) {
         return this.day.equals(day) && arrivalTime.isAfter(beginSlot.minusMinutes(1));
     }
+
 }

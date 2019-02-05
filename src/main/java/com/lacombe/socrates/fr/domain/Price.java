@@ -36,4 +36,12 @@ public class Price {
     public int hashCode() {
         return Objects.hash(value);
     }
+
+    public Price add(Price other) {
+        return Price.of(value + other.value);
+    }
+
+    public Price multiplyBy(int scalar) {
+        return Price.of(value * scalar);
+    }
 }
