@@ -18,16 +18,16 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-class ColdMealProviderTest {
+class ColdMealAcceptanceTest {
 
     @Mock
     private ParticipantRegister participantRegister;
-    private ColdMealProvider coldMealProvider;
+    private Socrates socrates;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        coldMealProvider = new ColdMealProvider(participantRegister, THURSDAY, of(21, 00));
+        socrates = new Socrates(participantRegister, THURSDAY, of(21, 00));
     }
 
 
@@ -36,21 +36,21 @@ class ColdMealProviderTest {
         when(participantRegister.getAllParticipant()).thenReturn(new ArrayList<>());
         ColdMealListing coldMealListing = new ColdMealListing(new ArrayList<>());
 
-        ColdMealListing result = coldMealProvider.determineColdMealslisting();
+        ColdMealListing result = socrates.determineColdMealslisting();
 
         assertThat(coldMealListing).isEqualTo(result);
     }
 
     @Test
-    void given_a_participant_with_a_arrival_in_limit_day_and_limit_tim_for_cold_meal_should_be_in_cold_meal_listing() {
+    void given_a_participant_with_a_arrival_in_limit_day_and_after_limit_time_for_cold_meal_should_be_in_cold_meal_listing() {
         when(participantRegister.getAllParticipant()).thenReturn(asList(
                 new Participant(NO_ACCOMMODATION,
                         StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00)))
                                 .to(new Checkout(FRIDAY, of(23, 00))).build(),
-                        new Mail("toto@gmail.com"))));
+                        new Mail("toto@gmail.com"), Diet.VEGETARIAN)));
 
         ColdMealListing coldMealListing = new ColdMealListing(asList(new Mail("toto@gmail.com")));
-        ColdMealListing result = coldMealProvider.determineColdMealslisting();
+        ColdMealListing result = socrates.determineColdMealslisting();
 
         assertThat(coldMealListing).isEqualTo(result);
     }
@@ -61,10 +61,10 @@ class ColdMealProviderTest {
                 new Participant(NO_ACCOMMODATION,
                         StayPeriodBuilder.from(new Checkin(FRIDAY, of(22, 00)))
                                 .to(new Checkout(FRIDAY, of(23, 00))).build(),
-                        new Mail("toto@gmail.com"))));
+                        new Mail("toto@gmail.com"), Diet.VEGETARIAN)));
 
         ColdMealListing coldMealListing = new ColdMealListing(asList());
-        ColdMealListing result = coldMealProvider.determineColdMealslisting();
+        ColdMealListing result = socrates.determineColdMealslisting();
 
         assertThat(coldMealListing).isEqualTo(result);
     }
@@ -75,10 +75,10 @@ class ColdMealProviderTest {
                 new Participant(NO_ACCOMMODATION,
                         StayPeriodBuilder.from(new Checkin(THURSDAY, of(20, 00))).
                                 to(new Checkout(FRIDAY, of(23, 00))).build(),
-                        new Mail("toto@gmail.com"))));
+                        new Mail("toto@gmail.com"), Diet.VEGETARIAN)));
 
         ColdMealListing coldMealListing = new ColdMealListing(asList());
-        ColdMealListing result = coldMealProvider.determineColdMealslisting();
+        ColdMealListing result = socrates.determineColdMealslisting();
 
         assertThat(coldMealListing).isEqualTo(result);
     }

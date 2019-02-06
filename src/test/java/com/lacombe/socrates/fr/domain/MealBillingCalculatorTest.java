@@ -29,7 +29,7 @@ class MealBillingCalculatorTest {
         final Checkin checkin = new Checkin(DayOfWeek.THURSDAY, LocalTime.of(18, 00));
         final Checkout checkout = new Checkout(DayOfWeek.SUNDAY, LocalTime.of(14, 00));
         Participant participant = new Participant(RoomChoice.NO_ACCOMMODATION,
-                from(checkin).to(checkout).build());
+                from(checkin).to(checkout).build(), Diet.VEGETARIAN);
         Price price = mealBillingCalculator.calculatePrice(participant);
         Assertions.assertThat(price).isEqualTo(Price.of(ALL_MEALS * MEAL_PRICE));
     }
@@ -40,7 +40,7 @@ class MealBillingCalculatorTest {
                 StayPeriodBuilder
                         .from(new Checkin(DayOfWeek.THURSDAY, LocalTime.of(21, 00)))
                         .to(new Checkout(DayOfWeek.SUNDAY, LocalTime.of(14, 00)))
-                        .build());
+                        .build(), Diet.VEGETARIAN);
         Price price = mealBillingCalculator.calculatePrice(participant);
         Assertions.assertThat(price).isEqualTo(Price.of(ONE_MISSED_MEAL * MEAL_PRICE));
     }
@@ -51,7 +51,7 @@ class MealBillingCalculatorTest {
                 StayPeriodBuilder
                         .from(new Checkin(DayOfWeek.THURSDAY, LocalTime.of(19, 00)))
                         .to(new Checkout(DayOfWeek.SUNDAY, LocalTime.of(10, 00)))
-                        .build());
+                        .build(), Diet.VEGETARIAN);
         Price price = mealBillingCalculator.calculatePrice(participant);
         Assertions.assertThat(price).isEqualTo(Price.of(ONE_MISSED_MEAL * MEAL_PRICE));
     }

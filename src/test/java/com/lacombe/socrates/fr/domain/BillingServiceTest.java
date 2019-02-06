@@ -38,7 +38,7 @@ public class BillingServiceTest {
     @Test
     public void with_room_price_provided_and_without_meal_price_should_return_room_price() {
         when(roomCatalog.getPrice(RoomChoice.SINGLE)).thenReturn(Price.of(ROOM_PRICE));
-        Price price = billingService.calculateBill(new Participant(RoomChoice.SINGLE, from(null).to(null).build()));
+        Price price = billingService.calculateBill(new Participant(RoomChoice.SINGLE, from(null).to(null).build(), Diet.VEGETARIAN));
         assertThat(price).isEqualTo(Price.of(ROOM_PRICE));
     }
 
@@ -48,7 +48,7 @@ public class BillingServiceTest {
 
         final Checkin checkin = new Checkin(THURSDAY, of(19, 00));
         final Checkout checkout = new Checkout(SUNDAY, of(14, 00));
-        Participant participant = new Participant(RoomChoice.NO_ACCOMMODATION, from(checkin).to(checkout).build());
+        Participant participant = new Participant(RoomChoice.NO_ACCOMMODATION, from(checkin).to(checkout).build(), Diet.VEGETARIAN);
         when(mealBillingService.calculatePrice(participant)).thenReturn(Price.of(MEALS_PRICE));
         Price price = billingService.calculateBill(participant);
         assertThat(price).isEqualTo(Price.of(MEALS_PRICE));
@@ -58,7 +58,7 @@ public class BillingServiceTest {
     void with_room_price_and_meal_price_should_return_total() {
         final Checkin checkin = new Checkin(FRIDAY, of(19, 00));
         final Checkout checkout = new Checkout(SUNDAY, of(14, 00));
-        Participant participant = new Participant(RoomChoice.SINGLE, from(checkin).to(checkout).build());
+        Participant participant = new Participant(RoomChoice.SINGLE, from(checkin).to(checkout).build(), Diet.VEGETARIAN);
         when(roomCatalog.getPrice(RoomChoice.SINGLE)).thenReturn(Price.of(ROOM_PRICE));
         when(mealBillingService.calculatePrice(participant)).thenReturn(Price.of(MEALS_PRICE));
         Price price = billingService.calculateBill(participant);

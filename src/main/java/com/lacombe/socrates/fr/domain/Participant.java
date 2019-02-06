@@ -7,18 +7,22 @@ public class Participant {
     private final RoomChoice roomChoice;
     private final StayPeriod stayPeriod;
     private final Mail mail;
+    private final Diet diet;
 
-    public Participant(RoomChoice roomChoice, StayPeriod stayPeriod) {
+    public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, Diet diet) {
         this.roomChoice = roomChoice;
         this.stayPeriod = stayPeriod;
+        this.diet = diet;
         this.mail = null;
     }
 
-    public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, Mail mail) {
+    public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, Mail mail, Diet diet) {
         this.roomChoice = roomChoice;
         this.stayPeriod = stayPeriod;
         this.mail = mail;
+        this.diet = diet;
     }
+
 
     public RoomChoice getRoomChoice() {
         return roomChoice;
@@ -43,5 +47,9 @@ public class Participant {
 
     public boolean hasArrivalTimeAfter(LocalTime anotherTime) {
         return stayPeriod.checkedInTimeAfter(anotherTime);
+    }
+
+    public boolean hasDiet(Diet otherDiet) {
+        return diet.equals(otherDiet);
     }
 }

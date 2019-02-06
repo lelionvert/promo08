@@ -11,6 +11,7 @@ import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.lacombe.socrates.fr.domain.Diet.VEGETARIAN;
 import static java.time.DayOfWeek.THURSDAY;
 import static java.time.LocalTime.of;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,22 +19,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(JUnitParamsRunner.class)
 public class ColdMealTest {
 
-    private ColdMealProvider coldMealProvider;
+    private Socrates socrates;
 
 
     @Before
     public void setUp() {
         ParticipantRegister participantRegister = new ParticipantRegisterInMemory(Arrays.asList(
-                new Participant(RoomChoice.NO_ACCOMMODATION, StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00))).to(new Checkout(DayOfWeek.SUNDAY, of(12, 00))).build(), new Mail("toto@gmail.com")),
-                new Participant(RoomChoice.NO_ACCOMMODATION, StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00))).to(new Checkout(DayOfWeek.SUNDAY, of(12, 00))).build(), new Mail("blop@lacombe.fr"))
+                new Participant(RoomChoice.NO_ACCOMMODATION, StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00))).to(new Checkout(DayOfWeek.SUNDAY, of(12, 00))).build(), new Mail("toto@gmail.com"), VEGETARIAN),
+                new Participant(RoomChoice.NO_ACCOMMODATION, StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00))).to(new Checkout(DayOfWeek.SUNDAY, of(12, 00))).build(), new Mail("blop@lacombe.fr"), VEGETARIAN)
         ));
-        coldMealProvider = new ColdMealProvider(participantRegister, THURSDAY, of(21, 00));
+        socrates = new Socrates(participantRegister, THURSDAY, of(21, 00));
 
     }
 
     @Test
     public void given_participants_with_arrival_after_limit_should_return_a_listing_with_their_mails() {
-        ColdMealListing result = coldMealProvider.determineColdMealslisting();
+        ColdMealListing result = socrates.determineColdMealslisting();
         List<Mail> mails = Arrays.asList(new Mail("toto@gmail.com"), new Mail("blop@lacombe.fr"));
         ColdMealListing coldMealListing = new ColdMealListing(mails);
         assertThat(result).isEqualTo(coldMealListing);

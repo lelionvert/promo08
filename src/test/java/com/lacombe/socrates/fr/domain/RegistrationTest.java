@@ -35,7 +35,7 @@ public class RegistrationTest {
         Participant participant = new Participant(choice,
                 StayPeriodBuilder
                         .from(new Checkin(DayOfWeek.THURSDAY, LocalTime.of(19, 00)))
-                        .to(new Checkout(DayOfWeek.SUNDAY, LocalTime.of(14, 00))).build());
+                        .to(new Checkout(DayOfWeek.SUNDAY, LocalTime.of(14, 00))).build(), Diet.VEGETARIAN);
         Price totalPrice = billingService.calculateBill(participant);
         assertThat(Price.of(roomPrice + NUMBER_OF_MEALS_FOR_FULL_CONFERENCE * MEAL_PRICE)).isEqualTo(totalPrice);
     }
