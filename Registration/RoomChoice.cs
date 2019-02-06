@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Registration
+namespace CalculateRegistration
 {
-    public class Class1
+    public enum RoomChoice
     {
+        Single,
+        Double,
+        Triple,
+        NoAccommodation
     }
 }
