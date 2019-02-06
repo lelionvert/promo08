@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColdMealReport.cs" />
+    <Compile Include="Email.cs" />
     <Compile Include="ICatalog.cs" />
     <Compile Include="IMealCalculator.cs" />
     <Compile Include="MealCalculator.cs" />
@@ -50,6 +52,7 @@
     <Compile Include="BillingService.cs" />
     <Compile Include="RoomCatalog.cs" />
     <Compile Include="RoomChoice.cs" />
+    <Compile Include="Socrates.cs" />
     <Compile Include="StayPeriod.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

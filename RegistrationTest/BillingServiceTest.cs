@@ -33,7 +33,7 @@ namespace CalculateRegistrationTest
            _mealMoq.Setup(x => x.CalculateMealPrice(fullStayPeriod)).Returns(Price.ValueOf(0));
              var billingService = new BillingService(_roomCatalogMoq.Object, _mealMoq.Object);
             var singleRoomPrice=Price.ValueOf(370);
-            var participant=new Participant(RoomChoice.Single,fullStayPeriod);
+            var participant=new Participant(RoomChoice.Single,fullStayPeriod, new Email("test@lacombe.fr"));
             Assert.AreEqual(singleRoomPrice, billingService.CalculatePrice(participant));
         }
 
@@ -45,7 +45,7 @@ namespace CalculateRegistrationTest
             _mealMoq.Setup(x => x.CalculateMealPrice(fullStayPeriod)).Returns(Price.ValueOf(0));
             var billingService = new BillingService(_roomCatalogMoq.Object, _mealMoq.Object);
             var doubleRoomPrice = Price.ValueOf(270);
-            var participant = new Participant(RoomChoice.Double, fullStayPeriod);
+            var participant = new Participant(RoomChoice.Double, fullStayPeriod, new Email("test@lacombe.fr"));
             Assert.AreEqual(doubleRoomPrice, billingService.CalculatePrice(participant));
         }
 
@@ -58,7 +58,7 @@ namespace CalculateRegistrationTest
             _mealMoq.Setup(x => x.CalculateMealPrice(fullStayPeriod)).Returns(Price.ValueOf(0));
             var billingService = new BillingService(_roomCatalogMoq.Object, _mealMoq.Object);
             var tripleRoomPrice = Price.ValueOf(170);
-            var participant = new Participant(RoomChoice.Triple, fullStayPeriod);
+            var participant = new Participant(RoomChoice.Triple, fullStayPeriod, new Email("test@lacombe.fr"));
             Assert.AreEqual(tripleRoomPrice, billingService.CalculatePrice(participant));
         }
 
@@ -71,7 +71,7 @@ namespace CalculateRegistrationTest
                 x.GetRoomPrice(RoomChoice.Single)).Returns(Price.ValueOf(370));
             _mealMoq.Setup(x =>x.CalculateMealPrice(fullStayPeriod)
             ).Returns(Price.ValueOf(240));
-            Participant participant=new Participant(RoomChoice.Single, fullStayPeriod);
+            Participant participant=new Participant(RoomChoice.Single, fullStayPeriod, new Email("test@lacombe.fr"));
             BillingService billingService=new BillingService(_roomCatalogMoq.Object, _mealMoq.Object);
 
             //Act 

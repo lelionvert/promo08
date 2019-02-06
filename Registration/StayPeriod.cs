@@ -16,6 +16,10 @@ namespace CalculateRegistration
             CheckOut = checkOut;
         }
 
+        public bool BeginAfter(DateTime limitDate)
+        {
+            return CheckIn >= limitDate;
+        }
 
         public class StayPeriodBuilder
         {

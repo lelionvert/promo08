@@ -5,18 +5,21 @@ namespace CalculateRegistration
 {
     internal class Participant
     {
+        public Email Email { get; }
         public StayPeriod Period { get; }
         public RoomChoice Choice { get; }
 
-        public Participant(RoomChoice roomChoice, StayPeriod stayPeriod)
+        public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, Email email)
         {
+            Email = email;
             Period = stayPeriod;
             Choice = roomChoice;
         }
 
-        public Participant(RoomChoice roomChoice):this(roomChoice, null)
+        public bool IsPresent(DateTime limitDate)
         {
-           
+            return !Period.BeginAfter(limitDate);
         }
+
     }
 }
