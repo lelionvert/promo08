@@ -8,15 +8,22 @@ public class Checkin {
     private final LocalTime time;
 
     public Checkin(DayOfWeek day, LocalTime of) {
-
         this.day = day;
         time = of;
     }
 
     public boolean isAfter(DayOfWeek anotherDay, LocalTime of) {
-        if (day.equals(anotherDay)) {
-            return time.isAfter(of);
+        if (isOnDay(anotherDay)) {
+            return isAfterTime(of);
         }
         return (day.compareTo(anotherDay) > 0);
+    }
+
+    public boolean isOnDay(DayOfWeek anotherDay) {
+        return day.equals(anotherDay);
+    }
+
+    public boolean isAfterTime(LocalTime anotherTime) {
+        return time.isAfter(anotherTime);
     }
 }

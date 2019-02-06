@@ -24,6 +24,14 @@ public class StayPeriod {
         return checkout.isBefore(anotherDay, anotherTime);
     }
 
+    public boolean checkedInDay(DayOfWeek day) {
+        return checkin.isOnDay(day);
+    }
+
+    public boolean checkedInTimeAfter(LocalTime anotherTime) {
+        return checkin.isAfterTime(anotherTime);
+    }
+
 
     public static final class StayPeriodBuilder {
         private Checkin checkin;

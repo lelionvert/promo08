@@ -1,5 +1,6 @@
-package com.lacombe.socrates.fr;
+package com.lacombe.socrates.fr.domain;
 
+import com.lacombe.socrates.fr.Checkin;
 import org.junit.jupiter.api.Test;
 
 import static java.time.DayOfWeek.*;

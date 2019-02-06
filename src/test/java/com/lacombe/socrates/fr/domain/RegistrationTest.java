@@ -1,6 +1,7 @@
-package com.lacombe.socrates.fr;
+package com.lacombe.socrates.fr.domain;
 
-import com.lacombe.socrates.fr.domain.*;
+import com.lacombe.socrates.fr.Checkin;
+import com.lacombe.socrates.fr.Checkout;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
