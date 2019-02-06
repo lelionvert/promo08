@@ -25,4 +25,12 @@ public class Meal {
     public int hashCode() {
         return Objects.hash(dayOfWeek, dinner);
     }
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "dayOfWeek=" + dayOfWeek +
+                ", dinner=" + dinner +
+                '}';
+    }
 }

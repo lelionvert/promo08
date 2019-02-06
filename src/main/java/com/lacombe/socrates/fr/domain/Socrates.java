@@ -4,8 +4,11 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 
+import static com.lacombe.socrates.fr.domain.CookService.DINNER;
+import static com.lacombe.socrates.fr.domain.CookService.LUNCH;
 import static com.lacombe.socrates.fr.domain.Diet.VEGAN;
 import static com.lacombe.socrates.fr.domain.Diet.VEGETARIAN;
+import static java.time.DayOfWeek.*;
 import static java.util.stream.Collectors.toList;
 
 public class Socrates {
@@ -31,7 +34,26 @@ public class Socrates {
     }
 
     public CountCoversReport countCoversReport() {
-        return new CountCoversReport();
+
+        List<Participant> participants = participantRegister.getAllParticipant();
+
+        long nbVegeterians = participants.stream().filter(participant -> participant.hasDiet(VEGETARIAN)).count();
+        if (nbVegeterians > 0) {
+            Diet diet = VEGETARIAN;
+            return new CountCoversReport(getMealCoverReport(nbVegeterians, new Meal(THURSDAY, DINNER), diet),
+                    getMealCoverReport(nbVegeterians, new Meal(FRIDAY, LUNCH), diet),
+                    getMealCoverReport(nbVegeterians, new Meal(FRIDAY, DINNER), diet),
+                    getMealCoverReport(nbVegeterians, new Meal(SATURDAY, LUNCH), diet),
+                    getMealCoverReport(nbVegeterians, new Meal(SATURDAY, DINNER), diet),
+                    getMealCoverReport(nbVegeterians, new Meal(SUNDAY, LUNCH), diet));
+        }
+
+        else return new CountCoversReport();
+    }
+
+    private MealCoverReport getMealCoverReport(long nbVegeterians, Meal meal, Diet diet) {
+        MealCoverReport mealCoverReport = new MealCoverReport(meal, diet, nbVegeterians);
+        return mealCoverReport;
     }
 
     public CountCoversReport countCoversReportForMeal(Meal meal) {
@@ -39,10 +61,10 @@ public class Socrates {
         List<Participant> participants = participantRegister.getAllParticipant();
 
         long nbVegeterians = participants.stream().filter(participant -> participant.hasDiet(VEGETARIAN)).count();
-        MealCoverReport vegetarianReport = new MealCoverReport(meal, VEGETARIAN, nbVegeterians);
+        MealCoverReport vegetarianReport = getMealCoverReport(nbVegeterians, meal, VEGETARIAN);
 
         long nbVegans = participants.stream().filter(participant -> participant.hasDiet(VEGAN)).count();
-        MealCoverReport veganReport = new MealCoverReport(meal, VEGAN, nbVegans);
+        MealCoverReport veganReport = getMealCoverReport(nbVegans, meal, VEGAN);
 
         if (nbVegeterians > 0)
             return new CountCoversReport(vegetarianReport);

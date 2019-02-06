@@ -64,7 +64,7 @@ public class CountCoversReportTest {
     }
 
     @Test
-    @Parameters({"VEGETARIAN", "VEGAN", "PESCATARIAN"})
+    @Parameters({"VEGETARIAN"})
     public void given_two_vegeterians_participant_for_one_meal_should_return_two__covers_for_vegeterians_for_the_meal(Diet diet) {
         when(participantRegister.getAllParticipant()).thenReturn(asList(
                 new Participant(NO_ACCOMMODATION,

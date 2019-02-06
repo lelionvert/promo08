@@ -39,6 +39,6 @@ public class CountingCoversByDietAcceptanceTest {
                 new MealCoverReport(new Meal(SATURDAY, LUNCH), Diet.VEGETARIAN, 1),
                 new MealCoverReport(new Meal(SATURDAY, DINNER), Diet.VEGETARIAN, 1),
                 new MealCoverReport(new Meal(SUNDAY, LUNCH), Diet.VEGETARIAN, 1));
-        assertThat(countCoversReport).isEqualTo(result);
+        assertThat(result).isEqualTo(countCoversReport);
     }
 }

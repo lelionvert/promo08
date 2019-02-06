@@ -4,14 +4,17 @@ import java.util.Objects;
 
 public class MealCoverReport {
     private final Meal meal;
+
     private final Diet diet;
     private final long nbOfCovers;
+
 
     public MealCoverReport(Meal meal, Diet diet, long nbOfCovers) {
         this.meal = meal;
         this.diet = diet;
         this.nbOfCovers = nbOfCovers;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -27,6 +30,7 @@ public class MealCoverReport {
     public int hashCode() {
         return Objects.hash(meal, diet, nbOfCovers);
     }
+
 
     @Override
     public String toString() {
