@@ -71,6 +71,7 @@
     <Compile Include="DietTest.cs" />
     <Compile Include="DietAcceptanceTest.cs" />
     <Compile Include="CoversCalculatorTest.cs" />
+    <Compile Include="ServingTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

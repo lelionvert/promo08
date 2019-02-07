@@ -9,8 +9,10 @@ namespace CalculateRegistration
 
         public ColdMealReport(IReadOnlyCollection<Email> emails)
         {
-            this.Emails = emails;
+            Emails = emails;
         }
+
+        public int Count => Emails.Count;
 
         protected bool Equals(ColdMealReport other)
         {
@@ -21,16 +23,12 @@ namespace CalculateRegistration
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((ColdMealReport) obj);
+            return obj.GetType() == GetType() && Equals((ColdMealReport) obj);
         }
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return Emails != null ? Emails.GetHashCode() : 0;
-            }
+            return Emails != null ? Emails.GetHashCode() : 0;
         }
 
         public static bool operator ==(ColdMealReport left, ColdMealReport right)
@@ -44,7 +42,7 @@ namespace CalculateRegistration
         }
         public override string ToString()
         {
-            return $"Count: {Emails.Count}, {nameof(Emails)}: {Emails}";
+            return $"Count: {Count}, {nameof(Emails)}: {Emails}";
         }
     }
 }

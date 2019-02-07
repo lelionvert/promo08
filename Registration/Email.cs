@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalculateRegistration
+﻿namespace CalculateRegistration
 {
     public class Email
     {
@@ -24,13 +18,12 @@ namespace CalculateRegistration
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Email) obj);
+            return obj.GetType() == this.GetType() && Equals((Email) obj);
         }
 
         public override int GetHashCode()
         {
-            return (Mail != null ? Mail.GetHashCode() : 0);
+            return Mail != null ? Mail.GetHashCode() : 0;
         }
 
         public static bool operator ==(Email left, Email right)

@@ -21,13 +21,12 @@ namespace CalculateRegistration
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((DietReport) obj);
+            return obj.GetType() == GetType() && Equals((DietReport) obj);
         }
 
         public override int GetHashCode()
         {
-            return (_servings != null ? _servings.GetHashCode() : 0);
+            return _servings != null ? _servings.GetHashCode() : 0;
         }
 
         public static bool operator ==(DietReport left, DietReport right)

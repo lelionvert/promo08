@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalculateRegistration
+﻿namespace CalculateRegistration
 {
     public class Price
     {
@@ -35,7 +29,7 @@ namespace CalculateRegistration
 
         public Price MultiplyPrice(int value)
         {
-            return Price.ValueOf(_value * value);
+            return ValueOf(_value * value);
         }
 
         public static bool operator ==(Price left, Price right)

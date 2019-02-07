@@ -123,5 +123,7 @@ namespace CalculateRegistrationTest
             Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             Assert.AreEqual(numberOfMealsExpected, socrates.GenerateColdMealReport().Emails.Count);
         }
+
+     
     }
 }

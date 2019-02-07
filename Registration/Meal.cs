@@ -6,14 +6,14 @@ namespace CalculateRegistration
     {
         public DateTime Time { get; }
         private readonly MealType _mealType;
-        private readonly DateTime? _mustBePresentBefore;
+        public DateTime? DateMustBePresentBefore { get; }
         private readonly DateTime? _mustBePresentAfter;
 
-        public Meal(DateTime dateTime, MealType mealType, DateTime? mustBePresentBefore = null, DateTime? mustBePresentAfter = null)
+        public Meal(DateTime dateTime, MealType mealType, DateTime? dateMustBePresentBefore = null, DateTime? mustBePresentAfter = null)
         {
             Time = dateTime;
             _mealType = mealType;
-            _mustBePresentBefore = mustBePresentBefore;
+            DateMustBePresentBefore = dateMustBePresentBefore;
             _mustBePresentAfter = mustBePresentAfter;
         }
 
@@ -26,7 +26,7 @@ namespace CalculateRegistration
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((Meal)obj);
         }
 
@@ -50,12 +50,12 @@ namespace CalculateRegistration
 
         public bool IsPresent(Participant participant)
         {
-            var isPresentAfter = _mustBePresentAfter == null ||
+            var isPresentAfter = !_mustBePresentAfter.HasValue ||
                                  Time.Date != _mustBePresentAfter.Value.Date ||
                                  participant.IsPresent(_mustBePresentAfter.Value);
-            var isPresentBefore = _mustBePresentBefore == null ||
-                                  Time.Date != _mustBePresentBefore.Value.Date ||
-                                  participant.IsPresent(_mustBePresentBefore.Value);
+            var isPresentBefore = !DateMustBePresentBefore.HasValue ||
+                                  Time.Date != DateMustBePresentBefore.Value.Date ||
+                                  participant.IsPresent(DateMustBePresentBefore.Value);
             return isPresentAfter && isPresentBefore;
         }
     }

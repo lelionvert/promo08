@@ -24,7 +24,7 @@ namespace CalculateRegistrationTest
             .Build();
 
         private readonly Email _email = new Email("test@lacombe.fr");
-        private readonly CoversCalculator _coversCalculator = new CoversCalculator();
+        private readonly ICoversCalculator _coversCalculator = new CoversCalculator();
 
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan)
             };
             int numberOfVegetarianCover = 1;
-            var meal = new Meal(new DateTime(2019,10,24), MealType.Dinner, mustBePresentBefore:_coldMealLimitDate);
+            var meal = new Meal(new DateTime(2019,10,24), MealType.Dinner, dateMustBePresentBefore:_coldMealLimitDate);
             Assert.AreEqual(numberOfVegetarianCover, _coversCalculator.NumberOfCoverByDietByMeal(Diet.Vegan, 
                 meal, participants));
         }
@@ -49,7 +49,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan)
             };
             int numberOfVegetarianCover = 2;
-            var meal = new Meal(new DateTime(2019,10,24), MealType.Dinner, mustBePresentBefore:_coldMealLimitDate);
+            var meal = new Meal(new DateTime(2019,10,24), MealType.Dinner, dateMustBePresentBefore:_coldMealLimitDate);
             Assert.AreEqual(numberOfVegetarianCover, _coversCalculator.NumberOfCoverByDietByMeal(Diet.Vegan, 
                 meal, participants));
         }
@@ -63,7 +63,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegetarian)
             };
             int numberOfVegetarianCover = 1;
-            var meal = new Meal(new DateTime(2019,10,24), MealType.Dinner, mustBePresentBefore:_coldMealLimitDate);
+            var meal = new Meal(new DateTime(2019,10,24), MealType.Dinner, dateMustBePresentBefore:_coldMealLimitDate);
             Assert.AreEqual(numberOfVegetarianCover, _coversCalculator.NumberOfCoverByDietByMeal(Diet.Vegan, 
                 meal, participants));
         }

@@ -24,7 +24,7 @@ namespace CalculateRegistrationTest
             .WithCheckOut(new DateTime(2019, 10, 27, 11, 00, 00))
             .Build();
         private readonly StayPeriod _shortStayPeriod = StayPeriod.Builder
-            .WithCheckIn(new DateTime(2019, 10, 24, 22, 00, 00))
+            .WithCheckIn(new DateTime(2019, 10, 25, 22, 00, 00))
             .WithCheckOut(new DateTime(2019, 10, 26, 18, 00, 00))
             .Build();
 
@@ -57,7 +57,7 @@ namespace CalculateRegistrationTest
             };
             List<Serving> servings = new List<Serving>
             {
-                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, mustBePresentBefore: _coldMealLimitDate), coversWithoutMeals),
+                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, dateMustBePresentBefore: _coldMealLimitDate), coversWithoutMeals),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Lunch), covers),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Dinner), covers),
                 new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Lunch), covers),
@@ -70,7 +70,7 @@ namespace CalculateRegistrationTest
         }
 
         [TestMethod]
-        public void Given_vegan_participants_with_different_stays_should_return_report_with_vegan2()
+        public void Given_participants_with_different_stays_and_diets_should_return_report_with_differents_stays_and_diets()
         {
             Email email = new Email("test@lacombe.fr");
             List<Participant> participants = new List<Participant>
@@ -104,7 +104,7 @@ namespace CalculateRegistrationTest
             };
             List<Serving> servings = new List<Serving>
             {
-                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, mustBePresentBefore: _coldMealLimitDate), coversLateArrival),
+                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, dateMustBePresentBefore: _coldMealLimitDate), coversLateArrival),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Lunch), covers),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Dinner), covers),
                 new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Lunch), covers),

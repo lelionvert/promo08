@@ -33,7 +33,7 @@ namespace CalculateRegistrationTest
             
             List<Serving> meals = new List<Serving>
             {
-                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, mustBePresentBefore: _coldMealLimitDate), coversResult),
+                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, dateMustBePresentBefore: _coldMealLimitDate), coversResult),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Lunch), coversResult),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Dinner), coversResult),
                 new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Lunch), coversResult),
@@ -51,7 +51,6 @@ namespace CalculateRegistrationTest
 
             Assert.AreEqual(dietReportExpected, socrates.GenerateDietReport());
             covers.Verify(x => x.GetCoversByDiet(It.IsAny<Meal>(), It.IsAny<List<Participant>>()));
-        }
-
+       }
     }
 }

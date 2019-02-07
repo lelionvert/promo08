@@ -7,12 +7,15 @@ namespace CalculateRegistration
     {
         private readonly Meal _meal;
         private readonly Dictionary<Diet, int> _covers;
+        public int NumberOfColdMeals { get;}
 
-        public Serving(Meal meal, Dictionary<Diet, int> covers)
+        public Serving(Meal meal, Dictionary<Diet, int> covers, int numberOfColdMeals = 0)
         {
+            NumberOfColdMeals = numberOfColdMeals;
             _meal = meal;
             _covers = covers;
         }
+
 
         protected bool Equals(Serving other)
         {
@@ -25,8 +28,7 @@ namespace CalculateRegistration
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Serving) obj);
+            return obj.GetType() == this.GetType() && Equals((Serving) obj);
         }
 
         public override int GetHashCode()

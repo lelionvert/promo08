@@ -22,21 +22,11 @@ namespace CalculateRegistration
             InitializeMeals();
         }
 
-        public DateTime EndLimitDate
-        {
-            get { return _endLimitDate; }
-        }
-
-        public DateTime ColdMealLimitDate
-        {
-            get { return _coldMealLimitDate; }
-        }
-
         private void InitializeMeals()
         {
             DateTime beginDay = _coldMealLimitDate.Date;
             DateTime endDay = _endLimitDate.Date;
-            _meals.Add(new Meal(beginDay, MealType.Dinner, mustBePresentBefore:_coldMealLimitDate));
+            _meals.Add(new Meal(beginDay, MealType.Dinner, dateMustBePresentBefore:_coldMealLimitDate));
             for (DateTime day = beginDay.AddDays(1); day < endDay; day = day.AddDays(1))
             {
                     _meals.Add(new Meal(day, MealType.Lunch));
@@ -47,12 +37,7 @@ namespace CalculateRegistration
 
         public ColdMealReport GenerateColdMealReport()
         {
-            var dayAfterColdMealLimitDay = _coldMealLimitDate.AddDays(1).Date;
-            var emails = _participants.
-                Where(participant => !participant.IsPresent(_coldMealLimitDate) &&
-                                     participant.IsPresent(dayAfterColdMealLimitDay)).
-                Select(participant => participant.Email).ToList();
-            return new ColdMealReport(emails);
+            return _coversCalculator.ColdMealReporting(_coldMealLimitDate, _participants);
         }
 
         public DietReport GenerateDietReport()
