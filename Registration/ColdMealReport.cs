@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CalculateRegistration
 {
-    internal class ColdMealReport
+    public class ColdMealReport
     {
         public IReadOnlyCollection<Email> Emails { get; }
 

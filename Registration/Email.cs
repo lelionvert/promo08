@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CalculateRegistration
 {
-    internal class Email
+    public class Email
     {
         public string Mail { get; }
 

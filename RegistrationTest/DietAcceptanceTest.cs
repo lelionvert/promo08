@@ -30,7 +30,7 @@ namespace CalculateRegistrationTest
 
 
         [TestMethod]
-        public void TestMethod1()
+        public void Given_vegan_participants_with_different_stays_should_return_report_with_vegan()
         {
             Email email = new Email("test@lacombe.fr");
             List<Participant> participants = new List<Participant>
@@ -57,12 +57,59 @@ namespace CalculateRegistrationTest
             };
             List<Serving> servings = new List<Serving>
             {
-                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner), coversWithoutMeals),
+                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, mustBePresentBefore: _coldMealLimitDate), coversWithoutMeals),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Lunch), covers),
                 new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Dinner), covers),
                 new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Lunch), covers),
                 new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Dinner), covers),
-                new Serving(new Meal(new DateTime(2019, 10, 27), MealType.Lunch), coversWithoutMeals)
+                new Serving(new Meal(new DateTime(2019, 10, 27), MealType.Lunch, mustBePresentAfter: _endLimitDate), coversWithoutMeals)
+            };
+            DietReport dietReport=new DietReport(servings);
+            
+            Assert.AreEqual(dietReport, socrates.GenerateDietReport());
+        }
+
+        [TestMethod]
+        public void Given_vegan_participants_with_different_stays_should_return_report_with_vegan2()
+        {
+            Email email = new Email("test@lacombe.fr");
+            List<Participant> participants = new List<Participant>
+            {
+                new Participant(RoomChoice.Single, _fullStayPeriod, email, Diet.Vegan),
+                new Participant(RoomChoice.Single, _lateArrivalStayPeriod, email, Diet.Vegetarian),
+                new Participant(RoomChoice.Single, _earlyDepartureStayPeriod, email, Diet.Pescatarian),
+                new Participant(RoomChoice.Single, _shortStayPeriod, email, Diet.Omnivore)
+            };
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, _endLimitDate, new CoversCalculator());
+            Dictionary<Diet, int> covers = new Dictionary<Diet, int>
+            {
+                {Diet.Vegan, 1},
+                {Diet.Vegetarian, 1 },
+                {Diet.Pescatarian, 1 },
+                {Diet.Omnivore, 1 }
+            };
+            Dictionary<Diet, int> coversLateArrival = new Dictionary<Diet, int>
+            {
+                {Diet.Vegan, 1},
+                {Diet.Vegetarian, 0 },
+                {Diet.Pescatarian, 1 },
+                {Diet.Omnivore, 0 }
+            };
+            Dictionary<Diet, int> coversEarlyDeparture = new Dictionary<Diet, int>
+            {
+                {Diet.Vegan, 1},
+                {Diet.Vegetarian, 1 },
+                {Diet.Pescatarian, 0 },
+                {Diet.Omnivore, 0 }
+            };
+            List<Serving> servings = new List<Serving>
+            {
+                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner, mustBePresentBefore: _coldMealLimitDate), coversLateArrival),
+                new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Lunch), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Dinner), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Lunch), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Dinner), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 27), MealType.Lunch, mustBePresentAfter: _endLimitDate), coversEarlyDeparture)
             };
             DietReport dietReport=new DietReport(servings);
             

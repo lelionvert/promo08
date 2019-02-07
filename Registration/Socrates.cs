@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CalculateRegistration
 {
-    internal class Socrates
+    public class Socrates
     {
         private readonly List<Participant> _participants;
         private readonly DateTime _coldMealLimitDate;
@@ -22,17 +22,27 @@ namespace CalculateRegistration
             InitializeMeals();
         }
 
+        public DateTime EndLimitDate
+        {
+            get { return _endLimitDate; }
+        }
+
+        public DateTime ColdMealLimitDate
+        {
+            get { return _coldMealLimitDate; }
+        }
+
         private void InitializeMeals()
         {
             DateTime beginDay = _coldMealLimitDate.Date;
             DateTime endDay = _endLimitDate.Date;
-            _meals.Add(new Meal(beginDay, MealType.Dinner));
+            _meals.Add(new Meal(beginDay, MealType.Dinner, mustBePresentBefore:_coldMealLimitDate));
             for (DateTime day = beginDay.AddDays(1); day < endDay; day = day.AddDays(1))
             {
                     _meals.Add(new Meal(day, MealType.Lunch));
                     _meals.Add(new Meal(day, MealType.Dinner));
             }
-            _meals.Add(new Meal(endDay, MealType.Lunch));
+            _meals.Add(new Meal(endDay, MealType.Lunch, mustBePresentAfter:_endLimitDate));
         }
 
         public ColdMealReport GenerateColdMealReport()
@@ -45,30 +55,10 @@ namespace CalculateRegistration
             return new ColdMealReport(emails);
         }
 
-        public int NumberOfCoverByDietByMeal(Diet diet, Meal meal)
-        {
-            return _participants.
-                Count(participant => participant.HasDiet(diet) &&
-                                     ParticipantIsPresentForFirstMeal(meal, participant) &&
-                                     ParticipantIsPresentForLastMeal(meal, participant));
-        }
-
-        private bool ParticipantIsPresentForLastMeal(Meal meal, Participant participant)
-        {
-            return meal.Time.Date != _endLimitDate.Date || 
-                   participant.IsPresent(_endLimitDate);
-        }
-
-        private bool ParticipantIsPresentForFirstMeal(Meal meal, Participant participant)
-        {
-            return meal.Time.Date != _coldMealLimitDate.Date ||
-                   participant.IsPresent(_coldMealLimitDate);
-        }
-
         public DietReport GenerateDietReport()
         {
             return new DietReport(_meals.Select(meal => 
-                _coversCalculator.GetCoversByDiet(meal)).ToList());
+                _coversCalculator.GetCoversByDiet(meal, _participants)).ToList());
         }
     }
 }

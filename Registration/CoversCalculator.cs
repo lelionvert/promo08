@@ -9,16 +9,20 @@ namespace CalculateRegistration
    public class CoversCalculator: ICoversCalculator
 
     {
-        public Serving GetCoversByDiet(Meal meal)
+        public Serving GetCoversByDiet(Meal meal, List<Participant> participants)
         {
-            Dictionary<Diet, int> covers = new Dictionary<Diet, int>
+            Dictionary<Diet, int> covers = new Dictionary<Diet, int>();
+            foreach (Diet diet in Enum.GetValues(typeof(Diet)))
             {
-                {Diet.Vegan, 1},
-                {Diet.Vegetarian, 0 },
-                {Diet.Pescatarian, 0 },
-                {Diet.Omnivore, 0 }
-            };
+                covers.Add(diet, NumberOfCoverByDietByMeal(diet, meal, participants));
+            }
             return new Serving(meal, covers);
+        }
+
+        public int NumberOfCoverByDietByMeal(Diet diet, Meal meal, List<Participant> list)
+        {
+            return list.
+                Count(participant => participant.HasDiet(diet) && meal.IsPresent(participant));
         }
     }
 }

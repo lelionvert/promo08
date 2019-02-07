@@ -3,7 +3,7 @@ using System;
 
 namespace CalculateRegistration
 {
-    internal class Participant
+    public class Participant
     {
         private readonly Diet _diet;
         public Email Email { get; }

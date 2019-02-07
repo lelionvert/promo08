@@ -4,6 +4,7 @@ namespace CalculateRegistration
 {
     public interface ICoversCalculator
     {
-        Serving GetCoversByDiet(Meal meal);
+        Serving GetCoversByDiet(Meal meal, List<Participant> participants);
+        int NumberOfCoverByDietByMeal(Diet diet, Meal meal, List<Participant> list);
     }
 }

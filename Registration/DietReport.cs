@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CalculateRegistration
 {
-    internal class DietReport
+    public class DietReport
     {
         private readonly List<Serving> _servings;
 
