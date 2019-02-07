@@ -85,6 +85,7 @@ public class Socrates {
         return new MealReportByDiet(meal, coversByDiet);
     }
 
+    // TODO Move to participantRegister
     private Long getNbParticipantsForDiet(List<Participant> allParticipant, Diet diet) {
         return allParticipant
                 .stream()

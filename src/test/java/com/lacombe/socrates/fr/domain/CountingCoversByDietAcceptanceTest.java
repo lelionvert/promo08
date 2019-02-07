@@ -106,4 +106,6 @@ public class CountingCoversByDietAcceptanceTest {
                 new MealReportByDiet(new Meal(FRIDAY, LUNCH), coversByDiet));
         assertThat(result).isEqualTo(countCoversReportByDiet);
     }
+
+
 }
