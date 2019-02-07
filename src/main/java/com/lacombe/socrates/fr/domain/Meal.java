@@ -33,4 +33,8 @@ public class Meal {
                 ", dinner=" + dinner +
                 '}';
     }
+
+    public boolean isDay(DayOfWeek anotherDay) {
+        return dayOfWeek == anotherDay;
+    }
 }

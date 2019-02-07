@@ -107,5 +107,30 @@ public class CountingCoversByDietAcceptanceTest {
         assertThat(result).isEqualTo(countCoversReportByDiet);
     }
 
+    @Test
+    public void name() {
+        StayPeriod stayPeriod = StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(20, 00)))
+                .to(new Checkout(SUNDAY, of(23, 00))).build();
+        StayPeriod stayPeriodWithourFirstMeal = StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00)))
+                .to(new Checkout(SUNDAY, of(23, 00))).build();
 
+        List<Participant> participants = Arrays.asList(new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegan@gmail.fr"), PESCATARIAN),
+                new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegan@gmail.fr"), VEGETARIAN),
+                new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegan@gmail.fr"), VEGAN),
+                new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegan@gmail.fr"), OMNIVORE),
+                new Participant(NO_ACCOMMODATION, stayPeriodWithourFirstMeal, new Mail("vegan@gmail.fr"), OMNIVORE));
+        ParticipantRegister participantRegister = new ParticipantRegisterInMemory(participants);
+
+        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00));
+
+        CountCoversReportByDiet result = socrates.countCoversReportByDiet(Arrays.asList(new Meal(THURSDAY, DINNER), new Meal(FRIDAY, LUNCH)));
+        Map<Diet, Long> coversByDiet = new HashMap<>();
+        coversByDiet.put(VEGAN, 1L);
+        coversByDiet.put(VEGETARIAN, 1L);
+        coversByDiet.put(PESCATARIAN, 1L);
+        coversByDiet.put(OMNIVORE, 1L);
+        CountCoversReportByDiet countCoversReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(DayOfWeek.THURSDAY, DINNER), coversByDiet, 1),
+                new MealReportByDiet(new Meal(FRIDAY, LUNCH), coversByDiet));
+        assertThat(result).isEqualTo(countCoversReportByDiet);
+    }
 }

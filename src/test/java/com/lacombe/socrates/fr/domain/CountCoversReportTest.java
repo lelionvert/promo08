@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.OngoingStubbing;
 
@@ -25,8 +24,7 @@ import static java.time.DayOfWeek.THURSDAY;
 import static java.time.LocalTime.of;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(JUnitParamsRunner.class)
 public class CountCoversReportTest {
@@ -39,7 +37,7 @@ public class CountCoversReportTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        socrates = new Socrates(participantRegister, THURSDAY, LocalTime.of(16, 00));
+        socrates = new Socrates(participantRegister, THURSDAY, LocalTime.of(21, 00));
     }
 
 
@@ -97,7 +95,7 @@ public class CountCoversReportTest {
         assertThat(result).isEqualTo(countCoverReport);
     }
 
-    private OngoingStubbing<List<Participant>> givenParticipantsWithDiet(Participant aVegetarianGuy) {
+    private OngoingStubbing<List<Participant>> givenParticipantsWithDiet(Participant... aVegetarianGuy) {
         return when(participantRegister.getAllParticipant()).thenReturn(asList(
                 aVegetarianGuy));
     }
@@ -112,7 +110,7 @@ public class CountCoversReportTest {
         Map<Diet, Long> coversByDiet = new HashMap<>();
         coversByDiet.put(VEGETARIAN, 2L);
         MealReportByDiet countCoverReport = new MealReportByDiet(meal, coversByDiet);
-        Mockito.verify(participantRegister).getAllParticipant();
+        verify(participantRegister).getAllParticipant();
         assertThat(result).isEqualTo(countCoverReport);
     }
 
@@ -133,7 +131,7 @@ public class CountCoversReportTest {
         Map<Diet, Long> coversByDiet = new HashMap<>();
         coversByDiet.put(VEGETARIAN, 1L);
         CountCoversReportByDiet countCoverReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(THURSDAY, DINNER), coversByDiet));
-        Mockito.verify(participantRegister).getAllParticipant();
+        verify(participantRegister).getAllParticipant();
         assertThat(result).isEqualTo(countCoverReportByDiet);
     }
 
@@ -147,8 +145,8 @@ public class CountCoversReportTest {
         coversByDiet.put(VEGETARIAN, 1L);
 
         CountCoversReportByDiet countCoverReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(FRIDAY, DINNER), coversByDiet));
-        Mockito.verify(participantRegister).getAllParticipant();
-        assertThat(result).isEqualTo(countCoverReportByDiet);
+        verify(participantRegister).getAllParticipant();
+        assertThat(result).isEqualToIgnoringGivenFields(countCoverReportByDiet, "nbColdMeals");
     }
 
     @Test
@@ -161,7 +159,7 @@ public class CountCoversReportTest {
         coversByDiet.put(VEGETARIAN, 1L);
 
         CountCoversReportByDiet countCoverReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(FRIDAY, DINNER), coversByDiet), new MealReportByDiet(new Meal(FRIDAY, LUNCH), coversByDiet));
-        Mockito.verify(participantRegister, Mockito.times(meals.size())).getAllParticipant();
+        verify(participantRegister, times(meals.size())).getAllParticipant();
         assertThat(result).isEqualTo(countCoverReportByDiet);
     }
 
@@ -175,7 +173,39 @@ public class CountCoversReportTest {
         coversByDiet.put(VEGAN, 1L);
 
         CountCoversReportByDiet countCoverReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(FRIDAY, DINNER), coversByDiet), new MealReportByDiet(new Meal(FRIDAY, LUNCH), coversByDiet));
-        Mockito.verify(participantRegister, Mockito.times(meals.size())).getAllParticipant();
+        verify(participantRegister, times(meals.size())).getAllParticipant();
         assertThat(result).isEqualTo(countCoverReportByDiet);
+    }
+
+    @Test
+    public void given_participants_after_limit_arrival_and_before_limit_arrival_should_return_a_cover_and_a_cold_meal() {
+
+        Diet diet = VEGAN;
+        givenParticipantsWithDiet(aParticipantAfterLimitCheckin(diet), aParticipantAfterLimitCheckin(diet), aParticipant(diet));
+        Map<Diet, Long> coversByDiet = new HashMap<>();
+        coversByDiet.put(diet, 1L);
+        MealReportByDiet mealReportByDiet = new MealReportByDiet(new Meal(THURSDAY, DINNER), coversByDiet, 2);
+        MealReportByDiet result = socrates.getMealReport(new Meal(THURSDAY, DINNER));
+        assertThat(result).isEqualTo(mealReportByDiet);
+    }
+
+    @Test
+    public void nn() {
+
+        Diet diet = VEGAN;
+        givenParticipantsWithDiet(new Participant(NO_ACCOMMODATION,
+                StayPeriod.StayPeriodBuilder.from(new Checkin(FRIDAY, of(20, 00))).
+                        to(new Checkout(FRIDAY, of(23, 00))).build(),
+                new Mail("toto@gmail.com"), diet));
+        MealReportByDiet mealReportByDiet = new MealReportByDiet(new Meal(FRIDAY, DINNER), new HashMap<>(), 0);
+        MealReportByDiet result = socrates.getMealReport(new Meal(THURSDAY, DINNER));
+        assertThat(result).isEqualToComparingOnlyGivenFields(mealReportByDiet, "nbColdMeals");
+    }
+
+    private Participant aParticipantAfterLimitCheckin(Diet diet) {
+        return new Participant(NO_ACCOMMODATION,
+                StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00))).
+                        to(new Checkout(FRIDAY, of(23, 00))).build(),
+                new Mail("toto@gmail.com"), diet);
     }
 }

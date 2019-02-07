@@ -24,6 +24,6 @@ public class Checkin {
     }
 
     public boolean isAfterTime(LocalTime anotherTime) {
-        return time.isAfter(anotherTime);
+        return time.equals(anotherTime) || time.isAfter(anotherTime);
     }
 }

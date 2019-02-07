@@ -83,5 +83,26 @@ class ColdMealAcceptanceTest {
         assertThat(coldMealListing).isEqualTo(result);
     }
 
+    @Test
+    void name() {
+        when(participantRegister.getAllParticipant()).thenReturn(asList(
+                new Participant(NO_ACCOMMODATION,
+                        StayPeriodBuilder.from(new Checkin(THURSDAY, of(20, 00))).
+                                to(new Checkout(FRIDAY, of(23, 00))).build(),
+                        new Mail("tio@gmail.com"), Diet.VEGETARIAN),
+                new Participant(NO_ACCOMMODATION,
+                        StayPeriodBuilder.from(new Checkin(THURSDAY, of(21, 00))).
+                                to(new Checkout(FRIDAY, of(23, 00))).build(),
+                        new Mail("toto@gmail.com"), Diet.VEGETARIAN),
+                new Participant(NO_ACCOMMODATION,
+                        StayPeriodBuilder.from(new Checkin(FRIDAY, of(22, 00))).
+                                to(new Checkout(FRIDAY, of(23, 00))).build(),
+                        new Mail("rara@gmail.com"), Diet.VEGETARIAN)));
 
+        ColdMealListing coldMealListing = new ColdMealListing(asList(new Mail("toto@gmail.com")));
+        ColdMealListing result = socrates.determineColdMealslisting();
+
+        assertThat(coldMealListing).isEqualTo(result);
+
+    }
 }

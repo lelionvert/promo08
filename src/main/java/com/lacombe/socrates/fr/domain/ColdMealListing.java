@@ -35,4 +35,12 @@ public class ColdMealListing {
                 ", total=" + total +
                 '}';
     }
+
+    public boolean hasMail(Mail mail) {
+        return this.mails.contains(mail);
+    }
+
+    public int size() {
+        return total;
+    }
 }

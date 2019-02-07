@@ -27,7 +27,12 @@ public class Socrates {
 
 
     public ColdMealListing determineColdMealslisting() {
-        return new ColdMealListing(participantRegister.getAllParticipant().stream()
+        List<Participant> participants = participantRegister.getAllParticipant();
+        return determineColdMealslisting(participants);
+    }
+
+    private ColdMealListing determineColdMealslisting(List<Participant> participants) {
+        return new ColdMealListing(participants.stream()
                 .filter(participant -> participant.hasArrivalOnDay(limitArrivalDayForColdMeal))
                 .filter(participant -> participant.hasArrivalTimeAfter(limitArrivalTimeForColdMeal))
                 .map(Participant::getMail)
@@ -75,14 +80,26 @@ public class Socrates {
 
     public MealReportByDiet getMealReport(Meal meal) {
         List<Participant> allParticipant = participantRegister.getAllParticipant();
+        List<Participant> allParticipantForMeal = allParticipant
+                .stream()
+                .filter(participant -> participant.hasArrivalOnDay(THURSDAY))
+                .filter(participant -> !participant.hasArrivalTimeAfter(LocalTime.of(21, 00)))
+                .collect(toList());
+
         HashMap<Diet, Long> coversByDiet = new HashMap<>();
         for (Diet diet : Diet.values()) {
-            Long nbParticipantsPerDiet = getNbParticipantsForDiet(allParticipant, diet);
+            Long nbParticipantsPerDiet = getNbParticipantsForDiet(allParticipantForMeal, diet);
             if (nbParticipantsPerDiet > 0) {
                 coversByDiet.put(diet, nbParticipantsPerDiet);
             }
         }
-        return new MealReportByDiet(meal, coversByDiet);
+
+        int numberOfColdMeals = 0;
+        if (meal.isDay(limitArrivalDayForColdMeal)) {
+            numberOfColdMeals = determineColdMealslisting(allParticipant).size();
+        }
+
+        return new MealReportByDiet(meal, coversByDiet, numberOfColdMeals);
     }
 
     // TODO Move to participantRegister
