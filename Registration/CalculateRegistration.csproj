@@ -42,10 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColdMealReport.cs" />
+    <Compile Include="CoversCalculator.cs" />
     <Compile Include="Diet.cs" />
     <Compile Include="DietReport.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="ICatalog.cs" />
+    <Compile Include="ICoversCalculator.cs" />
     <Compile Include="IMealCalculator.cs" />
     <Compile Include="Meal.cs" />
     <Compile Include="MealCalculator.cs" />

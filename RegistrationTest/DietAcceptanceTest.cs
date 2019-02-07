@@ -40,7 +40,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _earlyDepartureStayPeriod, email, Diet.Vegan),
                 new Participant(RoomChoice.Single, _shortStayPeriod, email, Diet.Vegan)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, _endLimitDate);
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, _endLimitDate, new CoversCalculator());
             Dictionary<Diet, int> covers = new Dictionary<Diet, int>
             {
                 {Diet.Vegan, 4},
@@ -48,7 +48,6 @@ namespace CalculateRegistrationTest
                 {Diet.Pescatarian, 0 },
                 {Diet.Omnivore, 0 }
             };
-            Serving serving = new Serving(covers);
             Dictionary<Diet, int> coversWithoutMeals = new Dictionary<Diet, int>
             {
                 {Diet.Vegan, 2},
@@ -56,17 +55,16 @@ namespace CalculateRegistrationTest
                 {Diet.Pescatarian, 0 },
                 {Diet.Omnivore, 0 }
             };
-            Serving servingWithoutMeals = new Serving(coversWithoutMeals);
-            List<Meal> meals = new List<Meal>
+            List<Serving> servings = new List<Serving>
             {
-                new Meal(new DateTime(2019, 10, 24), MealType.Dinner),
-                new Meal(new DateTime(2019, 10, 25), MealType.Lunch),
-                new Meal(new DateTime(2019, 10, 25), MealType.Dinner),
-                new Meal(new DateTime(2019, 10, 26), MealType.Lunch),
-                new Meal(new DateTime(2019, 10, 26), MealType.Dinner),
-                new Meal(new DateTime(2019, 10, 27), MealType.Lunch)
+                new Serving(new Meal(new DateTime(2019, 10, 24), MealType.Dinner), coversWithoutMeals),
+                new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Lunch), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 25), MealType.Dinner), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Lunch), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 26), MealType.Dinner), covers),
+                new Serving(new Meal(new DateTime(2019, 10, 27), MealType.Lunch), coversWithoutMeals)
             };
-            DietReport dietReport=new DietReport(meals);
+            DietReport dietReport=new DietReport(servings);
             
             Assert.AreEqual(dietReport, socrates.GenerateDietReport());
         }

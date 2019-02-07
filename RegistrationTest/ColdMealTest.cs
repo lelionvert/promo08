@@ -28,7 +28,7 @@ namespace CalculateRegistrationTest
             {
                 new Participant(RoomChoice.Single, coldMealStayPeriod, email, diet)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             List<Email> emails = new List<Email> {email};
             ColdMealReport coldMealReport=new ColdMealReport(emails);
             Assert.AreEqual(coldMealReport, socrates.GenerateColdMealReport());
@@ -57,7 +57,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, coldMealStayPeriod, new Email("coldMeal2@lacombe.fr"), diet),
                 new Participant(RoomChoice.Single, noMealStayPeriod, new Email("noMeal@lacombe.fr"), diet)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             List<Email> emails = new List<Email>
             {
                 new Email("coldMeal@lacombe.fr"),
@@ -80,7 +80,7 @@ namespace CalculateRegistrationTest
             {
                 new Participant(RoomChoice.Single, coldMealStayPeriod, email, diet)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             Assert.AreEqual(numberOfMealsExpected, socrates.GenerateColdMealReport().Emails.Count);
         }
 
@@ -98,7 +98,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, coldMealStayPeriod, email, diet),
                 new Participant(RoomChoice.Single, coldMealStayPeriod, email, diet)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             Assert.AreEqual(numberOfMealsExpected, socrates.GenerateColdMealReport().Emails.Count);
         }
 
@@ -120,7 +120,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, coldMealStayPeriod, email, diet),
                 new Participant(RoomChoice.Single, hotMealStayPeriod, email, diet)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             Assert.AreEqual(numberOfMealsExpected, socrates.GenerateColdMealReport().Emails.Count);
         }
     }

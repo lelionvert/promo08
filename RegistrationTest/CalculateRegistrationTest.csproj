@@ -64,12 +64,13 @@
   <ItemGroup>
     <Compile Include="CalculateRegistrationTest.cs" />
     <Compile Include="ColdMealTest.cs" />
-    <Compile Include="DietReportTest.cs" />
+    <Compile Include="GenerateDietReportTest.cs" />
     <Compile Include="MealCalculatorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BillingServiceTest.cs" />
     <Compile Include="DietTest.cs" />
     <Compile Include="DietAcceptanceTest.cs" />
+    <Compile Include="CoversCalculatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

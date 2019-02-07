@@ -33,7 +33,7 @@ namespace CalculateRegistrationTest
             {
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             int numberOfVegetarianCover = 1;
             Assert.AreEqual(numberOfVegetarianCover, socrates.NumberOfCoverByDietByMeal(Diet.Vegan, 
                 new Meal(new DateTime(2019,10,24), MealType.Dinner)));
@@ -47,7 +47,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan),
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             int numberOfVegetarianCover = 2;
             Assert.AreEqual(numberOfVegetarianCover, socrates.NumberOfCoverByDietByMeal(Diet.Vegan, 
                 new Meal(new DateTime(2019,10,24), MealType.Dinner)));
@@ -61,7 +61,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan),
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegetarian)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             int numberOfVegetarianCover = 1;
             Assert.AreEqual(numberOfVegetarianCover, socrates.NumberOfCoverByDietByMeal(Diet.Vegan, 
                 new Meal(new DateTime(2019,10,24), MealType.Dinner)));
@@ -76,7 +76,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan),
                 new Participant(RoomChoice.Single, _lateArrivalStayPeriod, _email, Diet.Vegan)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             int numberOfVegetarianCover = 2;
             Assert.AreEqual(numberOfVegetarianCover, socrates.NumberOfCoverByDietByMeal(Diet.Vegan, 
                 new Meal(new DateTime(2019,10,24), MealType.Dinner)));
@@ -91,7 +91,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan),
                 new Participant(RoomChoice.Single, _lateArrivalStayPeriod, _email, Diet.Vegan)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             int numberOfVegetarianCover = 3;
             Assert.AreEqual(numberOfVegetarianCover, socrates.NumberOfCoverByDietByMeal(Diet.Vegan,
                 new Meal(new DateTime(2019, 10, 25), MealType.Lunch)));
@@ -106,7 +106,7 @@ namespace CalculateRegistrationTest
                 new Participant(RoomChoice.Single, _fullStayPeriod, _email, Diet.Vegan),
                 new Participant(RoomChoice.Single, _lateArrivalStayPeriod, _email, Diet.Vegan)
             };
-            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00));
+            Socrates socrates = new Socrates(participants, _coldMealLimitDate, new DateTime(2019, 10, 27, 11, 00, 00), new CoversCalculator());
             int numberOfVegetarianCover = 2;
             Assert.AreEqual(numberOfVegetarianCover, socrates.NumberOfCoverByDietByMeal(Diet.Vegan,
                 new Meal(new DateTime(2019, 10, 27), MealType.Lunch)));
