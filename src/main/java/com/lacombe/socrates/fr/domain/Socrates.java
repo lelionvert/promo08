@@ -2,14 +2,10 @@ package com.lacombe.socrates.fr.domain;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.lacombe.socrates.fr.domain.CookService.DINNER;
-import static com.lacombe.socrates.fr.domain.CookService.LUNCH;
-import static com.lacombe.socrates.fr.domain.Diet.VEGAN;
-import static com.lacombe.socrates.fr.domain.Diet.VEGETARIAN;
-import static java.time.DayOfWeek.*;
 import static java.util.stream.Collectors.toList;
 
 public class Socrates {
@@ -33,57 +29,36 @@ public class Socrates {
 
     private ColdMealListing determineColdMealslisting(List<Participant> participants) {
         return new ColdMealListing(participants.stream()
-                .filter(participant -> participant.hasArrivalOnDay(limitArrivalDayForColdMeal))
-                .filter(participant -> participant.hasArrivalTimeAfter(limitArrivalTimeForColdMeal))
+                .filter(participant -> hasColdMeal(participant, limitArrivalDayForColdMeal))
                 .map(Participant::getMail)
                 .collect(toList()));
     }
 
-    public CountCoversReport countCoversReport() {
-
-        List<Participant> participants = participantRegister.getAllParticipant();
-
-        long nbVegeterians = participants.stream().filter(participant -> participant.hasDiet(VEGETARIAN)).count();
-        if (nbVegeterians > 0) {
-            Diet diet = VEGETARIAN;
-
-            return new CountCoversReport(getMealCoverReport(nbVegeterians, new Meal(THURSDAY, DINNER), diet),
-                    getMealCoverReport(nbVegeterians, new Meal(FRIDAY, LUNCH), diet),
-                    getMealCoverReport(nbVegeterians, new Meal(FRIDAY, DINNER), diet),
-                    getMealCoverReport(nbVegeterians, new Meal(SATURDAY, LUNCH), diet),
-                    getMealCoverReport(nbVegeterians, new Meal(SATURDAY, DINNER), diet),
-                    getMealCoverReport(nbVegeterians, new Meal(SUNDAY, LUNCH), diet));
-        }
-
-        else return new CountCoversReport();
+    private boolean hasColdMeal(Participant participant, DayOfWeek day) {
+        return day == limitArrivalDayForColdMeal
+                && participant.hasArrivalOnDay(limitArrivalDayForColdMeal)
+                && participant.hasArrivalTimeAfter(limitArrivalTimeForColdMeal);
     }
 
-    private MealCoverReport getMealCoverReport(long nbVegeterians, Meal meal, Diet diet) {
-        MealCoverReport mealCoverReport = new MealCoverReport(meal, diet, nbVegeterians);
-        return mealCoverReport;
-    }
+    private ColdMealListing determineColdMealslisting(List<Participant> participants, Meal meal) {
 
-    public CountCoversReport countCoversReportForMeal(Meal meal) {
+        if (meal.isDay(limitArrivalDayForColdMeal))
+            return new ColdMealListing(participants.stream()
+                    .filter(participant -> participant.hasArrivalOnDay(limitArrivalDayForColdMeal))
+                    .filter(participant -> participant.hasArrivalTimeAfter(limitArrivalTimeForColdMeal))
+                    .map(Participant::getMail)
+                    .collect(toList()));
 
-        List<Participant> participants = participantRegister.getAllParticipant();
-
-        long nbVegeterians = participants.stream().filter(participant -> participant.hasDiet(VEGETARIAN)).count();
-        MealCoverReport vegetarianReport = getMealCoverReport(nbVegeterians, meal, VEGETARIAN);
-
-        long nbVegans = participants.stream().filter(participant -> participant.hasDiet(VEGAN)).count();
-        MealCoverReport veganReport = getMealCoverReport(nbVegans, meal, VEGAN);
-
-        if (nbVegeterians > 0)
-            return new CountCoversReport(vegetarianReport);
-        return new CountCoversReport(veganReport);
+        return new ColdMealListing(new ArrayList<>());
     }
 
     public MealReportByDiet getMealReport(Meal meal) {
         List<Participant> allParticipant = participantRegister.getAllParticipant();
+        ColdMealListing coldMealListing = determineColdMealslisting(allParticipant, meal);
+
         List<Participant> allParticipantForMeal = allParticipant
                 .stream()
-                .filter(participant -> participant.hasArrivalOnDay(THURSDAY))
-                .filter(participant -> !participant.hasArrivalTimeAfter(LocalTime.of(21, 00)))
+                .filter(participant -> !hasColdMeal(participant, meal.getDay()))
                 .collect(toList());
 
         HashMap<Diet, Long> coversByDiet = new HashMap<>();
@@ -94,13 +69,10 @@ public class Socrates {
             }
         }
 
-        int numberOfColdMeals = 0;
-        if (meal.isDay(limitArrivalDayForColdMeal)) {
-            numberOfColdMeals = determineColdMealslisting(allParticipant).size();
-        }
 
-        return new MealReportByDiet(meal, coversByDiet, numberOfColdMeals);
+        return new MealReportByDiet(meal, coversByDiet, coldMealListing.size());
     }
+
 
     // TODO Move to participantRegister
     private Long getNbParticipantsForDiet(List<Participant> allParticipant, Diet diet) {

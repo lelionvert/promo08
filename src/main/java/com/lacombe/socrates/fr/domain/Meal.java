@@ -37,4 +37,8 @@ public class Meal {
     public boolean isDay(DayOfWeek anotherDay) {
         return dayOfWeek == anotherDay;
     }
+
+    public DayOfWeek getDay() {
+        return dayOfWeek;
+    }
 }
