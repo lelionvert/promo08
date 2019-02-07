@@ -42,9 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColdMealReport.cs" />
+    <Compile Include="Diet.cs" />
+    <Compile Include="DietReport.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="ICatalog.cs" />
     <Compile Include="IMealCalculator.cs" />
+    <Compile Include="Meal.cs" />
     <Compile Include="MealCalculator.cs" />
     <Compile Include="Participant.cs" />
     <Compile Include="Price.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="BillingService.cs" />
     <Compile Include="RoomCatalog.cs" />
     <Compile Include="RoomChoice.cs" />
+    <Compile Include="Serving.cs" />
     <Compile Include="Socrates.cs" />
     <Compile Include="StayPeriod.cs" />
   </ItemGroup>

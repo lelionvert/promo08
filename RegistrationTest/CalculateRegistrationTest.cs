@@ -9,11 +9,13 @@ namespace CalculateRegistrationTest
     [TestClass]
     public class CalculateRegistrationTest
     {
+
         private Price _singleRoomAndFullStayPrice;
         private Dictionary<RoomChoice, Price> _catalog;
         private Price _mealPrice;
         private DateTime _firstMealDateLimit;
         private DateTime _lastMealDateLimit;
+        private Diet diet = Diet.Vegan;
 
         [TestInitialize]
         public void Initialize()
@@ -38,7 +40,7 @@ namespace CalculateRegistrationTest
             var checkIn = new DateTime(2019, 10, 24, 19, 00, 00);
             var checkOut = new DateTime(2019, 10, 27, 14, 00, 00);
             var stayPeriod = StayPeriod.Builder.WithCheckIn(checkIn).WithCheckOut(checkOut).Build();
-            var participant=new Participant(RoomChoice.Single, stayPeriod, new Email("test@lacombe.fr"));
+            var participant=new Participant(RoomChoice.Single, stayPeriod, new Email("test@lacombe.fr"), diet);
             var registration = new BillingService(new RoomCatalog(_catalog), new MealCalculator(_mealPrice, _firstMealDateLimit, _lastMealDateLimit));
             Assert.AreEqual(_singleRoomAndFullStayPrice,registration.CalculatePrice(participant));
         }
