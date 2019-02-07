@@ -1,16 +1,15 @@
 package fr.lcdlv.promo8.socrates.domain;
 
-import java.util.EnumMap;
 import java.util.Objects;
 
 public class MealReport {
-    private final EnumMap<MealType, Integer> numberOfCoversByDiet;
     private final Meal meal;
+    private final NumberOfMealsByDiet numberOfMealsByDiet;
 
-    public MealReport(Meal meal, EnumMap<MealType, Integer> numberOfCoversByDiet) {
 
+    MealReport(Meal meal, NumberOfMealsByDiet numberOfMealsByDiet) {
         this.meal = meal;
-        this.numberOfCoversByDiet = numberOfCoversByDiet;
+        this.numberOfMealsByDiet = numberOfMealsByDiet;
     }
 
     @Override
@@ -18,20 +17,20 @@ public class MealReport {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealReport that = (MealReport) o;
-        return Objects.equals(numberOfCoversByDiet, that.numberOfCoversByDiet) &&
-                Objects.equals(meal, that.meal);
+        return Objects.equals(meal, that.meal) &&
+                Objects.equals(numberOfMealsByDiet, that.numberOfMealsByDiet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numberOfCoversByDiet, meal);
+        return Objects.hash(meal, numberOfMealsByDiet);
     }
 
     @Override
     public String toString() {
         return "MealReport{" +
-                "numberOfCoversByDiet=" + numberOfCoversByDiet +
-                ", meal=" + meal +
+                "meal=" + meal +
+                ", numberOfMealsByDiet=" + numberOfMealsByDiet +
                 '}';
     }
 }

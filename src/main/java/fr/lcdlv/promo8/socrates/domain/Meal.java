@@ -7,7 +7,6 @@ public class Meal {
     private final MealTime mealTime;
 
     Meal(SocratesDay day, MealTime mealTime) {
-
         this.day = day;
         this.mealTime = mealTime;
     }

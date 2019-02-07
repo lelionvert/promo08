@@ -144,19 +144,15 @@ public class AcceptanceTest {
         enumDietCountThursday.put(MealType.VEGAN, 2);
         enumDietCountThursday.put(MealType.OMNIVORE, 1);
         enumDietCountThursday.put(MealType.COLDMEAL, 1);
-        EnumMap<MealType, Integer> enumDietCountSunday = new EnumMap<>(MealType.class);
-        enumDietCountSunday.put(MealType.VEGETARIAN, 2);
-        enumDietCountSunday.put(MealType.PESCATARIAN, 2);
-        enumDietCountSunday.put(MealType.VEGAN, 2);
-        enumDietCountSunday.put(MealType.OMNIVORE, 1);
+        EnumMap<MealType, Integer> enumDietCountSunday = new EnumMap<>(enumDietCountThursday);
         enumDietCountSunday.put(MealType.COLDMEAL, 0);
         List<MealReport> expectedReport = new ArrayList<>();
-        expectedReport.add(new MealReport(new Meal(SocratesDay.THURSDAY, MealTime.DINNER), enumDietCountThursday));
-        expectedReport.add(new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.LUNCH), enumDietCount));
-        expectedReport.add(new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.DINNER), enumDietCount));
-        expectedReport.add(new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.LUNCH), enumDietCount));
-        expectedReport.add(new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.DINNER), enumDietCount));
-        expectedReport.add(new MealReport(new Meal(SocratesDay.SUNDAY, MealTime.LUNCH), enumDietCountSunday));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.THURSDAY, MealTime.DINNER), new NumberOfMealsByDiet(enumDietCountThursday)));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.LUNCH), new NumberOfMealsByDiet(enumDietCount)));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.DINNER), new NumberOfMealsByDiet(enumDietCount)));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.LUNCH), new NumberOfMealsByDiet(enumDietCount)));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.DINNER), new NumberOfMealsByDiet(enumDietCount)));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.SUNDAY, MealTime.LUNCH), new NumberOfMealsByDiet(enumDietCountSunday)));
         Assertions.assertThat(expectedReport).isEqualTo(socrates.giveFullWeekMealsReport());
     }
 }

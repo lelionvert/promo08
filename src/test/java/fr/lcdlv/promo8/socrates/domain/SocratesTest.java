@@ -163,12 +163,12 @@ public class SocratesTest {
     }
 
     private List<MealReport> getMealReportsForTests(EnumMap<MealType, Integer> coverByDiet) {
-        MealReport thursdayDinnerReport = new MealReport(new Meal(THURSDAY, MealTime.DINNER), coverByDiet);
-        MealReport fridayLunchReport = new MealReport(new Meal(FRIDAY, MealTime.LUNCH), coverByDiet);
-        MealReport fridayDinnerReport = new MealReport(new Meal(FRIDAY, MealTime.DINNER), coverByDiet);
-        MealReport saturdayLunchReport = new MealReport(new Meal(SATURDAY, MealTime.LUNCH), coverByDiet);
-        MealReport saturdayDinnerReport = new MealReport(new Meal(SATURDAY, MealTime.DINNER), coverByDiet);
-        MealReport sundayLunchReport = new MealReport(new Meal(SUNDAY, MealTime.LUNCH), coverByDiet);
+        MealReport thursdayDinnerReport = new MealReport(new Meal(THURSDAY, MealTime.DINNER), new NumberOfMealsByDiet(coverByDiet));
+        MealReport fridayLunchReport = new MealReport(new Meal(FRIDAY, MealTime.LUNCH), new NumberOfMealsByDiet(coverByDiet));
+        MealReport fridayDinnerReport = new MealReport(new Meal(FRIDAY, MealTime.DINNER), new NumberOfMealsByDiet(coverByDiet));
+        MealReport saturdayLunchReport = new MealReport(new Meal(SATURDAY, MealTime.LUNCH), new NumberOfMealsByDiet(coverByDiet));
+        MealReport saturdayDinnerReport = new MealReport(new Meal(SATURDAY, MealTime.DINNER), new NumberOfMealsByDiet(coverByDiet));
+        MealReport sundayLunchReport = new MealReport(new Meal(SUNDAY, MealTime.LUNCH), new NumberOfMealsByDiet(coverByDiet));
         return new ArrayList<>(Arrays.asList(thursdayDinnerReport, fridayLunchReport, fridayDinnerReport, saturdayLunchReport, saturdayDinnerReport, sundayLunchReport));
     }
 
@@ -181,7 +181,7 @@ public class SocratesTest {
         coverByDiet.put(MealType.OMNIVORE, 1);
         coverByDiet.put(MealType.VEGETARIAN, 1);
         Meal fridayLunch = new Meal(FRIDAY, MealTime.LUNCH);
-        MealReport fridayLunchReport = new MealReport(fridayLunch, coverByDiet);
+        MealReport fridayLunchReport = new MealReport(fridayLunch, new NumberOfMealsByDiet(coverByDiet));
         //Act
         List<Participant> participants = Arrays.asList(
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.OMNIVORE),
@@ -203,7 +203,7 @@ public class SocratesTest {
         coverByDiet.put(MealType.VEGETARIAN, 1);
         coverByDiet.put(MealType.COLDMEAL, 1);
         Meal thursdayDinner = new Meal(THURSDAY, MealTime.DINNER);
-        MealReport thursdayDinnerReport = new MealReport(thursdayDinner, coverByDiet);
+        MealReport thursdayDinnerReport = new MealReport(thursdayDinner, new NumberOfMealsByDiet(coverByDiet));
         //Act
         StayPeriod latePeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
         List<Participant> participants = Arrays.asList(
@@ -226,7 +226,7 @@ public class SocratesTest {
         coverByDiet.put(MealType.VEGETARIAN, 1);
         coverByDiet.put(MealType.COLDMEAL, 0);
         Meal thursdayDinner = new Meal(FRIDAY, MealTime.DINNER);
-        MealReport fridayLunchReport = new MealReport(thursdayDinner, coverByDiet);
+        MealReport fridayLunchReport = new MealReport(thursdayDinner, new NumberOfMealsByDiet(coverByDiet));
         //Act
         StayPeriod latePeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
         List<Participant> participants = Arrays.asList(
@@ -249,7 +249,7 @@ public class SocratesTest {
         coverByDiet.put(MealType.VEGETARIAN, 1);
         coverByDiet.put(MealType.COLDMEAL, 0);
         Meal thursdayDinner = new Meal(THURSDAY, MealTime.DINNER);
-        MealReport thursdayDinnerReport = new MealReport(thursdayDinner, coverByDiet);
+        MealReport thursdayDinnerReport = new MealReport(thursdayDinner, new NumberOfMealsByDiet(coverByDiet));
         //Act
         StayPeriod fridayToSunday = new StayPeriod(new CheckIn(SocratesDay.FRIDAY, Hour.valueOf(12)), earlyCheckOut);
         List<Participant> participants = Arrays.asList(
@@ -272,7 +272,7 @@ public class SocratesTest {
         coverByDiet.put(MealType.VEGETARIAN, 1);
         coverByDiet.put(MealType.COLDMEAL, 0);
         Meal sundayLunchMeal = new Meal(SocratesDay.SUNDAY, MealTime.LUNCH);
-        MealReport sundayLunchReport = new MealReport(sundayLunchMeal, coverByDiet);
+        MealReport sundayLunchReport = new MealReport(sundayLunchMeal, new NumberOfMealsByDiet(coverByDiet));
         //Act
         StayPeriod thursdayToSaturday = new StayPeriod(lateCheckIn, new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(18)));
         List<Participant> participants = Arrays.asList(
@@ -295,7 +295,7 @@ public class SocratesTest {
         coverByDiet.put(MealType.VEGETARIAN, 0);
         coverByDiet.put(MealType.COLDMEAL, 1);
         Meal sundayLunchMeal = new Meal(SocratesDay.THURSDAY, MealTime.DINNER);
-        MealReport thursdayDinnerReport = new MealReport(sundayLunchMeal, coverByDiet);
+        MealReport thursdayDinnerReport = new MealReport(sundayLunchMeal, new NumberOfMealsByDiet(coverByDiet));
         //Act
         StayPeriod thursdayToSaturday = new StayPeriod(lateCheckIn, new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(18)));
         List<Participant> participants = Arrays.asList(

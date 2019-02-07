@@ -19,13 +19,16 @@ public class Participant {
         return roomChoice;
     }
 
-
     StayPeriod getStayPeriod() {
         return stayPeriod;
     }
 
     String getEmail() {
         return email;
+    }
+
+    MealType getMealType() {
+        return mealType;
     }
 
     private boolean arriveAfter(CheckIn checkIn) {
@@ -36,10 +39,6 @@ public class Participant {
         return stayPeriod.arriveSameDay(checkIn);
     }
 
-    MealType getMealType() {
-        return mealType;
-    }
-
     private boolean leaveBefore(CheckOut checkOut) {
         return stayPeriod.leaveBefore(checkOut);
     }
@@ -48,12 +47,12 @@ public class Participant {
         return arriveAfter(checkIn) && arriveSameDay(checkIn);
     }
 
-    boolean hasNoMealOnThursday(CheckIn checkIn, Meal meal) {
-        return meal.isSameDay(checkIn) && !arriveSameDay(checkIn);
+    boolean hasMealOnThursday(CheckIn checkIn, Meal meal) {
+        return !(meal.isSameDay(checkIn) && !arriveSameDay(checkIn));
     }
 
-    boolean hasNoMealOnSunday(CheckOut checkOut, Meal meal) {
-        return meal.isSameDay(checkOut) && leaveBefore(checkOut);
+    boolean hasMealOnSunday(CheckOut checkOut, Meal meal) {
+        return !(meal.isSameDay(checkOut) && leaveBefore(checkOut));
     }
 
     boolean hasColdMeal(CheckIn checkInHotMealLimit, Meal meal) {
