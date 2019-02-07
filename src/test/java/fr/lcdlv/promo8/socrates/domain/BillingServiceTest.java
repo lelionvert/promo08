@@ -11,7 +11,7 @@ public class BillingServiceTest {
         CheckIn checkIn = null;
         CheckOut checkOut = null;
         StayPeriod stayPeriod = new StayPeriod(checkIn, checkOut);
-        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", MealType.VEGETARIAN);
         BillingMealMock billingMeal = new BillingMealMock();
         BillingRoomMock billingRoom = new BillingRoomMock();
         BillingService billingService = new BillingService(billingMeal, billingRoom);
@@ -24,7 +24,7 @@ public class BillingServiceTest {
         CheckIn checkIn = null;
         CheckOut checkOut = null;
         StayPeriod stayPeriod = new StayPeriod(checkIn, checkOut);
-        Participant participant = new Participant(RoomChoice.DOUBLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        Participant participant = new Participant(RoomChoice.DOUBLE_ROOM, stayPeriod, "email@email.fr", MealType.VEGETARIAN);
         BillingMealMock billingMeal = new BillingMealMock();
         BillingRoomMock billingRoom = new BillingRoomMock();
         BillingService billingService = new BillingService(billingMeal, billingRoom);

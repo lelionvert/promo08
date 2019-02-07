@@ -33,4 +33,14 @@ public class Meal {
     public int hashCode() {
         return Objects.hash(day, mealTime);
     }
+
+    public boolean isSameDay(CheckIn checkInHotMealLimit) {
+        return checkInHotMealLimit.isSameDay(day);
+    }
+
+    public boolean isSameDay(SocratesDay socratesDay) {
+        return socratesDay == day;
+    }
+
+
 }

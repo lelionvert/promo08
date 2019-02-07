@@ -25,7 +25,7 @@ public class AcceptanceTest {
     @Test
     public void a_participant_with_a_single_room_for_a_full_week_end_should_have_a_price_of_610() {
         // Arrange
-        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", MealType.VEGETARIAN);
         BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
         BillingRoomMock billingRoom = new BillingRoomMock();
         BillingService billingService = new BillingService(billingMeal, billingRoom);
@@ -39,7 +39,7 @@ public class AcceptanceTest {
     @Test
     public void a_participant_with_a_double_room_for_a_full_week_end_should_have_a_price_of_510() {
         // Arrange
-        Participant participant = new Participant(RoomChoice.DOUBLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        Participant participant = new Participant(RoomChoice.DOUBLE_ROOM, stayPeriod, "email@email.fr", MealType.VEGETARIAN);
         BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
         BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
         BillingService billingService = new BillingService(billingMeal, billingRoom);
@@ -56,7 +56,7 @@ public class AcceptanceTest {
         // Arrange
         CheckOut checkOut = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(15));
         StayPeriod stayPeriod = new StayPeriod(lateCheckIn, checkOut);
-        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", MealType.VEGETARIAN);
         BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
         BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
         BillingService billingService = new BillingService(billingMeal, billingRoom);
@@ -72,7 +72,7 @@ public class AcceptanceTest {
         // Arrange
         CheckIn checkIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(18));
         StayPeriod stayPeriod = new StayPeriod(checkIn, earlyCheckOut);
-        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", MealType.VEGETARIAN);
         BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
         BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
         BillingService billingService = new BillingService(billingMeal, billingRoom);
@@ -87,7 +87,7 @@ public class AcceptanceTest {
     public void a_participant_with_a_single_room_when_arriving_friday_and_leaving_saturday_should_have_a_price_of_530() {
         // Arrange
         StayPeriod stayPeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
-        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", MealType.VEGETARIAN);
         BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
         BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
         BillingService billingService = new BillingService(billingMeal, billingRoom);
@@ -105,29 +105,31 @@ public class AcceptanceTest {
         CheckOut checkOut = new CheckOut(SocratesDay.THURSDAY, Hour.valueOf(22));
         StayPeriod stayPeriod = new StayPeriod(checkIn, checkOut);
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod_late, "thomas@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod_late, "stephen@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "marie@email.fr", Diet.VEGETARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod_late, "thomas@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod_late, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "marie@email.fr", MealType.VEGETARIAN)
 
         );
         List<String> expectedEmails = Arrays.asList("thomas@email.fr", "stephen@email.fr");
         Socrates socrates = new Socrates(participants, checkInLimit);
         ColdMealChecker coldMealChecker = new ColdMealChecker(expectedEmails);
-        Assertions.assertThat(coldMealChecker).isEqualTo(socrates.giveColdMeals());
+        Assertions.assertThat(coldMealChecker).isEqualTo(socrates.giveColdMealsChecker());
     }
 
     @Test
     public void give_full_meal_report() {
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "marie@email.fr", Diet.VEGETARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "audrey@email.fr", MealType.VEGAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "andre@email.fr", MealType.PESCATARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "marie@email.fr", MealType.OMNIVORE)
         );
         Socrates socrates = new Socrates(participants, checkInLimit);
-        EnumMap<Diet, Integer> enumDietCount = new EnumMap<Diet, Integer>(Diet.class);
-        enumDietCount.put(Diet.VEGETARIAN, 2);
-        EnumMap<Diet, Integer> enumDietCountThursdayAndSunday = new EnumMap<Diet, Integer>(Diet.class);
-        enumDietCount.put(Diet.VEGETARIAN, 1);
+        EnumMap<MealType, Integer> enumDietCount = new EnumMap<>(MealType.class);
+        enumDietCount.put(MealType.VEGETARIAN, 2);
+        EnumMap<MealType, Integer> enumDietCountThursdayAndSunday = new EnumMap<>(MealType.class);
+        enumDietCount.put(MealType.VEGETARIAN, 1);
         Meal thursdayDinnerMeal = new Meal(SocratesDay.THURSDAY, MealTime.DINNER);
         Meal fridayLunch = new Meal(SocratesDay.FRIDAY, MealTime.LUNCH);
         Meal fridayDinner = new Meal(SocratesDay.FRIDAY, MealTime.DINNER);
@@ -135,7 +137,7 @@ public class AcceptanceTest {
         Meal saturdayDinner = new Meal(SocratesDay.SATURDAY, MealTime.DINNER);
         Meal sundayLunch = new Meal(SocratesDay.SUNDAY, MealTime.LUNCH);
 
-        List<MealReport> expectedReport = new ArrayList<MealReport>();
+        List<MealReport> expectedReport = new ArrayList<>();
         expectedReport.add(new MealReport(thursdayDinnerMeal, enumDietCountThursdayAndSunday));
         expectedReport.add(new MealReport(fridayDinner, enumDietCount));
         expectedReport.add(new MealReport(fridayLunch, enumDietCount));

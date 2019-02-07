@@ -1,7 +1,6 @@
 package fr.lcdlv.promo8.socrates.domain;
 
 import com.sun.javafx.collections.UnmodifiableListSet;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -9,163 +8,258 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 
+import static fr.lcdlv.promo8.socrates.domain.SocratesDay.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class SocratesTest {
     private static StayPeriod stayPeriod;
-    private static CheckIn lateCheckIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
-    private static CheckOut earlyCheckOut = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11));
-    private static CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
-    private EnumMap<Diet, Integer> coverByDiet = new EnumMap<Diet, Integer>(Diet.class);
+    private static CheckIn lateCheckIn = new CheckIn(THURSDAY, Hour.valueOf(21));
+    private static CheckOut earlyCheckOut = new CheckOut(SUNDAY, Hour.valueOf(11));
+    private static CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
+    private EnumMap<MealType, Integer> coverByDiet = new EnumMap<MealType, Integer>(MealType.class);
 
     static {
-        CheckIn checkIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(18));
-        CheckOut checkOut = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(15));
+        CheckIn checkIn = new CheckIn(THURSDAY, Hour.valueOf(18));
+        CheckOut checkOut = new CheckOut(SUNDAY, Hour.valueOf(15));
         stayPeriod = new StayPeriod(checkIn, checkOut);
     }
 
     private void fillEnumMap() {
-        coverByDiet.put(Diet.VEGETARIAN, 0);
-        coverByDiet.put(Diet.OMNIVORE, 0);
-        coverByDiet.put(Diet.PESCATARIAN, 0);
-        coverByDiet.put(Diet.VEGAN, 0);
+        coverByDiet.put(MealType.VEGETARIAN, 0);
+        coverByDiet.put(MealType.OMNIVORE, 0);
+        coverByDiet.put(MealType.PESCATARIAN, 0);
+        coverByDiet.put(MealType.VEGAN, 0);
+        coverByDiet.put(MealType.COLDMEAL, 0);
     }
 
     @Test
     public void given_3_late_participants_should_return_a_list_of_3_emails() {
         StayPeriod stayPeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
         UnmodifiableListSet<String> expectedEmails = new UnmodifiableListSet<String>(Arrays.asList("thomas@email.fr", "stephen@email.fr", "steeve@email.fr"));
-        CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
+        CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
         Socrates socrates = new Socrates(participants, checkInLimit);
-        ColdMealChecker coldMealChecker = socrates.giveColdMeals();
-        Assertions.assertThat(coldMealChecker.getEmails()).isEqualTo(expectedEmails);
+        ColdMealChecker coldMealChecker = socrates.giveColdMealsChecker();
+        assertThat(coldMealChecker.getEmails()).isEqualTo(expectedEmails);
     }
 
     @Test
     public void given_3_late_participants_should_return_a_counter_of_3_meals() {
         StayPeriod stayPeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
-        CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
+        CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
         Socrates socrates = new Socrates(participants, checkInLimit);
 
-        ColdMealChecker coldMealChecker = socrates.giveColdMeals();
-        Assertions.assertThat(3).isEqualTo(coldMealChecker.count());
+        ColdMealChecker coldMealChecker = socrates.giveColdMealsChecker();
+        assertThat(3).isEqualTo(coldMealChecker.count());
     }
 
 
     @Test
     public void given_3_friday_late_participants_should_return_a_counter_of_0_meals() {
 
-        CheckIn checkIn = new CheckIn(SocratesDay.FRIDAY, Hour.valueOf(22));
+        CheckIn checkIn = new CheckIn(FRIDAY, Hour.valueOf(22));
         StayPeriod stayPeriod = new StayPeriod(checkIn, earlyCheckOut);
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
-        CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
+        CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
         Socrates socrates = new Socrates(participants, checkInLimit);
 
-        ColdMealChecker coldMealChecker = socrates.giveColdMeals();
-        Assertions.assertThat(coldMealChecker.count()).isEqualTo(0);
+        ColdMealChecker coldMealChecker = socrates.giveColdMealsChecker();
+        assertThat(coldMealChecker.count()).isEqualTo(0);
     }
 
     @Test
     public void given_3_vegetarian_participants_should_return_a_count_of_3_for_all_meals() {
         // Arrange
         fillEnumMap();
-        coverByDiet.put(Diet.VEGETARIAN, 3);
+        coverByDiet.put(MealType.VEGETARIAN, 3);
         List<MealReport> expectedReport = getMealReportsForTests(coverByDiet);
 
         //Act
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
         Socrates socrates = new Socrates(participants, checkInLimit);
         List<MealReport> report = socrates.giveMealsReport();
 
         //Assert
-        Assertions.assertThat(report).isEqualTo(expectedReport);
+        assertThat(report).isEqualTo(expectedReport);
     }
 
     @Test
     public void given_3_omnivore_participants_should_return_a_count_of_3_for_all_meals() {
         // Arrange
         fillEnumMap();
-        coverByDiet.put(Diet.OMNIVORE, 3);
+        coverByDiet.put(MealType.OMNIVORE, 3);
         List<MealReport> expectedReport = getMealReportsForTests(coverByDiet);
 
         //Act
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", Diet.OMNIVORE),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", Diet.OMNIVORE),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.OMNIVORE)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.OMNIVORE)
         );
         Socrates socrates = new Socrates(participants, checkInLimit);
         List<MealReport> report = socrates.giveMealsReport();
 
         //Assert
-        Assertions.assertThat(report).isEqualTo(expectedReport);
+        assertThat(report).isEqualTo(expectedReport);
     }
 
     @Test
     public void given_3_pescatarian_participants_should_return_a_count_of_3_for_all_meals() {
         // Arrange
         fillEnumMap();
-        coverByDiet.put(Diet.PESCATARIAN, 3);
+        coverByDiet.put(MealType.PESCATARIAN, 3);
         List<MealReport> expectedReport = getMealReportsForTests(coverByDiet);
 
         //Act
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", Diet.PESCATARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", Diet.PESCATARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.PESCATARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.PESCATARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.PESCATARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
         Socrates socrates = new Socrates(participants, checkInLimit);
         List<MealReport> report = socrates.giveMealsReport();
 
         //Assert
-        Assertions.assertThat(report).isEqualTo(expectedReport);
+        assertThat(report).isEqualTo(expectedReport);
     }
 
     @Test
     public void given_1__participant_of_each_diet_should_return_a_count_of_1_for_all_meals() {
         // Arrange
         fillEnumMap();
-        coverByDiet.put(Diet.PESCATARIAN, 1);
-        coverByDiet.put(Diet.OMNIVORE, 1);
-        coverByDiet.put(Diet.VEGETARIAN, 1);
+        coverByDiet.put(MealType.PESCATARIAN, 1);
+        coverByDiet.put(MealType.OMNIVORE, 1);
+        coverByDiet.put(MealType.VEGETARIAN, 1);
         List<MealReport> expectedReport = getMealReportsForTests(coverByDiet);
 
         //Act
         List<Participant> participants = Arrays.asList(
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", Diet.OMNIVORE),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", Diet.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.PESCATARIAN)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
         Socrates socrates = new Socrates(participants, checkInLimit);
         List<MealReport> report = socrates.giveMealsReport();
 
         //Assert
-        Assertions.assertThat(report).isEqualTo(expectedReport);
+        assertThat(report).isEqualTo(expectedReport);
     }
 
-    private List<MealReport> getMealReportsForTests(EnumMap<Diet, Integer> coverByDiet) {
-        MealReport thursdayDinnerReport = new MealReport(new Meal(SocratesDay.THURSDAY, MealTime.DINNER), coverByDiet);
-        MealReport fridayLunchReport = new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.LUNCH), coverByDiet);
-        MealReport fridayDinnerReport = new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.DINNER), coverByDiet);
-        MealReport saturdayLunchReport = new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.LUNCH), coverByDiet);
-        MealReport saturdayDinnerReport = new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.DINNER), coverByDiet);
-        MealReport sundayLunchReport = new MealReport(new Meal(SocratesDay.SUNDAY, MealTime.LUNCH), coverByDiet);
-        return new ArrayList<MealReport>(Arrays.asList(thursdayDinnerReport, fridayLunchReport, fridayDinnerReport, saturdayLunchReport, saturdayDinnerReport, sundayLunchReport));
+    private List<MealReport> getMealReportsForTests(EnumMap<MealType, Integer> coverByDiet) {
+        MealReport thursdayDinnerReport = new MealReport(new Meal(THURSDAY, MealTime.DINNER), coverByDiet);
+        MealReport fridayLunchReport = new MealReport(new Meal(FRIDAY, MealTime.LUNCH), coverByDiet);
+        MealReport fridayDinnerReport = new MealReport(new Meal(FRIDAY, MealTime.DINNER), coverByDiet);
+        MealReport saturdayLunchReport = new MealReport(new Meal(SATURDAY, MealTime.LUNCH), coverByDiet);
+        MealReport saturdayDinnerReport = new MealReport(new Meal(SATURDAY, MealTime.DINNER), coverByDiet);
+        MealReport sundayLunchReport = new MealReport(new Meal(SUNDAY, MealTime.LUNCH), coverByDiet);
+        return new ArrayList<>(Arrays.asList(thursdayDinnerReport, fridayLunchReport, fridayDinnerReport, saturdayLunchReport, saturdayDinnerReport, sundayLunchReport));
+    }
+
+
+    @Test
+    public void should_give_report_for_one_normal_meal() {
+        // Arrange
+        fillEnumMap();
+        coverByDiet.put(MealType.PESCATARIAN, 1);
+        coverByDiet.put(MealType.OMNIVORE, 1);
+        coverByDiet.put(MealType.VEGETARIAN, 1);
+        Meal fridayLunch = new Meal(FRIDAY, MealTime.LUNCH);
+        MealReport fridayLunchReport = new MealReport(fridayLunch, coverByDiet);
+        //Act
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "thomas@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
+        );
+        Socrates socrates = new Socrates(participants, checkInLimit);
+        MealReport report = socrates.giveMealReportByMeal(fridayLunch);
+        //Assert
+        assertThat(report).isEqualTo(fridayLunchReport);
+    }
+
+    @Test
+    public void should_give_report_for_thursday_diner() {
+        // Arrange
+        fillEnumMap();
+        coverByDiet.put(MealType.PESCATARIAN, 1);
+        coverByDiet.put(MealType.OMNIVORE, 0);
+        coverByDiet.put(MealType.VEGETARIAN, 1);
+        coverByDiet.put(MealType.COLDMEAL, 1);
+        Meal thursdayDinner = new Meal(THURSDAY, MealTime.DINNER);
+        MealReport thursdayDinnerReport = new MealReport(thursdayDinner, coverByDiet);
+        //Act
+        StayPeriod latePeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, latePeriod, "thomas@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
+        );
+        Socrates socrates = new Socrates(participants, checkInLimit);
+        MealReport report = socrates.giveMealReportByMeal(thursdayDinner);
+        //Assert
+        assertThat(report).isEqualTo(thursdayDinnerReport);
+    }
+
+    @Test
+    public void should_give_report_for_friday_diner() {
+        // Arrange
+        fillEnumMap();
+        coverByDiet.put(MealType.PESCATARIAN, 1);
+        coverByDiet.put(MealType.OMNIVORE, 1);
+        coverByDiet.put(MealType.VEGETARIAN, 1);
+        coverByDiet.put(MealType.COLDMEAL, 0);
+        Meal thursdayDinner = new Meal(FRIDAY, MealTime.DINNER);
+        MealReport fridayLunchReport = new MealReport(thursdayDinner, coverByDiet);
+        //Act
+        StayPeriod latePeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, latePeriod, "thomas@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
+        );
+        Socrates socrates = new Socrates(participants, checkInLimit);
+        MealReport report = socrates.giveMealReportByMeal(thursdayDinner);
+        //Assert
+        assertThat(report).isEqualTo(fridayLunchReport);
+    }
+
+    @Test
+    public void should_give_report_for_thursday_diner_with_one_participant_arriving_friday() {
+        // Arrange
+        fillEnumMap();
+        coverByDiet.put(MealType.PESCATARIAN, 1);
+        coverByDiet.put(MealType.OMNIVORE, 0);
+        coverByDiet.put(MealType.VEGETARIAN, 1);
+        coverByDiet.put(MealType.COLDMEAL, 0);
+        Meal thursdayDinner = new Meal(THURSDAY, MealTime.DINNER);
+        MealReport thursdayDinnerReport = new MealReport(thursdayDinner, coverByDiet);
+        //Act
+        StayPeriod fridayToSunday = new StayPeriod(new CheckIn(SocratesDay.FRIDAY, Hour.valueOf(12)), earlyCheckOut);
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, fridayToSunday, "thomas@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
+        );
+        Socrates socrates = new Socrates(participants, checkInLimit);
+        MealReport report = socrates.giveMealReportByMeal(thursdayDinner);
+        //Assert
+        assertThat(report).isEqualTo(thursdayDinnerReport);
     }
 }

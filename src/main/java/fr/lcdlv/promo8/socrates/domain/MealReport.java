@@ -4,10 +4,10 @@ import java.util.EnumMap;
 import java.util.Objects;
 
 public class MealReport {
-    private final EnumMap<Diet, Integer> numberOfCoversByDiet;
+    private final EnumMap<MealType, Integer> numberOfCoversByDiet;
     private final Meal meal;
 
-    public MealReport(Meal meal, EnumMap<Diet, Integer> numberOfCoversByDiet) {
+    public MealReport(Meal meal, EnumMap<MealType, Integer> numberOfCoversByDiet) {
 
         this.meal = meal;
         this.numberOfCoversByDiet = numberOfCoversByDiet;

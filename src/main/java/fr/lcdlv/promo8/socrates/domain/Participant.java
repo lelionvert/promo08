@@ -5,14 +5,14 @@ public class Participant {
     private final RoomChoice roomChoice;
     private final StayPeriod stayPeriod;
     private final String email;
-    private Diet diet;
+    private MealType mealType;
 
-    public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, String email, Diet diet) {
+    public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, String email, MealType mealType) {
 
         this.roomChoice = roomChoice;
         this.stayPeriod = stayPeriod;
         this.email = email;
-        this.diet = diet;
+        this.mealType = mealType;
     }
 
     RoomChoice getRoomChoice() {
@@ -36,7 +36,7 @@ public class Participant {
         return stayPeriod.arriveSameDay(checkIn);
     }
 
-    public Diet getDiet() {
-        return diet;
+    public MealType getMealType() {
+        return mealType;
     }
 }
