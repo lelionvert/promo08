@@ -42,7 +42,7 @@ public class SocratesTest {
         );
         UnmodifiableListSet<String> expectedEmails = new UnmodifiableListSet<String>(Arrays.asList("thomas@email.fr", "stephen@email.fr", "steeve@email.fr"));
         CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
-        Socrates socrates = new Socrates(participants, checkInLimit);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
         ColdMealChecker coldMealChecker = socrates.giveColdMealsChecker();
         assertThat(coldMealChecker.getEmails()).isEqualTo(expectedEmails);
     }
@@ -56,7 +56,7 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
         CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
-        Socrates socrates = new Socrates(participants, checkInLimit);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
 
         ColdMealChecker coldMealChecker = socrates.giveColdMealsChecker();
         assertThat(3).isEqualTo(coldMealChecker.count());
@@ -74,7 +74,7 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
         CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
-        Socrates socrates = new Socrates(participants, checkInLimit);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
 
         ColdMealChecker coldMealChecker = socrates.giveColdMealsChecker();
         assertThat(coldMealChecker.count()).isEqualTo(0);
@@ -93,8 +93,8 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        List<MealReport> report = socrates.giveMealsReport();
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        List<MealReport> report = socrates.giveFullWeekMealsReport();
 
         //Assert
         assertThat(report).isEqualTo(expectedReport);
@@ -113,8 +113,8 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.OMNIVORE),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.OMNIVORE)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        List<MealReport> report = socrates.giveMealsReport();
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        List<MealReport> report = socrates.giveFullWeekMealsReport();
 
         //Assert
         assertThat(report).isEqualTo(expectedReport);
@@ -133,8 +133,8 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.PESCATARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        List<MealReport> report = socrates.giveMealsReport();
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        List<MealReport> report = socrates.giveFullWeekMealsReport();
 
         //Assert
         assertThat(report).isEqualTo(expectedReport);
@@ -155,8 +155,8 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        List<MealReport> report = socrates.giveMealsReport();
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        List<MealReport> report = socrates.giveFullWeekMealsReport();
 
         //Assert
         assertThat(report).isEqualTo(expectedReport);
@@ -188,8 +188,8 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        MealReport report = socrates.giveMealReportByMeal(fridayLunch);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        MealReport report = socrates.giveMealReport(fridayLunch);
         //Assert
         assertThat(report).isEqualTo(fridayLunchReport);
     }
@@ -211,8 +211,8 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        MealReport report = socrates.giveMealReportByMeal(thursdayDinner);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        MealReport report = socrates.giveMealReport(thursdayDinner);
         //Assert
         assertThat(report).isEqualTo(thursdayDinnerReport);
     }
@@ -234,8 +234,8 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        MealReport report = socrates.giveMealReportByMeal(thursdayDinner);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        MealReport report = socrates.giveMealReport(thursdayDinner);
         //Assert
         assertThat(report).isEqualTo(fridayLunchReport);
     }
@@ -257,8 +257,51 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
-        MealReport report = socrates.giveMealReportByMeal(thursdayDinner);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        MealReport report = socrates.giveMealReport(thursdayDinner);
+        //Assert
+        assertThat(report).isEqualTo(thursdayDinnerReport);
+    }
+
+    @Test
+    public void should_give_report_for_sunday_lunch_with_one_participant_leaving_saturday() {
+        // Arrange
+        fillEnumMap();
+        coverByDiet.put(MealType.PESCATARIAN, 1);
+        coverByDiet.put(MealType.OMNIVORE, 0);
+        coverByDiet.put(MealType.VEGETARIAN, 1);
+        coverByDiet.put(MealType.COLDMEAL, 0);
+        Meal sundayLunchMeal = new Meal(SocratesDay.SUNDAY, MealTime.LUNCH);
+        MealReport sundayLunchReport = new MealReport(sundayLunchMeal, coverByDiet);
+        //Act
+        StayPeriod thursdayToSaturday = new StayPeriod(lateCheckIn, new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(18)));
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, thursdayToSaturday, "thomas@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.PESCATARIAN)
+        );
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        MealReport report = socrates.giveMealReport(sundayLunchMeal);
+        //Assert
+        assertThat(report).isEqualTo(sundayLunchReport);
+    }
+
+    @Test
+    public void should_give_report_for_sunday_lunch_with_one_participant_arriving_thursday_23_and_leaving_saturday() {
+        // Arrange
+        fillEnumMap();
+        coverByDiet.put(MealType.PESCATARIAN, 0);
+        coverByDiet.put(MealType.OMNIVORE, 0);
+        coverByDiet.put(MealType.VEGETARIAN, 0);
+        coverByDiet.put(MealType.COLDMEAL, 1);
+        Meal sundayLunchMeal = new Meal(SocratesDay.THURSDAY, MealTime.DINNER);
+        MealReport thursdayDinnerReport = new MealReport(sundayLunchMeal, coverByDiet);
+        //Act
+        StayPeriod thursdayToSaturday = new StayPeriod(lateCheckIn, new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(18)));
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, thursdayToSaturday, "thomas@email.fr", MealType.OMNIVORE));
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
+        MealReport report = socrates.giveMealReport(sundayLunchMeal);
         //Assert
         assertThat(report).isEqualTo(thursdayDinnerReport);
     }

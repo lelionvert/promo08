@@ -6,11 +6,20 @@ public class Meal {
     private final SocratesDay day;
     private final MealTime mealTime;
 
-    public Meal(SocratesDay day, MealTime mealTime) {
+    Meal(SocratesDay day, MealTime mealTime) {
 
         this.day = day;
         this.mealTime = mealTime;
     }
+
+    boolean isSameDay(CheckIn checkIn) {
+        return checkIn.isSameDay(day);
+    }
+
+    boolean isSameDay(CheckOut checkOut) {
+        return checkOut.isSameDay(day);
+    }
+
 
     @Override
     public String toString() {
@@ -33,14 +42,5 @@ public class Meal {
     public int hashCode() {
         return Objects.hash(day, mealTime);
     }
-
-    public boolean isSameDay(CheckIn checkInHotMealLimit) {
-        return checkInHotMealLimit.isSameDay(day);
-    }
-
-    public boolean isSameDay(SocratesDay socratesDay) {
-        return socratesDay == day;
-    }
-
 
 }

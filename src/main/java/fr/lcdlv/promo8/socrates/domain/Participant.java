@@ -24,19 +24,39 @@ public class Participant {
         return stayPeriod;
     }
 
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public boolean arriveAfter(CheckIn checkInLimit) {
-        return stayPeriod.startAfter(checkInLimit);
+    private boolean arriveAfter(CheckIn checkIn) {
+        return stayPeriod.startAfter(checkIn);
     }
 
-    public boolean arriveSameDay(CheckIn checkIn) {
+    private boolean arriveSameDay(CheckIn checkIn) {
         return stayPeriod.arriveSameDay(checkIn);
     }
 
-    public MealType getMealType() {
+    MealType getMealType() {
         return mealType;
+    }
+
+    private boolean leaveBefore(CheckOut checkOut) {
+        return stayPeriod.leaveBefore(checkOut);
+    }
+
+    boolean arriveAfterHotMealLimit(CheckIn checkIn) {
+        return arriveAfter(checkIn) && arriveSameDay(checkIn);
+    }
+
+    boolean hasNoMealOnThursday(CheckIn checkIn, Meal meal) {
+        return meal.isSameDay(checkIn) && !arriveSameDay(checkIn);
+    }
+
+    boolean hasNoMealOnSunday(CheckOut checkOut, Meal meal) {
+        return meal.isSameDay(checkOut) && leaveBefore(checkOut);
+    }
+
+    boolean hasColdMeal(CheckIn checkInHotMealLimit, Meal meal) {
+        return meal.isSameDay(checkInHotMealLimit) && arriveAfterHotMealLimit(checkInHotMealLimit);
     }
 }

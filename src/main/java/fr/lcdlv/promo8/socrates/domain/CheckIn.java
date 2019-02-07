@@ -17,7 +17,7 @@ public class CheckIn {
         return isSameDay(checkIn.day);
     }
 
-    boolean isSameDay(SocratesDay otherDaY) {
-        return this.day.equals(otherDaY);
+    boolean isSameDay(SocratesDay otherDay) {
+        return this.day.equals(otherDay);
     }
 }

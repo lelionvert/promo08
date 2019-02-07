@@ -12,4 +12,8 @@ public class CheckOut {
     boolean isBeforeOrEqual(CheckOut checkOut) {
         return checkOut.day.isAfter(this.day) || checkOut.hour.isAfterOrEqual(this.hour);
     }
+
+    boolean isSameDay(SocratesDay otherDay) {
+        return this.day.equals(otherDay);
+    }
 }

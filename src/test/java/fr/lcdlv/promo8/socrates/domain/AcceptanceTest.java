@@ -12,9 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AcceptanceTest {
     private static StayPeriod stayPeriod;
-    private static CheckIn lateCheckIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
-    private static CheckOut earlyCheckOut = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11));
+    private static CheckIn lateCheckIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(23));
+    private static CheckOut earlyCheckOut = new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(21));
     private static CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
+    private static CheckOut checkOutLimit = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11));
 
     static {
         CheckIn checkIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(18));
@@ -112,38 +113,50 @@ public class AcceptanceTest {
 
         );
         List<String> expectedEmails = Arrays.asList("thomas@email.fr", "stephen@email.fr");
-        Socrates socrates = new Socrates(participants, checkInLimit);
+        Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
         ColdMealChecker coldMealChecker = new ColdMealChecker(expectedEmails);
         Assertions.assertThat(coldMealChecker).isEqualTo(socrates.giveColdMealsChecker());
     }
 
     @Test
     public void give_full_meal_report() {
+        // Arrange
         List<Participant> participants = Arrays.asList(
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "audrey@email.fr", MealType.VEGAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "bertillon@email.fr", MealType.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "palpatine@email.fr", MealType.PESCATARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "andre@email.fr", MealType.PESCATARIAN),
-                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "marie@email.fr", MealType.OMNIVORE)
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "luke@email.fr", MealType.VEGAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "audrey@email.fr", MealType.VEGAN),
+                new Participant(RoomChoice.SINGLE_ROOM, new StayPeriod(lateCheckIn, earlyCheckOut), "marie@email.fr", MealType.OMNIVORE),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "julie@email.fr", MealType.OMNIVORE)
         );
-        Socrates socrates = new Socrates(participants, checkInLimit);
+        Socrates socrates = new Socrates(participants, checkInLimit, checkOutLimit);
         EnumMap<MealType, Integer> enumDietCount = new EnumMap<>(MealType.class);
         enumDietCount.put(MealType.VEGETARIAN, 2);
-        EnumMap<MealType, Integer> enumDietCountThursdayAndSunday = new EnumMap<>(MealType.class);
-        enumDietCount.put(MealType.VEGETARIAN, 1);
-        Meal thursdayDinnerMeal = new Meal(SocratesDay.THURSDAY, MealTime.DINNER);
-        Meal fridayLunch = new Meal(SocratesDay.FRIDAY, MealTime.LUNCH);
-        Meal fridayDinner = new Meal(SocratesDay.FRIDAY, MealTime.DINNER);
-        Meal saturdayLunch = new Meal(SocratesDay.SATURDAY, MealTime.LUNCH);
-        Meal saturdayDinner = new Meal(SocratesDay.SATURDAY, MealTime.DINNER);
-        Meal sundayLunch = new Meal(SocratesDay.SUNDAY, MealTime.LUNCH);
-
+        enumDietCount.put(MealType.PESCATARIAN, 2);
+        enumDietCount.put(MealType.OMNIVORE, 2);
+        enumDietCount.put(MealType.VEGAN, 2);
+        enumDietCount.put(MealType.COLDMEAL, 0);
+        EnumMap<MealType, Integer> enumDietCountThursday = new EnumMap<>(MealType.class);
+        enumDietCountThursday.put(MealType.VEGETARIAN, 2);
+        enumDietCountThursday.put(MealType.PESCATARIAN, 2);
+        enumDietCountThursday.put(MealType.VEGAN, 2);
+        enumDietCountThursday.put(MealType.OMNIVORE, 1);
+        enumDietCountThursday.put(MealType.COLDMEAL, 1);
+        EnumMap<MealType, Integer> enumDietCountSunday = new EnumMap<>(MealType.class);
+        enumDietCountSunday.put(MealType.VEGETARIAN, 2);
+        enumDietCountSunday.put(MealType.PESCATARIAN, 2);
+        enumDietCountSunday.put(MealType.VEGAN, 2);
+        enumDietCountSunday.put(MealType.OMNIVORE, 1);
+        enumDietCountSunday.put(MealType.COLDMEAL, 0);
         List<MealReport> expectedReport = new ArrayList<>();
-        expectedReport.add(new MealReport(thursdayDinnerMeal, enumDietCountThursdayAndSunday));
-        expectedReport.add(new MealReport(fridayDinner, enumDietCount));
-        expectedReport.add(new MealReport(fridayLunch, enumDietCount));
-        expectedReport.add(new MealReport(saturdayDinner, enumDietCount));
-        expectedReport.add(new MealReport(saturdayLunch, enumDietCount));
-        expectedReport.add(new MealReport(sundayLunch, enumDietCountThursdayAndSunday));
-        Assertions.assertThat(expectedReport).isEqualTo(socrates.giveMealsReport());
+        expectedReport.add(new MealReport(new Meal(SocratesDay.THURSDAY, MealTime.DINNER), enumDietCountThursday));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.LUNCH), enumDietCount));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.FRIDAY, MealTime.DINNER), enumDietCount));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.LUNCH), enumDietCount));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.SATURDAY, MealTime.DINNER), enumDietCount));
+        expectedReport.add(new MealReport(new Meal(SocratesDay.SUNDAY, MealTime.LUNCH), enumDietCountSunday));
+        Assertions.assertThat(expectedReport).isEqualTo(socrates.giveFullWeekMealsReport());
     }
 }
