@@ -7,8 +7,8 @@ import static fr.lcdlv.promo8.socrates.domain.SocratesDay.*;
 
 class Socrates {
     private final ParticipantsRepository participantsRepo;
-    private CheckIn checkInHotMealLimit;
-    private CheckOut checkOutLunchLimit;
+    private final CheckIn checkInHotMealLimit;
+    private final CheckOut checkOutLunchLimit;
 
     Socrates(List<Participant> participants, CheckIn checkInHotMealLimit, CheckOut checkOutLunchLimit) {
         this.checkInHotMealLimit = checkInHotMealLimit;

@@ -2,13 +2,13 @@ package fr.lcdlv.promo8.socrates.domain;
 
 public class BillingMealImpl implements BillingMeal {
 
-    public static final int MAX_NUMBER_OF_MEAL = 6;
+    private static final int MAX_NUMBER_OF_MEAL = 6;
 
-    private CheckIn checkInLimit;
-    private CheckOut checkOutLimit;
-    private Price unitPriceByMeal;
+    private final CheckIn checkInLimit;
+    private final CheckOut checkOutLimit;
+    private final Price unitPriceByMeal;
 
-    public BillingMealImpl(CheckIn checkInLimit, CheckOut checkOutLimit, Price unitPriceByMeal) {
+    BillingMealImpl(CheckIn checkInLimit, CheckOut checkOutLimit, Price unitPriceByMeal) {
         this.unitPriceByMeal = unitPriceByMeal;
         this.checkInLimit = checkInLimit;
         this.checkOutLimit = checkOutLimit;

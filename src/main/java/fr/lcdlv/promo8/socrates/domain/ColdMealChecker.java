@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class ColdMealChecker {
     private final List<String> emails;
-    private int counter;
+    private final int counter;
 
     ColdMealChecker(List<String> emails) {
         this.emails = emails;
@@ -19,8 +19,8 @@ public class ColdMealChecker {
         return counter;
     }
 
-    public UnmodifiableListSet<String> getEmails() {
-        return new UnmodifiableListSet<String>(emails);
+    UnmodifiableListSet<String> getEmails() {
+        return new UnmodifiableListSet<>(emails);
     }
 
     @Override

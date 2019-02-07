@@ -3,20 +3,17 @@ package fr.lcdlv.promo8.socrates.domain;
 import com.sun.javafx.collections.UnmodifiableListSet;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
+import java.util.*;
 
 import static fr.lcdlv.promo8.socrates.domain.SocratesDay.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SocratesTest {
-    private static StayPeriod stayPeriod;
-    private static CheckIn lateCheckIn = new CheckIn(THURSDAY, Hour.valueOf(21));
-    private static CheckOut earlyCheckOut = new CheckOut(SUNDAY, Hour.valueOf(11));
-    private static CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
-    private EnumMap<MealType, Integer> coverByDiet = new EnumMap<MealType, Integer>(MealType.class);
+    private static final StayPeriod stayPeriod;
+    private static final CheckIn lateCheckIn = new CheckIn(THURSDAY, Hour.valueOf(21));
+    private static final CheckOut earlyCheckOut = new CheckOut(SUNDAY, Hour.valueOf(11));
+    private static final CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
+    private final EnumMap<MealType, Integer> coverByDiet = new EnumMap<>(MealType.class);
 
     static {
         CheckIn checkIn = new CheckIn(THURSDAY, Hour.valueOf(18));
@@ -40,7 +37,7 @@ public class SocratesTest {
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "stephen@email.fr", MealType.VEGETARIAN),
                 new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", MealType.VEGETARIAN)
         );
-        UnmodifiableListSet<String> expectedEmails = new UnmodifiableListSet<String>(Arrays.asList("thomas@email.fr", "stephen@email.fr", "steeve@email.fr"));
+        UnmodifiableListSet<String> expectedEmails = new UnmodifiableListSet<>(Arrays.asList("thomas@email.fr", "stephen@email.fr", "steeve@email.fr"));
         CheckIn checkInLimit = new CheckIn(THURSDAY, Hour.valueOf(21));
         Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
         ColdMealChecker coldMealChecker = socrates.giveColdMealsChecker();
@@ -298,7 +295,7 @@ public class SocratesTest {
         MealReport thursdayDinnerReport = new MealReport(sundayLunchMeal, new NumberOfMealsByDiet(coverByDiet));
         //Act
         StayPeriod thursdayToSaturday = new StayPeriod(lateCheckIn, new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(18)));
-        List<Participant> participants = Arrays.asList(
+        List<Participant> participants = Collections.singletonList(
                 new Participant(RoomChoice.SINGLE_ROOM, thursdayToSaturday, "thomas@email.fr", MealType.OMNIVORE));
         Socrates socrates = new Socrates(participants, checkInLimit, new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)));
         MealReport report = socrates.giveMealReport(sundayLunchMeal);

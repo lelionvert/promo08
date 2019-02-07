@@ -5,7 +5,7 @@ public class Participant {
     private final RoomChoice roomChoice;
     private final StayPeriod stayPeriod;
     private final String email;
-    private MealType mealType;
+    private final MealType mealType;
 
     public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, String email, MealType mealType) {
 

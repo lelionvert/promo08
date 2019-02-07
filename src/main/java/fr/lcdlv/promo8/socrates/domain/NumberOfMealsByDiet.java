@@ -5,7 +5,7 @@ import java.util.Objects;
 
 class NumberOfMealsByDiet {
 
-    private EnumMap<MealType, Integer> numberOfMealsByDiet;
+    private final EnumMap<MealType, Integer> numberOfMealsByDiet;
 
     NumberOfMealsByDiet() {
         this.numberOfMealsByDiet = initEnumMap();
@@ -37,11 +37,6 @@ class NumberOfMealsByDiet {
         for (MealType mealType : MealType.values()) {
             numberOfMealsByDiet.put(mealType, 0);
         }
-        return numberOfMealsByDiet;
-    }
-
-
-    EnumMap<MealType, Integer> getEnum() {
         return numberOfMealsByDiet;
     }
 }

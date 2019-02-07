@@ -11,11 +11,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AcceptanceTest {
-    private static StayPeriod stayPeriod;
-    private static CheckIn lateCheckIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(23));
-    private static CheckOut earlyCheckOut = new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(21));
-    private static CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
-    private static CheckOut checkOutLimit = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11));
+    private static final StayPeriod stayPeriod;
+    private static final CheckIn lateCheckIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(23));
+    private static final CheckOut earlyCheckOut = new CheckOut(SocratesDay.SATURDAY, Hour.valueOf(21));
+    private static final CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
+    private static final CheckOut checkOutLimit = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11));
 
     static {
         CheckIn checkIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(18));

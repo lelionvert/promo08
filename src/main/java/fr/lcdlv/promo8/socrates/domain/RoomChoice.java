@@ -4,5 +4,5 @@ public enum RoomChoice {
     SINGLE_ROOM,
     TRIPLE_ROOM,
     NO_ACCOMODATION,
-    DOUBLE_ROOM;
+    DOUBLE_ROOM
 }
