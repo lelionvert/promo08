@@ -6,19 +6,19 @@ import java.util.List;
 import static fr.lcdlv.promo8.socrates.domain.SocratesDay.*;
 
 class Socrates {
-    private final List<Participant> participants;
+    private final ParticipantsRepository participantsRepo;
     private CheckIn checkInHotMealLimit;
     private CheckOut checkOutLunchLimit;
 
     Socrates(List<Participant> participants, CheckIn checkInHotMealLimit, CheckOut checkOutLunchLimit) {
-        this.participants = participants;
         this.checkInHotMealLimit = checkInHotMealLimit;
         this.checkOutLunchLimit = checkOutLunchLimit;
+        this.participantsRepo = new ParticipantsRepository(participants);
     }
 
     ColdMealChecker giveColdMealsChecker() {
         List<String> emails = new ArrayList<>();
-        for (Participant participant : participants) {
+        for (Participant participant : participantsRepo.getParticipants()) {
             if (participant.arriveAfterHotMealLimit(checkInHotMealLimit)) {
                 emails.add(participant.getEmail());
             }
@@ -43,7 +43,7 @@ class Socrates {
     }
 
     MealReport giveMealReport(Meal meal) {
-        NumberOfMealsByDiet numberOfMealsByDiet = generateNumberOfMealsByDiet(meal, participants);
+        NumberOfMealsByDiet numberOfMealsByDiet = generateNumberOfMealsByDiet(meal, participantsRepo.getParticipants());
         return new MealReport(meal, numberOfMealsByDiet);
     }
 
