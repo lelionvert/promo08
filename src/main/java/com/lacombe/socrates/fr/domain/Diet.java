@@ -1,5 +1,5 @@
 package com.lacombe.socrates.fr.domain;
 
 public enum Diet {
-    VEGETARIAN, VEGAN
+    VEGETARIAN, VEGAN, PESCATARIAN, OMNIVORE
 }
