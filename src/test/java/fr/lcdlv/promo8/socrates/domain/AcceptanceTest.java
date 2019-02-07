@@ -1,0 +1,147 @@
+package fr.lcdlv.promo8.socrates.domain;
+
+import org.assertj.core.api.Assertions;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class AcceptanceTest {
+    private static StayPeriod stayPeriod;
+    private static CheckIn lateCheckIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
+    private static CheckOut earlyCheckOut = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11));
+    private static CheckIn checkInLimit = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21));
+
+    static {
+        CheckIn checkIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(18));
+        CheckOut checkOut = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(15));
+        stayPeriod = new StayPeriod(checkIn, checkOut);
+    }
+
+    @Test
+    public void a_participant_with_a_single_room_for_a_full_week_end_should_have_a_price_of_610() {
+        // Arrange
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
+        BillingRoomMock billingRoom = new BillingRoomMock();
+        BillingService billingService = new BillingService(billingMeal, billingRoom);
+        Price expectedPrice = Price.valueOf(610);
+        //  Act
+        Price total = billingService.total(participant);
+        // Assert
+        assertThat(expectedPrice).isEqualTo(total);
+    }
+
+    @Test
+    public void a_participant_with_a_double_room_for_a_full_week_end_should_have_a_price_of_510() {
+        // Arrange
+        Participant participant = new Participant(RoomChoice.DOUBLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
+        BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
+        BillingService billingService = new BillingService(billingMeal, billingRoom);
+        Price expectedPrice = Price.valueOf(510);
+        //  Act
+        Price total = billingService.total(participant);
+        // Assert
+        assertThat(expectedPrice).isEqualTo(total);
+    }
+
+
+    @Test
+    public void a_participant_with_a_single_room_when_arriving_friday_should_have_a_price_of_570() {
+        // Arrange
+        CheckOut checkOut = new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(15));
+        StayPeriod stayPeriod = new StayPeriod(lateCheckIn, checkOut);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
+        BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
+        BillingService billingService = new BillingService(billingMeal, billingRoom);
+        Price expectedPrice = Price.valueOf(570);
+        //  Act
+        Price total = billingService.total(participant);
+        // Assert
+        assertThat(expectedPrice).isEqualTo(total);
+    }
+
+    @Test
+    public void a_participant_with_a_single_room_when_leaving_saturday_should_have_a_price_of_570() {
+        // Arrange
+        CheckIn checkIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(18));
+        StayPeriod stayPeriod = new StayPeriod(checkIn, earlyCheckOut);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
+        BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
+        BillingService billingService = new BillingService(billingMeal, billingRoom);
+        Price expectedPrice = Price.valueOf(570);
+        //  Act
+        Price total = billingService.total(participant);
+        // Assert
+        assertThat(expectedPrice).isEqualTo(total);
+    }
+
+    @Test
+    public void a_participant_with_a_single_room_when_arriving_friday_and_leaving_saturday_should_have_a_price_of_530() {
+        // Arrange
+        StayPeriod stayPeriod = new StayPeriod(lateCheckIn, earlyCheckOut);
+        Participant participant = new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "email@email.fr", Diet.VEGETARIAN);
+        BillingMealImpl billingMeal = new BillingMealImpl(new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(21)), new CheckOut(SocratesDay.SUNDAY, Hour.valueOf(11)), Price.valueOf(40));
+        BillingRoomImpl billingRoom = new BillingRoomImpl(new RoomCatalog());
+        BillingService billingService = new BillingService(billingMeal, billingRoom);
+        Price expectedPrice = Price.valueOf(530);
+        //  Act
+        Price total = billingService.total(participant);
+        // Assert
+        assertThat(expectedPrice).isEqualTo(total);
+    }
+
+    @Test
+    public void given_participants_should_return_a_list_of_obly_2late_participants_emails() {
+        StayPeriod stayPeriod_late = new StayPeriod(lateCheckIn, earlyCheckOut);
+        CheckIn checkIn = new CheckIn(SocratesDay.THURSDAY, Hour.valueOf(18));
+        CheckOut checkOut = new CheckOut(SocratesDay.THURSDAY, Hour.valueOf(22));
+        StayPeriod stayPeriod = new StayPeriod(checkIn, checkOut);
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod_late, "thomas@email.fr", Diet.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod_late, "stephen@email.fr", Diet.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "marie@email.fr", Diet.VEGETARIAN)
+
+        );
+        List<String> expectedEmails = Arrays.asList("thomas@email.fr", "stephen@email.fr");
+        Socrates socrates = new Socrates(participants, checkInLimit);
+        ColdMealChecker coldMealChecker = new ColdMealChecker(expectedEmails);
+        Assertions.assertThat(coldMealChecker).isEqualTo(socrates.giveColdMeals());
+    }
+
+    @Test
+    public void give_full_meal_report() {
+        List<Participant> participants = Arrays.asList(
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "steeve@email.fr", Diet.VEGETARIAN),
+                new Participant(RoomChoice.SINGLE_ROOM, stayPeriod, "marie@email.fr", Diet.VEGETARIAN)
+        );
+        Socrates socrates = new Socrates(participants, checkInLimit);
+        EnumMap<Diet, Integer> enumDietCount = new EnumMap<Diet, Integer>(Diet.class);
+        enumDietCount.put(Diet.VEGETARIAN, 2);
+        EnumMap<Diet, Integer> enumDietCountThursdayAndSunday = new EnumMap<Diet, Integer>(Diet.class);
+        enumDietCount.put(Diet.VEGETARIAN, 1);
+        Meal thursdayDinnerMeal = new Meal(SocratesDay.THURSDAY, MealTime.DINNER);
+        Meal fridayLunch = new Meal(SocratesDay.FRIDAY, MealTime.LUNCH);
+        Meal fridayDinner = new Meal(SocratesDay.FRIDAY, MealTime.DINNER);
+        Meal saturdayLunch = new Meal(SocratesDay.SATURDAY, MealTime.LUNCH);
+        Meal saturdayDinner = new Meal(SocratesDay.SATURDAY, MealTime.DINNER);
+        Meal sundayLunch = new Meal(SocratesDay.SUNDAY, MealTime.LUNCH);
+
+        List<MealReport> expectedReport = new ArrayList<MealReport>();
+        expectedReport.add(new MealReport(thursdayDinnerMeal, enumDietCountThursdayAndSunday));
+        expectedReport.add(new MealReport(fridayDinner, enumDietCount));
+        expectedReport.add(new MealReport(fridayLunch, enumDietCount));
+        expectedReport.add(new MealReport(saturdayDinner, enumDietCount));
+        expectedReport.add(new MealReport(saturdayLunch, enumDietCount));
+        expectedReport.add(new MealReport(sundayLunch, enumDietCountThursdayAndSunday));
+        Assertions.assertThat(expectedReport).isEqualTo(socrates.giveMealsReport());
+    }
+}
