@@ -16,6 +16,7 @@ import java.util.*;
 
 import static com.lacombe.socrates.fr.domain.CookService.DINNER;
 import static com.lacombe.socrates.fr.domain.CookService.LUNCH;
+import static com.lacombe.socrates.fr.domain.Diet.VEGAN;
 import static com.lacombe.socrates.fr.domain.Diet.VEGETARIAN;
 import static com.lacombe.socrates.fr.domain.RoomChoice.NO_ACCOMMODATION;
 import static java.time.DayOfWeek.FRIDAY;
@@ -125,11 +126,10 @@ public class CountCoversReportTest {
     }
 
     @Test
-    public void given_no_participant_should_return_report_with_0_covers() {
+    public void given_no_participant_should_return_report_with_0_cover() {
         Socrates socrates = new Socrates(participantRegister, THURSDAY, LocalTime.of(16, 00));
         CountCoversReportByDiet result = socrates.countCoversReportByDiet(Arrays.asList(new Meal(THURSDAY, DINNER)));
         Map<Diet, Long> coversByDiet = new HashMap<>();
-        coversByDiet.put(VEGETARIAN, 0L);
         CountCoversReportByDiet countCoverReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(THURSDAY, DINNER), coversByDiet));
         assertThat(result).isEqualTo(countCoverReportByDiet);
     }
@@ -180,6 +180,24 @@ public class CountCoversReportTest {
         CountCoversReportByDiet result = socrates.countCoversReportByDiet(meals);
         Map<Diet, Long> coversByDiet = new HashMap<>();
         coversByDiet.put(VEGETARIAN, 1L);
+
+        CountCoversReportByDiet countCoverReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(FRIDAY, DINNER), coversByDiet), new MealReportByDiet(new Meal(FRIDAY, LUNCH), coversByDiet));
+        Mockito.verify(participantRegister, Mockito.times(meals.size())).getAllParticipant();
+        assertThat(result).isEqualTo(countCoverReportByDiet);
+    }
+
+    @Test
+    public void given_a_vegan_participant_and_a_more_meals_should_give_report_for_meals_with_cover_for_vegan() {
+        when(participantRegister.getAllParticipant()).thenReturn(asList(
+                new Participant(NO_ACCOMMODATION,
+                        StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(20, 00))).
+                                to(new Checkout(FRIDAY, of(23, 00))).build(),
+                        new Mail("toto@gmail.com"), VEGAN)));
+        Socrates socrates = new Socrates(participantRegister, THURSDAY, LocalTime.of(16, 00));
+        List<Meal> meals = Arrays.asList(new Meal(FRIDAY, DINNER), new Meal(FRIDAY, LUNCH));
+        CountCoversReportByDiet result = socrates.countCoversReportByDiet(meals);
+        Map<Diet, Long> coversByDiet = new HashMap<>();
+        coversByDiet.put(VEGAN, 1L);
 
         CountCoversReportByDiet countCoverReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(FRIDAY, DINNER), coversByDiet), new MealReportByDiet(new Meal(FRIDAY, LUNCH), coversByDiet));
         Mockito.verify(participantRegister, Mockito.times(meals.size())).getAllParticipant();

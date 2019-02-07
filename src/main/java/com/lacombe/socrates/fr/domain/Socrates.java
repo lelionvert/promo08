@@ -74,12 +74,22 @@ public class Socrates {
     }
 
     public MealReportByDiet getMealReport(Meal meal) {
-        Long vegetarians = participantRegister.getAllParticipant()
+        List<Participant> allParticipant = participantRegister.getAllParticipant();
+        Long vegetarians = allParticipant
                 .stream()
                 .filter(participant -> participant.hasDiet(VEGETARIAN))
                 .count();
         HashMap<Diet, Long> coversByDiet = new HashMap<>();
-        coversByDiet.put(VEGETARIAN, vegetarians);
+        if (vegetarians > 0) {
+            coversByDiet.put(VEGETARIAN, vegetarians);
+        }
+        Long vegans = allParticipant
+                .stream()
+                .filter(participant -> participant.hasDiet(VEGAN))
+                .count();
+        if (vegans > 0) {
+            coversByDiet.put(VEGAN, vegans);
+        }
         return new MealReportByDiet(meal, coversByDiet);
     }
 
