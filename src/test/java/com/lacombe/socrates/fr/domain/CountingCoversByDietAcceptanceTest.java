@@ -35,7 +35,7 @@ public class CountingCoversByDietAcceptanceTest {
         List<Participant> participants = Arrays.asList(new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegetarian@gmail.fr"), VEGETARIAN));
         ParticipantRegister participantRegister = new ParticipantRegisterInMemory(participants);
 
-        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00));
+        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00), new ColdMeals());
 
         CountCoversReportByDiet result = socrates.countCoversReportByDiet(Arrays.asList(new Meal(THURSDAY, DINNER)));
         Map<Diet, Long> coversByDiet = new HashMap<>();
@@ -53,7 +53,7 @@ public class CountingCoversByDietAcceptanceTest {
         List<Participant> participants = Arrays.asList(new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegan@gmail.fr"), diet));
         ParticipantRegister participantRegister = new ParticipantRegisterInMemory(participants);
 
-        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00));
+        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00), new ColdMeals());
 
         CountCoversReportByDiet result = socrates.countCoversReportByDiet(Arrays.asList(new Meal(THURSDAY, DINNER)));
         Map<Diet, Long> coversByDiet = new HashMap<>();
@@ -73,7 +73,7 @@ public class CountingCoversByDietAcceptanceTest {
                 new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegan@gmail.fr"), OMNIVORE));
         ParticipantRegister participantRegister = new ParticipantRegisterInMemory(participants);
 
-        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00));
+        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00), new ColdMeals());
 
         CountCoversReportByDiet result = socrates.countCoversReportByDiet(Arrays.asList(new Meal(THURSDAY, DINNER), new Meal(FRIDAY, LUNCH)));
         Map<Diet, Long> coversByDiet = new HashMap<>();
@@ -100,7 +100,7 @@ public class CountingCoversByDietAcceptanceTest {
                 new Participant(NO_ACCOMMODATION, stayPeriodWithourFirstMeal, new Mail("vegan@gmail.fr"), OMNIVORE));
         ParticipantRegister participantRegister = new ParticipantRegisterInMemory(participants);
 
-        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00));
+        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00), new ColdMeals());
 
         CountCoversReportByDiet result = socrates.countCoversReportByDiet(Arrays.asList(new Meal(THURSDAY, DINNER), new Meal(FRIDAY, LUNCH)));
         Map<Diet, Long> coversByDietForThursday = new HashMap<>();

@@ -28,7 +28,7 @@ public class ColdMealTest {
                 new Participant(RoomChoice.NO_ACCOMMODATION, StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00))).to(new Checkout(DayOfWeek.SUNDAY, of(12, 00))).build(), new Mail("toto@gmail.com"), VEGETARIAN),
                 new Participant(RoomChoice.NO_ACCOMMODATION, StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(22, 00))).to(new Checkout(DayOfWeek.SUNDAY, of(12, 00))).build(), new Mail("blop@lacombe.fr"), VEGETARIAN)
         ));
-        socrates = new Socrates(participantRegister, THURSDAY, of(21, 00));
+        socrates = new Socrates(participantRegister, THURSDAY, of(21, 00), new ColdMeals());
 
     }
 

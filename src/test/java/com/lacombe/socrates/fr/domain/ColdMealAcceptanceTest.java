@@ -27,7 +27,7 @@ class ColdMealAcceptanceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        socrates = new Socrates(participantRegister, THURSDAY, of(21, 00));
+        socrates = new Socrates(participantRegister, THURSDAY, of(21, 00), new ColdMeals());
     }
 
 

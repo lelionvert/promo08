@@ -42,7 +42,7 @@ public class CountCoversReportTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        socrates = new Socrates(participantRegister, FIRST_DAY_CONFERENCE, LocalTime.of(21, 00));
+        socrates = new Socrates(participantRegister, FIRST_DAY_CONFERENCE, LocalTime.of(21, 00), new ColdMeals());
     }
 
     private Participant aParticipant(Diet diet) {
