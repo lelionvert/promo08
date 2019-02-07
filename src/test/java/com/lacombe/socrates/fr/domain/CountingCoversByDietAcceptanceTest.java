@@ -7,7 +7,9 @@ import org.junit.jupiter.api.Test;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.lacombe.socrates.fr.domain.CookService.DINNER;
 import static com.lacombe.socrates.fr.domain.CookService.LUNCH;
@@ -40,5 +42,22 @@ public class CountingCoversByDietAcceptanceTest {
                 new MealCoverReport(new Meal(SATURDAY, DINNER), Diet.VEGETARIAN, 1),
                 new MealCoverReport(new Meal(SUNDAY, LUNCH), Diet.VEGETARIAN, 1));
         assertThat(result).isEqualTo(countCoversReport);
+    }
+
+    @Test
+    void name() {
+        StayPeriod stayPeriod = StayPeriod.StayPeriodBuilder.from(new Checkin(THURSDAY, of(20, 00)))
+                .to(new Checkout(SUNDAY, of(23, 00))).build();
+
+        List<Participant> participants = Arrays.asList(new Participant(NO_ACCOMMODATION, stayPeriod, new Mail("vegetarian@gmail.fr"), VEGETARIAN));
+        ParticipantRegister participantRegister = new ParticipantRegisterInMemory(participants);
+
+        socrates = new Socrates(participantRegister, DayOfWeek.THURSDAY, LocalTime.of(21, 00));
+
+        CountCoversReportByDiet result = socrates.countCoversReportByDiet(Arrays.asList(new Meal(THURSDAY, DINNER)));
+        Map<Diet, Long> coversByDiet = new HashMap<>();
+        coversByDiet.put(VEGETARIAN, 1L);
+        CountCoversReportByDiet countCoversReportByDiet = new CountCoversReportByDiet(new MealReportByDiet(new Meal(DayOfWeek.THURSDAY, DINNER), coversByDiet));
+        assertThat(result).isEqualTo(countCoversReportByDiet);
     }
 }

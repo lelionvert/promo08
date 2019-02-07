@@ -2,6 +2,7 @@ package com.lacombe.socrates.fr.domain;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.lacombe.socrates.fr.domain.CookService.DINNER;
@@ -40,6 +41,7 @@ public class Socrates {
         long nbVegeterians = participants.stream().filter(participant -> participant.hasDiet(VEGETARIAN)).count();
         if (nbVegeterians > 0) {
             Diet diet = VEGETARIAN;
+
             return new CountCoversReport(getMealCoverReport(nbVegeterians, new Meal(THURSDAY, DINNER), diet),
                     getMealCoverReport(nbVegeterians, new Meal(FRIDAY, LUNCH), diet),
                     getMealCoverReport(nbVegeterians, new Meal(FRIDAY, DINNER), diet),
@@ -69,5 +71,19 @@ public class Socrates {
         if (nbVegeterians > 0)
             return new CountCoversReport(vegetarianReport);
         return new CountCoversReport(veganReport);
+    }
+
+    public MealReportByDiet getMealReport(Meal meal) {
+        Long vegetarians = participantRegister.getAllParticipant()
+                .stream()
+                .filter(participant -> participant.hasDiet(VEGETARIAN))
+                .count();
+        HashMap<Diet, Long> coversByDiet = new HashMap<>();
+        coversByDiet.put(VEGETARIAN, vegetarians);
+        return new MealReportByDiet(meal, coversByDiet);
+    }
+
+    public CountCoversReportByDiet countCoversReportByDiet(List<Meal> meals) {
+        return new CountCoversReportByDiet(meals.stream().map(this::getMealReport).collect(toList()));
     }
 }
