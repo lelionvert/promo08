@@ -1,4 +1,7 @@
-package fr.lcdlv.promo8.socrates.domain;
+package fr.lcdlv.promo8.socrates.domain.Billing;
+
+import fr.lcdlv.promo8.socrates.domain.Participant;
+import fr.lcdlv.promo8.socrates.domain.Price;
 
 public class BillingService {
     private final BillingMeal billingMeal;

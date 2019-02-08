@@ -2,7 +2,7 @@ package fr.lcdlv.promo8.socrates.domain;
 
 import java.util.EnumMap;
 
-class RoomCatalog {
+public class RoomCatalog {
     private final EnumMap<RoomChoice, Price> priceByRoomChoice;
 
     RoomCatalog() {
@@ -14,7 +14,7 @@ class RoomCatalog {
     }
 
 
-    Price getPrice(RoomChoice roomChoice) {
+    public Price getPrice(RoomChoice roomChoice) {
         return priceByRoomChoice.get(roomChoice);
     }
 }

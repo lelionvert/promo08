@@ -1,4 +1,4 @@
-package fr.lcdlv.promo8.socrates.domain;
+package fr.lcdlv.promo8.socrates.domain.ColdMeal;
 
 import com.sun.javafx.collections.UnmodifiableListSet;
 
@@ -9,17 +9,17 @@ public class ColdMealChecker {
     private final List<String> emails;
     private final int counter;
 
-    ColdMealChecker(List<String> emails) {
+    public ColdMealChecker(List<String> emails) {
         this.emails = emails;
         this.counter = this.emails.size();
     }
 
 
-    int count() {
+    public int count() {
         return counter;
     }
 
-    UnmodifiableListSet<String> getEmails() {
+    public UnmodifiableListSet<String> getEmails() {
         return new UnmodifiableListSet<>(emails);
     }
 

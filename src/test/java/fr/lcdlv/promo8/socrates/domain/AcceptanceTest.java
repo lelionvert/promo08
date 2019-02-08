@@ -1,5 +1,7 @@
 package fr.lcdlv.promo8.socrates.domain;
 
+import fr.lcdlv.promo8.socrates.domain.Billing.*;
+import fr.lcdlv.promo8.socrates.domain.ColdMeal.ColdMealChecker;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

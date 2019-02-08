@@ -1,5 +1,8 @@
 package fr.lcdlv.promo8.socrates.domain;
 
+import fr.lcdlv.promo8.socrates.domain.Billing.*;
+import fr.lcdlv.promo8.socrates.domain.ColdMeal.ColdMealChecker;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,8 @@
-package fr.lcdlv.promo8.socrates.domain;
+package fr.lcdlv.promo8.socrates.domain.Billing;
+
+import fr.lcdlv.promo8.socrates.domain.Price;
+import fr.lcdlv.promo8.socrates.domain.RoomCatalog;
+import fr.lcdlv.promo8.socrates.domain.RoomChoice;
 
 public class BillingRoomImpl implements BillingRoom {
     private final RoomCatalog roomCatalog;

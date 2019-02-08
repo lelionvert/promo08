@@ -13,7 +13,7 @@ public class Price {
         return new Price(value);
     }
 
-    Price multiplyBy(int numberOfMeal) {
+    public Price multiplyBy(int numberOfMeal) {
         return valueOf(numberOfMeal * value);
     }
 
@@ -21,7 +21,7 @@ public class Price {
         return value;
     }
 
-    Price add(Price otherPrice) {
+    public Price add(Price otherPrice) {
         return valueOf(otherPrice.getValue() + value);
     }
 

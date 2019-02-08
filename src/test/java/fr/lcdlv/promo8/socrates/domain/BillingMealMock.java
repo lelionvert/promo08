@@ -1,5 +1,7 @@
 package fr.lcdlv.promo8.socrates.domain;
 
+import fr.lcdlv.promo8.socrates.domain.Billing.BillingMeal;
+
 public class BillingMealMock implements BillingMeal {
 
     @Override

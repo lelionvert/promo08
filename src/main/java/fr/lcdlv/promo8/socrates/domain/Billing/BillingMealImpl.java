@@ -1,4 +1,9 @@
-package fr.lcdlv.promo8.socrates.domain;
+package fr.lcdlv.promo8.socrates.domain.Billing;
+
+import fr.lcdlv.promo8.socrates.domain.CheckIn;
+import fr.lcdlv.promo8.socrates.domain.CheckOut;
+import fr.lcdlv.promo8.socrates.domain.Price;
+import fr.lcdlv.promo8.socrates.domain.StayPeriod;
 
 public class BillingMealImpl implements BillingMeal {
 
@@ -8,7 +13,7 @@ public class BillingMealImpl implements BillingMeal {
     private final CheckOut checkOutLimit;
     private final Price unitPriceByMeal;
 
-    BillingMealImpl(CheckIn checkInLimit, CheckOut checkOutLimit, Price unitPriceByMeal) {
+    public BillingMealImpl(CheckIn checkInLimit, CheckOut checkOutLimit, Price unitPriceByMeal) {
         this.unitPriceByMeal = unitPriceByMeal;
         this.checkInLimit = checkInLimit;
         this.checkOutLimit = checkOutLimit;

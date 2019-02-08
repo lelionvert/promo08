@@ -1,4 +1,8 @@
-package fr.lcdlv.promo8.socrates.domain;
+package fr.lcdlv.promo8.socrates.domain.Billing;
+
+import fr.lcdlv.promo8.socrates.domain.CheckIn;
+import fr.lcdlv.promo8.socrates.domain.CheckOut;
+import fr.lcdlv.promo8.socrates.domain.SocratesDay;
 
 import java.util.Objects;
 
@@ -6,16 +10,16 @@ public class Meal {
     private final SocratesDay day;
     private final MealTime mealTime;
 
-    Meal(SocratesDay day, MealTime mealTime) {
+    public Meal(SocratesDay day, MealTime mealTime) {
         this.day = day;
         this.mealTime = mealTime;
     }
 
-    boolean isSameDay(CheckIn checkIn) {
+    public boolean isSameDay(CheckIn checkIn) {
         return checkIn.isSameDay(day);
     }
 
-    boolean isSameDay(CheckOut checkOut) {
+    public boolean isSameDay(CheckOut checkOut) {
         return checkOut.isSameDay(day);
     }
 

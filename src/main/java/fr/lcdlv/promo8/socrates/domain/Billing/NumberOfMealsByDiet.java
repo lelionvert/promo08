@@ -1,21 +1,21 @@
-package fr.lcdlv.promo8.socrates.domain;
+package fr.lcdlv.promo8.socrates.domain.Billing;
 
 import java.util.EnumMap;
 import java.util.Objects;
 
-class NumberOfMealsByDiet {
+public class NumberOfMealsByDiet {
 
     private final EnumMap<MealType, Integer> numberOfMealsByDiet;
 
-    NumberOfMealsByDiet() {
+    public NumberOfMealsByDiet() {
         this.numberOfMealsByDiet = initEnumMap();
     }
 
-    NumberOfMealsByDiet(EnumMap<MealType, Integer> numberOfCoversByDiet) {
+    public NumberOfMealsByDiet(EnumMap<MealType, Integer> numberOfCoversByDiet) {
         this.numberOfMealsByDiet = new EnumMap<>(numberOfCoversByDiet);
     }
 
-    void incrementCoverNumberByMealType(MealType participantMealType) {
+    public void incrementCoverNumberByMealType(MealType participantMealType) {
         numberOfMealsByDiet.put(participantMealType, (numberOfMealsByDiet.get(participantMealType) + 1));
     }
 

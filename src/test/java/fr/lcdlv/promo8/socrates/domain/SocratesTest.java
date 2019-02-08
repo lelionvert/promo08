@@ -1,6 +1,8 @@
 package fr.lcdlv.promo8.socrates.domain;
 
 import com.sun.javafx.collections.UnmodifiableListSet;
+import fr.lcdlv.promo8.socrates.domain.Billing.*;
+import fr.lcdlv.promo8.socrates.domain.ColdMeal.ColdMealChecker;
 import org.junit.Test;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package fr.lcdlv.promo8.socrates.domain;
+package fr.lcdlv.promo8.socrates.domain.Billing;
 
 import java.util.Objects;
 
@@ -7,7 +7,7 @@ public class MealReport {
     private final NumberOfMealsByDiet numberOfMealsByDiet;
 
 
-    MealReport(Meal meal, NumberOfMealsByDiet numberOfMealsByDiet) {
+    public MealReport(Meal meal, NumberOfMealsByDiet numberOfMealsByDiet) {
         this.meal = meal;
         this.numberOfMealsByDiet = numberOfMealsByDiet;
     }

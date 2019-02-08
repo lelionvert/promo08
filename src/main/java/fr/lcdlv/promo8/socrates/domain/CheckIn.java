@@ -4,7 +4,7 @@ public class CheckIn {
     private final SocratesDay day;
     private final Hour hour;
 
-    public CheckIn(SocratesDay day, Hour hour) {
+    CheckIn(SocratesDay day, Hour hour) {
         this.day = day;
         this.hour = hour;
     }
@@ -17,7 +17,7 @@ public class CheckIn {
         return isSameDay(checkIn.day);
     }
 
-    boolean isSameDay(SocratesDay otherDay) {
+    public boolean isSameDay(SocratesDay otherDay) {
         return this.day.equals(otherDay);
     }
 }

@@ -1,5 +1,6 @@
 package fr.lcdlv.promo8.socrates.domain;
 
+import fr.lcdlv.promo8.socrates.domain.Billing.BillingMealImpl;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

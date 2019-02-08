@@ -1,5 +1,8 @@
 package fr.lcdlv.promo8.socrates.domain;
 
+import fr.lcdlv.promo8.socrates.domain.Billing.Meal;
+import fr.lcdlv.promo8.socrates.domain.Billing.MealType;
+
 public class Participant {
 
     private final RoomChoice roomChoice;
@@ -7,7 +10,7 @@ public class Participant {
     private final String email;
     private final MealType mealType;
 
-    public Participant(RoomChoice roomChoice, StayPeriod stayPeriod, String email, MealType mealType) {
+    Participant(RoomChoice roomChoice, StayPeriod stayPeriod, String email, MealType mealType) {
 
         this.roomChoice = roomChoice;
         this.stayPeriod = stayPeriod;
@@ -15,11 +18,11 @@ public class Participant {
         this.mealType = mealType;
     }
 
-    RoomChoice getRoomChoice() {
+    public RoomChoice getRoomChoice() {
         return roomChoice;
     }
 
-    StayPeriod getStayPeriod() {
+    public StayPeriod getStayPeriod() {
         return stayPeriod;
     }
 
