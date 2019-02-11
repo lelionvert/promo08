@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using static System.Int32;
 using static System.Text.RegularExpressions.Regex;
 
@@ -7,24 +8,36 @@ namespace RPN
     public class Rpn
     {
         private const char Separator = ' ';
-        private const string Pattern = "-?[0-9]+ -?[0-9]+ [+/-]";
+        private const string Pattern = "(-?[0-9]+ -?[0-9]+ [+/-])";
 
         public static string Process(string input)
         {
             if (!IsMatch(input, Pattern))
                 return input;
 
-            var splitInput = input.Split(Separator);
+            Regex regex = new Regex(Pattern);
+            var match = regex.Match(input);
+            string result = input;
+            while (match.Success)
+            {
+                var splitInput = match.Groups[0].Value.Split(Separator);
 
-            int firstOperand = Parse(splitInput[0]);
-            int secondOperand = Parse(splitInput[1]);
-            var symbol = splitInput[2];
-            var operation = new Operation(firstOperand, secondOperand, symbol);
+                var operation = Operation.Builder.
+                    WithFirstOperand(Parse(splitInput[0])).
+                    WithSecondOperand(Parse(splitInput[1])).
+                    WithSymbol(splitInput[2]).Build();
 
-            if (operation.IsDividedByZero())
-                return input;
+                if (operation.IsDividedByZero())
+                    return result;
 
-            return operation.Calculate().ToString();
+                result = result.Replace(match.Groups[0].Value, operation.Calculate().ToString());
+                match = regex.Match(result);
+
+            }
+
+            return result;
+
+         
         }
     }
 }

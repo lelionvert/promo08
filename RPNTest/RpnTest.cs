@@ -123,5 +123,11 @@ namespace RPNTest
             Assert.AreEqual(resultExpected, Rpn.Process($"{x} 0 /"));
         }
 
+        [Test]
+        public void Given_an_expression_with_two_operators_should_return_the_result_of_two_operations()
+        {
+            string resultExpected="105";
+            Assert.AreEqual(resultExpected, Rpn.Process("120 10 5 + -"));
+        }
     }
 }
