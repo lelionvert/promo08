@@ -102,5 +102,26 @@ namespace RPNTest
             Assert.AreEqual(resultExpected, Rpn.Process("4 2 /"));
         }
 
+        [Test]
+        public void Given_an_expression_with_divide_operator_should_return_the_division_with_rest()
+        {
+            string resultExpected = "1";
+            Assert.AreEqual(resultExpected, Rpn.Process("4 3 /"));
+        }
+
+        [Test]
+        public void Given_an_expression_with_divide_operator_and_neutral_element_should_return_the_same([Random(10)]int x)
+        {
+            string resultExpected = $"{x}";
+            Assert.AreEqual(resultExpected, Rpn.Process($"{x} 1 /"));
+        }
+
+        [Test]
+        public void Given_an_expression_with_divide_operator_and_zero_should_return_input([Random(10)]int x)
+        {
+            string resultExpected = $"{x} 0 /";
+            Assert.AreEqual(resultExpected, Rpn.Process($"{x} 0 /"));
+        }
+
     }
 }
