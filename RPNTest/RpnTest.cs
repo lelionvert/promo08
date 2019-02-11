@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using FsCheck;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using RPN;
 
 namespace RPNTest
@@ -13,7 +10,7 @@ namespace RPNTest
         public void Given_a_simple_value_should_return_the_value()
         {
             string resultExpected="1";
-            NUnit.Framework.Assert.AreEqual(resultExpected,Rpn.Calculate("1"));
+            Assert.AreEqual(resultExpected,Rpn.Calculate("1"));
         }
 
         [Test]
@@ -24,10 +21,13 @@ namespace RPNTest
         }
 
         [Test]
-        public void Given_an_expression_with_no_operator_should_return_the_same()
+        [TestCase("Toto")]
+        [TestCase("1 + 2")]
+        [TestCase("toto + tata")]
+        [TestCase("toto tata +")]
+        public void Given_an_expression_with_no_operator_should_return_the_same(string input)
         {
-            string resultExpected="1 2";
-            Assert.AreEqual(resultExpected,Rpn.Calculate("1 2"));
+            Assert.AreEqual(input, Rpn.Calculate(input));
         }
 
         [Test]
@@ -48,15 +48,20 @@ namespace RPNTest
         [Test]
         public void Given_an_random_expression_with_plus_operator_should_return_the_sum([Random(10)]int x, [Random(10)]int y)
         {
-            
             string resultExpected = $"{x+y}";
             Assert.AreEqual(resultExpected, Rpn.Calculate($"{x} {y} +"));
         }
 
         [Test]
-        public void Given_an_random_expression_with_minus_operator_should_return_the_substraction([Random(10)]int x, [Random(10)]int y)
+        public void CommutativityTestOfPlusOperator([Random(10)]int x, [Random(10)]int y)
         {
+            string resultExpected = Rpn.Calculate($"{y} {x} +");
+            Assert.AreEqual(resultExpected, Rpn.Calculate($"{x} {y} +"));
+        }
 
+        [Test]
+        public void Given_an_random_expression_with_minus_operator_should_return_the_substraction([Range(-10,10)]int x, [Random(10)]int y)
+        {
             string resultExpected = $"{x - y}";
             Assert.AreEqual(resultExpected, Rpn.Calculate($"{x} {y} -"));
         }
