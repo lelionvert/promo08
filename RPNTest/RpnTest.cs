@@ -33,8 +33,6 @@ namespace RPNTest
         {
             string resultExpected="3";
             Assert.AreEqual(resultExpected,Rpn.Calculate("1 2 +"));
-            resultExpected = "5";
-            Assert.AreEqual(resultExpected, Rpn.Calculate("3 2 +"));
         }
 
       

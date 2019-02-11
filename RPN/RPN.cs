@@ -1,20 +1,27 @@
-﻿namespace RPN
+﻿using static System.Int32;
+
+namespace RPN
 {
     public class Rpn
     {
+        private const char Separator = ' ';
+
         public static string Calculate(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return string.Empty;
 
-            if (value == "1 2 +")
+            var splitValue = value.Split(Separator);
+            
+            if (splitValue.Length == 3 && splitValue[2] == "+")
             {
-                return "3";
+                if (TryParse(splitValue[0], out int firstOperand) &&
+                    TryParse(splitValue[1], out int secondOperand))
+                {
+                    return (firstOperand + secondOperand).ToString();
+                }
             }
-            if (value == "3 2 +")
-            {
-                return "5";
-            }
+
             return value;
         }
     }
