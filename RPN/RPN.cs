@@ -1,30 +1,30 @@
 ﻿using static System.Int32;
+using static System.Text.RegularExpressions.Regex;
 
 namespace RPN
 {
     public class Rpn
     {
         private const char Separator = ' ';
+        private const string Pattern = "-?[0-9]+ -?[0-9]+ [+-]";
 
-        public static string Calculate(string value)
+        public static string Process(string input)
         {
-            if (string.IsNullOrEmpty(value))
-                return string.Empty;
+            return IsMatch(input, Pattern) 
+                ? Calculate(input) 
+                : input;
+        }
 
-            var splitValue = value.Split(Separator);
-            
-            if (splitValue.Length == 3 
-                && TryParse(splitValue[0], out int firstOperand) 
-                && TryParse(splitValue[1], out int secondOperand))
-            {
-                if (splitValue[2] == "+")
-                    return $"{firstOperand + secondOperand}";
+        private static string Calculate(string input)
+        {
+            var splitValue = input.Split(Separator);
+            int firstOperand = Parse(splitValue[0]);
+            int secondOperand = Parse(splitValue[1]);
+       
+            if (splitValue[2] == "-")
+                return $"{firstOperand - secondOperand}";
 
-                if (splitValue[2] == "-")
-                    return $"{firstOperand - secondOperand}";
-            }
-            
-            return value;
+            return $"{firstOperand + secondOperand}";
         }
     }
 }
