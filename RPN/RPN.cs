@@ -10,21 +10,22 @@ namespace RPN
 
         public static string Process(string input)
         {
-            return IsMatch(input, Pattern) 
-                ? Calculate(input) 
-                : input;
+            if (!IsMatch(input, Pattern))
+                return input;
+
+            var splitInput = input.Split(Separator);
+            int firstOperand = Parse(splitInput[0]);
+            int secondOperand = Parse(splitInput[1]);
+            return Calculate(firstOperand, secondOperand, splitInput[2]).ToString();
+
         }
 
-        private static string Calculate(string input)
+        private static int Calculate(int firstOperand, int secondOperand, string operand)
         {
-            var splitValue = input.Split(Separator);
-            int firstOperand = Parse(splitValue[0]);
-            int secondOperand = Parse(splitValue[1]);
-       
-            if (splitValue[2] == "-")
-                return $"{firstOperand - secondOperand}";
+            if (operand == "-")
+                return firstOperand - secondOperand;
 
-            return $"{firstOperand + secondOperand}";
+            return firstOperand + secondOperand;
         }
     }
 }

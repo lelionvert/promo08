@@ -60,10 +60,38 @@ namespace RPNTest
         }
 
         [Test]
+        public void ElementZeroRightTestOfPlusOperator([Random(10)]int x)
+        {
+            string resultExpected = $"{x}";
+            Assert.AreEqual(resultExpected, Rpn.Process($"{x} 0 +"));
+        }
+
+        [Test]
+        public void ElementZeroLeftTestOfPlusOperator([Random(10)]int x)
+        {
+            string resultExpected = $"{x}";
+            Assert.AreEqual(resultExpected, Rpn.Process($"0 {x} +"));
+        }
+
+        [Test]
         public void Given_an_random_expression_with_minus_operator_should_return_the_substraction([Range(-10,10)]int x, [Random(10)]int y)
         {
             string resultExpected = $"{x - y}";
             Assert.AreEqual(resultExpected, Rpn.Process($"{x} {y} -"));
+        }
+
+        [Test]
+        public void ElementZeroRightTestOfMinusOperator([Range(-10, 10)]int x)
+        {
+            string resultExpected = $"{x}";
+            Assert.AreEqual(resultExpected, Rpn.Process($"{x} 0 -"));
+        }
+
+        [Test]
+        public void ElementZeroLeftTestOfMinusOperator([Range(-10, 10)]int x)
+        {
+            string resultExpected = $"{-x}";
+            Assert.AreEqual(resultExpected, Rpn.Process($"0 {x} -"));
         }
 
     }
