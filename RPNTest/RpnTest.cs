@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Security.Policy;
+using NUnit.Framework;
 using RPN;
 
 namespace RPNTest
@@ -92,6 +93,13 @@ namespace RPNTest
         {
             string resultExpected = $"{-x}";
             Assert.AreEqual(resultExpected, Rpn.Process($"0 {x} -"));
+        }
+
+        [Test]
+        public void Given_an_expression_with_divide_operator_should_return_the_division_with_no_rest()
+        {
+            string resultExpected = "2";
+            Assert.AreEqual(resultExpected, Rpn.Process("4 2 /"));
         }
 
     }

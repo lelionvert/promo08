@@ -6,7 +6,7 @@ namespace RPN
     public class Rpn
     {
         private const char Separator = ' ';
-        private const string Pattern = "-?[0-9]+ -?[0-9]+ [+-]";
+        private const string Pattern = @"-?[0-9]+ -?[0-9]+ [+/-]";
 
         public static string Process(string input)
         {
@@ -24,6 +24,9 @@ namespace RPN
         {
             if (operand == "-")
                 return firstOperand - secondOperand;
+
+            if (operand == "/")
+                return firstOperand / secondOperand;
 
             return firstOperand + secondOperand;
         }
