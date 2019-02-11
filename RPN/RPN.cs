@@ -1,4 +1,6 @@
-﻿using static System.Int32;
+﻿using System;
+using System.Linq;
+using static System.Int32;
 
 namespace RPN
 {
@@ -13,15 +15,17 @@ namespace RPN
 
             var splitValue = value.Split(Separator);
             
-            if (splitValue.Length == 3 && splitValue[2] == "+")
+            if (splitValue.Length == 3 
+                && TryParse(splitValue[0], out int firstOperand) 
+                && TryParse(splitValue[1], out int secondOperand))
             {
-                if (TryParse(splitValue[0], out int firstOperand) &&
-                    TryParse(splitValue[1], out int secondOperand))
-                {
-                    return (firstOperand + secondOperand).ToString();
-                }
-            }
+                if (splitValue[2] == "+")
+                    return $"{firstOperand + secondOperand}";
 
+                if (splitValue[2] == "-")
+                    return $"{firstOperand - secondOperand}";
+            }
+            
             return value;
         }
     }

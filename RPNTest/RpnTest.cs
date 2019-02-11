@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RPN;
 
@@ -35,6 +36,12 @@ namespace RPNTest
             Assert.AreEqual(resultExpected,Rpn.Calculate("1 2 +"));
         }
 
-      
+        [TestMethod]
+        public void Given_an_expression_with_minus_operator_should_return_the_substraction()
+        {
+            string resultExpected="1";
+            Assert.AreEqual(resultExpected,Rpn.Calculate("2 1 -"));
+        }
+
     }
 }
