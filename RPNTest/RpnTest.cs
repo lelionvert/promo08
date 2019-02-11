@@ -143,5 +143,33 @@ namespace RPNTest
             string resultExpected="5 3 4";
             Assert.AreEqual(resultExpected, Rpn.Process("7 2 - 3 4"));
         }
+
+        [Test]
+        public void Given_an_expression_with_divided_operators_should_return_result_of_two_divisions()
+        {
+            string resultExpected="0";
+            Assert.AreEqual(resultExpected, Rpn.Process("5 14 / 5 /"));
+        }
+
+        [Test]
+        public void Given_an_expression_with_all_operators_should_return_result_of_all_operations()
+        {
+            string resultExpected = "100 0 /";
+            Assert.AreEqual(resultExpected, Rpn.Process("100 40 5 35 + - /"));
+        }
+
+        [Test]
+        public void Given_an_expression_with_divided_and_zero_operators_should_return_input()
+        {
+            string resultExpected = "50 100 0 / /";
+            Assert.AreEqual(resultExpected, Rpn.Process("50 100 0 / /"));
+        }
+
+        [Test]
+        public void Given_an_expression_with_minus_first_should_return_minus_first()
+        {
+            string resultExpected = "- 20";
+            Assert.AreEqual(resultExpected, Rpn.Process("- 10 10 +"));
+        }
     }
 }
