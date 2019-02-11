@@ -2,6 +2,9 @@
 {
     public abstract class Operation
     {
+        private const string MinusSymbol = "-";
+        private const string DivideSymbol = "/";
+        private const int Zero = 0;
         private readonly int _firstOperand;
         private readonly int _secondOperand;
         private readonly string _symbol;
@@ -16,10 +19,7 @@
 
         public int Calculate()
         {
-            if (_symbol == "-")
-                return _firstOperand - _secondOperand;
-
-            if (_symbol == "/")
+            if (_symbol == DivideSymbol)
                 return _firstOperand / _secondOperand;
 
             return _firstOperand + _secondOperand;
@@ -27,7 +27,7 @@
 
         public bool IsDividedByZero()
         {
-            if (_secondOperand == 0 && _symbol == "/")
+            if (_secondOperand == Zero && _symbol == DivideSymbol)
                 return true;
             return false;
         }
@@ -60,8 +60,10 @@
 
             public Operation Build()
             {
-                if (_secondOperand == 0 && _symbol == "/")
-                    return new InvalidOperation();
+                if (_secondOperand == Zero && _symbol == DivideSymbol)
+                    return new InvalidOperation("Impossible to divide by zero");
+                if (_symbol == MinusSymbol)
+                    _secondOperand = -_secondOperand;
                 return new ValidOperation(_firstOperand,_secondOperand,_symbol);
             }
         }

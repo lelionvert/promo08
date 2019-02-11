@@ -6,8 +6,12 @@ namespace RPN
 {
     public class InvalidOperation: Operation
     {
-        public InvalidOperation() : base(0,0,"/")
+        public string Message { get; }
+
+        public InvalidOperation(string message)
+            : base(0,0,"/")
         {
+            Message = message;
         }
     }
 }

@@ -6,7 +6,8 @@ namespace RPN
 {
     public class ValidOperation: Operation
     {
-        protected internal ValidOperation(int firstOperand, int secondOperand, string symbol) : base(firstOperand, secondOperand, symbol)
+        protected internal ValidOperation(int firstOperand, int secondOperand, string symbol) 
+            : base(firstOperand, secondOperand, symbol)
         {
         }
     }
