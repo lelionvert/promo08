@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using static System.Int32;
+﻿using static System.Int32;
 
 namespace RPN
 {
