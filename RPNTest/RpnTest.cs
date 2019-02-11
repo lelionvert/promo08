@@ -129,5 +129,19 @@ namespace RPNTest
             string resultExpected="105";
             Assert.AreEqual(resultExpected, Rpn.Process("120 10 5 + -"));
         }
+
+        [Test]
+        public void Given_an_expression_with_mixed_operators_should_return_the_result_of_many_operations()
+        {
+            string resultExpected="10";
+            Assert.AreEqual(resultExpected, Rpn.Process("10 10 10 + + 20 -"));
+        }
+
+        [Test]
+        public void Given_an_expression_with_mixed_operators_should_stop_on_invalid_operation()
+        {
+            string resultExpected="5 3 4";
+            Assert.AreEqual(resultExpected, Rpn.Process("7 2 - 3 4"));
+        }
     }
 }

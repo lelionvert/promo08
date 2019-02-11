@@ -1,13 +1,13 @@
 ﻿namespace RPN
 {
-    internal class Operation
+    public abstract class Operation
     {
         private readonly int _firstOperand;
         private readonly int _secondOperand;
         private readonly string _symbol;
         public static OperationBuilder Builder=new OperationBuilder();
 
-        private Operation(int firstOperand, int secondOperand, string symbol)
+        protected Operation(int firstOperand, int secondOperand, string symbol)
         {
             _firstOperand = firstOperand;
             _secondOperand = secondOperand;
@@ -32,11 +32,13 @@
             return false;
         }
 
-        internal class OperationBuilder
+        public class OperationBuilder
         {
             private int _firstOperand;
             private int _secondOperand;
             private string _symbol;
+
+            internal OperationBuilder() {}
 
             public OperationBuilder WithFirstOperand(int firstOperand)
             {
@@ -58,7 +60,9 @@
 
             public Operation Build()
             {
-                return new Operation(_firstOperand,_secondOperand,_symbol);
+                if (_secondOperand == 0 && _symbol == "/")
+                    return new InvalidOperation();
+                return new ValidOperation(_firstOperand,_secondOperand,_symbol);
             }
         }
     }

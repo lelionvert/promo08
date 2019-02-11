@@ -7,8 +7,7 @@ namespace RPN
 {
     public class Rpn
     {
-        private const char Separator = ' ';
-        private const string Pattern = "(-?[0-9]+ -?[0-9]+ [+/-])";
+        private const string Pattern = "(-?[0-9]+) (-?[0-9]+) ([+/-])";
 
         public static string Process(string input)
         {
@@ -20,24 +19,19 @@ namespace RPN
             string result = input;
             while (match.Success)
             {
-                var splitInput = match.Groups[0].Value.Split(Separator);
-
                 var operation = Operation.Builder.
-                    WithFirstOperand(Parse(splitInput[0])).
-                    WithSecondOperand(Parse(splitInput[1])).
-                    WithSymbol(splitInput[2]).Build();
+                    WithFirstOperand(Parse(match.Groups[1].Value)).
+                    WithSecondOperand(Parse(match.Groups[2].Value)).
+                    WithSymbol(match.Groups[3].Value).Build();
 
-                if (operation.IsDividedByZero())
+                if (operation is InvalidOperation)
                     return result;
 
                 result = result.Replace(match.Groups[0].Value, operation.Calculate().ToString());
                 match = regex.Match(result);
-
             }
 
             return result;
-
-         
         }
     }
 }
