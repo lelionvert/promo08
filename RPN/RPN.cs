@@ -26,9 +26,7 @@ namespace RPN
                     .Build();
 
                 if (!operation.IsValid())
-                {
                     return result;
-                }
 
                 result = result.Replace(match.Groups[0].Value, operation.Calculate().ToString());
                 match = Regex.Match(result);

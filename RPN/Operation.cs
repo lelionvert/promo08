@@ -5,10 +5,6 @@ namespace RPN
 {
     public abstract class Operation
     {
-        protected const string PlusSymbol = "+";
-        protected const string MinusSymbol = "-";
-        protected const string DivideSymbol = "/";
-
         protected readonly int _firstOperand;
         protected readonly int _secondOperand;
         public static OperationBuilder Builder=new OperationBuilder();
@@ -31,17 +27,8 @@ namespace RPN
             private int _firstOperand;
             private int _secondOperand;
             private string _symbol;
-            private readonly IReadOnlyDictionary<string, Func<int, int, Operation>> _operations;
 
-            internal OperationBuilder()
-            {
-                _operations = new Dictionary<string, Func<int, int, Operation>>
-                {
-                    {PlusSymbol, (x, y) => new AdditionOperation(x, y)},
-                    {MinusSymbol, (x, y) => new SusbstrationOperation(x, y)},
-                    {DivideSymbol, (x, y) => new DivisionOperation(x, y)}
-                };
-            }
+            internal OperationBuilder() {}
 
             public OperationBuilder WithFirstOperand(int firstOperand)
             {
@@ -63,10 +50,7 @@ namespace RPN
 
             public Operation Build()
             {
-                if (_operations.ContainsKey(_symbol))
-                    return _operations[_symbol](_firstOperand,_secondOperand);
-
-                return new AdditionOperation(_firstOperand, _secondOperand);
+                return Operations.Instance.GetOperation(_firstOperand, _secondOperand, _symbol);
             }
         }
     }
