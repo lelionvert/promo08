@@ -2,34 +2,24 @@
 {
     public abstract class Operation
     {
-        private const string MinusSymbol = "-";
-        private const string DivideSymbol = "/";
-        private const int Zero = 0;
-        private readonly int _firstOperand;
-        private readonly int _secondOperand;
-        private readonly string _symbol;
+        protected const string PlusSymbol = "+";
+        protected const string MinusSymbol = "-";
+        protected const string DivideSymbol = "/";
+        protected readonly int _firstOperand;
+        protected readonly int _secondOperand;
         public static OperationBuilder Builder=new OperationBuilder();
 
-        protected Operation(int firstOperand, int secondOperand, string symbol)
+        protected Operation(int firstOperand, int secondOperand)
         {
             _firstOperand = firstOperand;
             _secondOperand = secondOperand;
-            _symbol = symbol;
         }
 
-        public int Calculate()
-        {
-            if (_symbol == DivideSymbol)
-                return _firstOperand / _secondOperand;
+        public abstract int Calculate();
 
-            return _firstOperand + _secondOperand;
-        }
-
-        public bool IsDividedByZero()
+        public virtual bool IsValid()
         {
-            if (_secondOperand == Zero && _symbol == DivideSymbol)
-                return true;
-            return false;
+            return true;
         }
 
         public class OperationBuilder
@@ -60,11 +50,14 @@
 
             public Operation Build()
             {
-                if (_secondOperand == Zero && _symbol == DivideSymbol)
-                    return new InvalidOperation("Impossible to divide by zero");
+                if (_symbol == DivideSymbol)
+                    return new DivisionOperation(_firstOperand, _secondOperand);
                 if (_symbol == MinusSymbol)
-                    _secondOperand = -_secondOperand;
-                return new ValidOperation(_firstOperand,_secondOperand,_symbol);
+                    return new SusbstrationOperation(_firstOperand, _secondOperand);
+
+                return new AdditionOperation(_firstOperand, _secondOperand);
+
+                
             }
         }
     }

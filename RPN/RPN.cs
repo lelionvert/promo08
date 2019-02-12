@@ -6,20 +6,16 @@ using static System.Text.RegularExpressions.Regex;
 
 namespace RPN
 {
-    public class Rpn
+    public static class Rpn
     {
-        private const string Pattern = "(-?[0-9]+) (-?[0-9]+) ([+/-])";
         private const int FirstOperandGroup = 1;
         private const int SecondOperandGroup = 2;
         private const int OperatorGroup = 3;
+        private static readonly Regex Regex = new Regex("(-?[0-9]+) (-?[0-9]+) ([+/-])");
 
         public static string Process(string input)
         {
-            if (!IsMatch(input, Pattern))
-                return input;
-
-            Regex regex = new Regex(Pattern);
-            var match = regex.Match(input);
+            var match = Regex.Match(input);
             string result = input;
             while (match.Success)
             {
@@ -29,14 +25,13 @@ namespace RPN
                     .WithSymbol(match.Groups[OperatorGroup].Value)
                     .Build();
 
-                if (operation is InvalidOperation invalidOperation)
+                if (!operation.IsValid())
                 {
-                    Debug.WriteLine(invalidOperation.Message);
                     return result;
                 }
 
                 result = result.Replace(match.Groups[0].Value, operation.Calculate().ToString());
-                match = regex.Match(result);
+                match = Regex.Match(result);
             }
 
             return result;
